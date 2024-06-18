@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style2.css" />
+    <title>Sign in & Sign up Form</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="#" class="sign-in-form" id="form">
+            <h2 class="title">inicar Sesion</h2>
+            <p id="alert-text"></p>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                placeholder="Nombre de usuario"
+                id="Username"
+              />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Contraseña" id="Contraseña" />
+            </div>
+            <input
+              type="submit"
+              value="Login"
+              id="buttonSubmit"
+              class="btn solid"
+            />
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <img src="img/log.svg" class="image" alt="" />
+        </div>
+        <div class="panel right-panel">
+          <img src="img/register.svg" class="image" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("form").addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+      document
+        .getElementById("buttonSubmit")
+        .addEventListener("click", async () => {
+          const username = document.getElementById("Username").value;
+          const contraseña = document.getElementById("Contraseña").value;
+          const formData = new FormData();
+          formData.append("Nombre", username);
+          formData.append("Contrasenia", contraseña);
+          const response = await fetch(
+            "http://localhost:3000/api/v1/auth/signin",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const data = await response.json();
+
+          if (data["success"] === false) {
+            document.getElementById("alert-text").innerHTML = data["message"];
+          } else {
+            // Guardar un valor en el localStorage
+            // localStorage.setItem("token", data["token"]);
+
+            // Obtener un valor del localStorage
+            // let valorGuardado = localStorage.getItem("token");
+            // console.log(valorGuardado); // Imprime 'valor'
+
+            console.log(data["usuario"]);
+            if (data["usuario"]["TipoUsuario"] == "admin") {
+              window.location.href = "dashboard.html";
+            } else if (data["usuario"]["TipoUsuario"] == "cajero") {
+              window.location.href = "cajero.html";
+            }
+          }
+        });
+    </script>
+  </body>
+</html>
