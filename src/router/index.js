@@ -2,7 +2,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
-import Dashboard from '@/views/Dashboard.vue';
+import Estadisticas from '@/components/Estadisticas.vue';
+import Dashboard from '@/views/Dashboard.vue'
 import store from '@/store';
 
 const routes = [
@@ -18,9 +19,38 @@ const routes = [
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name:'Dashboard',
     component: Dashboard,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+    children: [
+
+      {
+        path: 'estadisticas',
+        name: 'Estadisticas',
+        component: Estadisticas
+      }
+      // {
+      //   path: 'products',
+      //   name: 'ProductList',
+      //   component: ProductList
+      // },
+      // {
+      //   path: 'add-product',
+      //   name: 'AddProduct',
+      //   component: AddProduct
+      // },
+      // {
+      //   path: 'categories',
+      //   name: 'CategoryList',
+      //   component: CategoryList
+      // },
+      // {
+      //   path: 'add-category',
+      //   name: 'AddCategory',
+      //   component: AddCategory
+      // },
+      
+    ]
   },
   {
     path: '/:pathMatch(.*)*',

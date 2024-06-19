@@ -29,7 +29,11 @@
               <div class="form-login">
                 <label>Tipo de Usuario</label>
                 <div class="form-addons">
-                  <input type="text" placeholder="Ingrese el tipo de usuario" v-model="tipoUsuario">
+                  <select class="select select2-hidden-accessible" v-model="tipoUsuario">
+                    <option value="">Seleccione el tipo de usuario</option>
+                    <option value="admin">Admin</option>
+                    <option value="cajero">Cajero</option>
+                  </select>
                 </div>
               </div>
               <div class="form-login">
@@ -58,6 +62,12 @@ export default {
   },
   methods: {
     async register() {
+      // Validar el tipo de usuario
+      if (this.tipoUsuario !== 'admin' && this.tipoUsuario !== 'cajero') {
+        alert('Por favor, seleccione un tipo de usuario válido');
+        return;
+      }
+
       const userData = {
         Nombre: this.nombre,
         Contrasenia: this.contrasenia,

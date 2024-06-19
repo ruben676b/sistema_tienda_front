@@ -62,7 +62,7 @@
         };
         await this.$store.dispatch('login', credentials);
         if (this.$store.getters.isAuthenticated) {
-          this.$router.push({ name: 'Dashboard' });
+          this.$router.push({ path: 'dashboard/estadisticas' });
         } else {
           alert('Credenciales inválidas');
         }
