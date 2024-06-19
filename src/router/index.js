@@ -6,6 +6,9 @@ import Estadisticas from '@/components/Estadisticas.vue';
 import Dashboard from '@/views/Dashboard.vue'
 import store from '@/store';
 
+import ProductList from '@/components/ProductList.vue';
+
+
 const routes = [
   {
     path: '/login',
@@ -28,12 +31,12 @@ const routes = [
         path: 'estadisticas',
         name: 'Estadisticas',
         component: Estadisticas
-      }
-      // {
-      //   path: 'products',
-      //   name: 'ProductList',
-      //   component: ProductList
-      // },
+      },
+      {
+        path: 'products',
+        name: 'ProductList',
+        component: ProductList
+      },
       // {
       //   path: 'add-product',
       //   name: 'AddProduct',
