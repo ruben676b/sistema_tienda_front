@@ -135,14 +135,9 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.provedor ? 'block' : 'none' }">
-                  <li><router-link to="/dashboard/provedor">Listado de provedor</router-link></li>
-                  <li><router-link to="/dashboard/addcustomer">Add Customer</router-link></li>
-                  <li><router-link to="/dashboard/supplierlist">Supplier List</router-link></li>
-                  <li><router-link to="/dashboard/addsupplier">Add Supplier</router-link></li>
-                  <li><router-link to="/dashboard/userlist">User List</router-link></li>
-                  <li><router-link to="/dashboard/adduser">Add User</router-link></li>
-                  <li><router-link to="/dashboard/storelist">Store List</router-link></li>
-                  <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
+                  <li><router-link to="/dashboard/provedorList">Lista de proveedores</router-link></li>
+                  <li><router-link to="/dashboard/provedorAdd">Añadir Proveedor</router-link></li>
+               
                 </ul>
               </li>
             
