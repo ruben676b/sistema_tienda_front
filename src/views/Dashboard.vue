@@ -85,7 +85,7 @@
                   <span>Estadisticas</span>
                 </router-link>
               </li>
-
+              <!-- PRODUCTOS -->
               <li class="submenu">
                 <a href="javascript:void(0);" @click="toggleSubmenu('product')">
                   <img src="../../public/img/icons/product.svg" alt="product" />
@@ -99,7 +99,7 @@
                   <li><router-link to="/dashboard/add-category">Add Category</router-link></li>
                 </ul>
               </li>
-
+              <!-- CLIENTE -->
               <li class="submenu">
                 <a href="javascript:void(0);" @click="toggleSubmenu('client')">
                   <img src="../../public/img/icons/users1.svg" alt="client" />
@@ -117,7 +117,16 @@
                   <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
                 </ul>
               </li>
-              <!-- Añadir más submenús según sea necesario -->
+             
+              
+
+
+
+
+
+
+
+
             </ul>
           </div>
         </div>
