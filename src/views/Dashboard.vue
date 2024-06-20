@@ -87,7 +87,8 @@
               </li>
               <!-- PRODUCTOS -->
               <li class="submenu">
-                <a href="javascript:void(0);" @click="toggleSubmenu('product')">
+                <a :class="submenus.product ? 'subdrop' : '' "
+                 @click="toggleSubmenu('product')">
                   <img src="../../public/img/icons/product.svg" alt="product" />
                   <span>Product</span>
                   <span class="menu-arrow"></span>
@@ -101,7 +102,8 @@
               </li>
               <!-- CLIENTE -->
               <li class="submenu">
-                <a href="javascript:void(0);" @click="toggleSubmenu('client')">
+                <a :class="submenus.client ? 'subdrop' : '' "
+                 @click="toggleSubmenu('client')">
                   <img src="../../public/img/icons/users1.svg" alt="client" />
                   <span>Cliente</span>
                   <span class="menu-arrow"></span>
@@ -117,9 +119,8 @@
                   <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
                 </ul>
               </li>
-             
-              
 
+            
 
 
 
@@ -149,7 +150,8 @@ export default {
     return {
       submenus: {
         product: false,
-        client: false
+        client: false,
+        venta: false
       }
     };
   },
