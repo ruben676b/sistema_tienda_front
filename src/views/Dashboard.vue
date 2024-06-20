@@ -97,7 +97,13 @@
                   <li><router-link to="/dashboard/products">Product List</router-link></li>
                   <li><router-link to="/dashboard/add-product">Add Product</router-link></li>
                   <li><router-link to="/dashboard/categories">Category List</router-link></li>
-                  <li><router-link to="/dashboard/add-category">Add Category</router-link></li>
+                  <li><router-link to="/dashboard/categoria">Add Category</router-link></li>
+                  <li><router-link to="/dashboard/modifypro">Modify Product</router-link></li>
+                  <li><router-link to="/dashboard/">remove product</router-link></li>
+
+
+            
+
                 </ul>
               </li>
               <!-- CLIENTE -->
