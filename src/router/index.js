@@ -8,6 +8,7 @@ import store from '@/store';
 
 import ProductList from '@/components/ProductList.vue';
 import ProvedorList from '@/components/ProvedorList.vue';
+import ProvedorAdd from '@/components/ProvedorAdd.vue';
 
 
 const routes = [
@@ -39,10 +40,15 @@ const routes = [
         component: ProductList
       },
       {
-        path: 'provedor',
+        path: 'provedorList',
         name: 'ProvedorList',
         component: ProvedorList
       },
+      {
+        path: 'provedorAdd',
+        name: 'ProvedorAdd',
+        component: ProvedorAdd
+      }
       // {
       //   path: 'add-product',
       //   name: 'AddProduct',

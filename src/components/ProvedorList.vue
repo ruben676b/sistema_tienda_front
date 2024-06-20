@@ -1,139 +1,203 @@
 <template>
-    <div class="content">
-<div class="page-header">
-<div class="page-title">
-<h4>Product Add</h4>
-<h6>Create new product</h6>
-</div>
-</div>
-
-<div class="card">
-<div class="card-body">
-<div class="row">
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Product Name</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Category</label>
-<select class="select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">
-<option data-select2-id="3">Choose Category</option>
-<option>Computers</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-fryb-container"><span class="select2-selection__rendered" id="select2-fryb-container" role="textbox" aria-readonly="true" title="Choose Category">Choose Category</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Sub Category</label>
-<select class="select select2-hidden-accessible" data-select2-id="4" tabindex="-1" aria-hidden="true">
-<option data-select2-id="6">Choose Sub Category</option>
-<option>Fruits</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-0u44-container"><span class="select2-selection__rendered" id="select2-0u44-container" role="textbox" aria-readonly="true" title="Choose Sub Category">Choose Sub Category</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Brand</label>
-<select class="select select2-hidden-accessible" data-select2-id="7" tabindex="-1" aria-hidden="true">
-<option data-select2-id="9">Choose Brand</option>
-<option>Brand</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="8" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ym1c-container"><span class="select2-selection__rendered" id="select2-ym1c-container" role="textbox" aria-readonly="true" title="Choose Brand">Choose Brand</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Unit</label>
-<select class="select select2-hidden-accessible" data-select2-id="10" tabindex="-1" aria-hidden="true">
-<option data-select2-id="12">Choose Unit</option>
-<option>Unit</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="11" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-fpfe-container"><span class="select2-selection__rendered" id="select2-fpfe-container" role="textbox" aria-readonly="true" title="Choose Unit">Choose Unit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>SKU</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Minimum Qty</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Quantity</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-12">
-<div class="form-group">
-<label>Description</label>
-<textarea class="form-control"></textarea>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Tax</label>
-<select class="select select2-hidden-accessible" data-select2-id="13" tabindex="-1" aria-hidden="true">
-<option data-select2-id="15">Choose Tax</option>
-<option>2%</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="14" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-m6ix-container"><span class="select2-selection__rendered" id="select2-m6ix-container" role="textbox" aria-readonly="true" title="Choose Tax">Choose Tax</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Discount Type</label>
-<select class="select select2-hidden-accessible" data-select2-id="16" tabindex="-1" aria-hidden="true">
-<option data-select2-id="18">Percentage</option>
-<option>10%</option>
-<option>20%</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="17" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-c5no-container"><span class="select2-selection__rendered" id="select2-c5no-container" role="textbox" aria-readonly="true" title="Percentage">Percentage</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label>Price</label>
-<input type="text">
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 col-12">
-<div class="form-group">
-<label> Status</label>
-<select class="select select2-hidden-accessible" data-select2-id="19" tabindex="-1" aria-hidden="true">
-<option data-select2-id="21">Closed</option>
-<option>Open</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="20" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-l1mb-container"><span class="select2-selection__rendered" id="select2-l1mb-container" role="textbox" aria-readonly="true" title="Closed">Closed</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-</div>
-<div class="col-lg-12">
-<div class="form-group">
-<label> Product Image</label>
-<div class="image-upload">
-<input type="file">
-<div class="image-uploads">
-<img src="../../public/img/icons/upload.svg" alt="img">
-<h4>Drag and drop a file to upload</h4>
-</div>
-</div>
-</div>
-</div>
-<div class="col-lg-12">
-<a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
-<a href="productlist.html" class="btn btn-cancel">Cancel</a>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</template>
-
-<script>
-    
-
-</script>
+    <div>
+      <div class="page-header">
+        <div class="page-title">
+          <h4>Lista de proveedores</h4>
+          <h6>Gestiona tu Proveedor</h6>
+        </div>
+        <div class="page-btn">
+          <router-link to="/dashboard/provedorAdd">
+            <a class="btn btn-added">
+              <img src="../../public/img/icons/plus.svg" alt="img" />
+              Agregar proveedor
+            </a>
+          </router-link>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-body">
+          <div class="table-top">
+            <div class="search-set">
+              <div class="search-path">
+                <a class="btn btn-filter" id="filter_search">
+                  <img src="../../public/img/icons/filter.svg" alt="img" />
+                  <span><img src="../../public/img/icons/closes.svg" alt="img" /></span>
+                </a>
+              </div>
+              <div class="search-input">
+                <a class="btn btn-searchset">
+                  <img src="../../public/img/icons/search-white.svg" alt="img" />
+                </a>
+                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Buscar..."
+                      v-model="searchQuery"
+                      @input="filterProveedores"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="wordset">
+              <ul>
+                <li>
+                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                    <img src="../../public/img/icons/pdf.svg" alt="img" />
+                  </a>
+                </li>
+                <li>
+                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+                    <img src="../../public/img/icons/excel.svg" alt="img" />
+                  </a>
+                </li>
+                <li>
+                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                    <img src="../../public/img/icons/printer.svg" alt="img" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+  
+          <div class="table-responsive">
+            <table class="table datanew dataTable no-footer">
+              <thead>
+                <tr>
+                  <th>
+                    <label class="checkboxs">
+                      <input type="checkbox" id="select-all" />
+                      <span class="checkmarks"></span>
+                    </label>
+                  </th>
+                  <th>Nombre del proveedor</th>
+                  <th>Teléfono</th>
+                  <th>Correo electrónico</th>
+                  <th>Dirección</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="proveedor in filteredProveedores" :key="proveedor.IdProveedor">
+                  <td>
+                    <label class="checkboxs">
+                      <input type="checkbox" />
+                      <span class="checkmarks"></span>
+                    </label>
+                  </td>
+                  <td class="productimgname">
+                    <a href="javascript:void(0);" class="product-img">
+                      <img :src="getProveedorImage(proveedor.RutaFoto)" alt="proveedor" />
+                    </a>
+                    <a href="javascript:void(0);">{{ proveedor.NombreEmpresa }}</a>
+                  </td>
+                  <td>{{ proveedor.Telefono }}</td>
+                  <td>{{ proveedor.Email }}</td>
+                  <td>{{ proveedor.Direccion }}</td>
+                  <td>
+                    <a class="me-3" @click="editProveedor(proveedor.IdProveedor)">
+                      <img src="../../public/img/icons/edit.svg" alt="img" />
+                    </a>
+                    <a class="me-3 confirm-text" @click="deleteProveedor(proveedor.IdProveedor)">
+                      <img src="../../public/img/icons/delete.svg" alt="img" />
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  import Swal from 'sweetalert2';
+  
+  export default {
+    data() {
+      return {
+        proveedores: [],
+        searchQuery: '',
+      };
+    },
+    computed: {
+      filteredProveedores() {
+        return this.proveedores.filter((proveedor) =>
+          proveedor.NombreEmpresa.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      },
+    },
+    methods: {
+      async fetchProveedores() {
+        try {
+          const response = await axios.get('http://localhost:3000/api/v1/proveedores');
+          this.proveedores = response.data.proveedores;
+        } catch (error) {
+          console.error('Error al obtener los proveedores:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al obtener los proveedores. Intente nuevamente.',
+          });
+        }
+      },
+      editProveedor(id) {
+        // Lógica para editar proveedor
+        this.$router.push({ name: 'ProvedorEdit', params: { id } });
+      },
+      async deleteProveedor(id) {
+        try {
+          const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'No podrás revertir esto!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, bórralo!',
+          });
+          if (result.isConfirmed) {
+            await axios.delete(`http://localhost:3000/api/v1/proveedores/${id}`);
+            this.proveedores = this.proveedores.filter((proveedor) => proveedor.IdProveedor !== id);
+            Swal.fire('¡Borrado!', 'El proveedor ha sido borrado.', 'success');
+          }
+        } catch (error) {
+          console.error('Error al borrar el proveedor:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al borrar el proveedor. Intente nuevamente.',
+          });
+        }
+      },
+      filterProveedores() {
+        // Lógica de filtrado de proveedores
+        // Este método es llamado automáticamente por el v-model en el input de búsqueda
+      },
+      getProveedorImage(imagePath) {
+        return imagePath ? `http://localhost:3000/api/v1/uploads/provedores/${imagePath}` : '../../public/img/product/noimage.png';
+      },
+    },
+    mounted() {
+      this.fetchProveedores();
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .btn-submit {
+    background-color: green;
+    color: white;
+  }
+  
+  .btn-cancel {
+    background-color: red;
+    color: white;
+  }
+  </style>
+  
