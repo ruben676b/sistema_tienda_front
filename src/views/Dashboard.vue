@@ -10,10 +10,10 @@
       <!-- Header -->
       <div class="header">
         <div class="header-left active">
-          <router-link to="estadisticas" class="logo">
+          <router-link to="/dashboard/estadisticas" class="logo">
             <img src="../../public/img/fresko-log.png" alt="logo">
           </router-link>
-          <router-link to="estadisticas" class="logo-small">
+          <router-link to="/dashboard/estadisticas" class="logo-small">
             <img src="../../public/img/logo-small.png" alt="logo">
           </router-link>
           <a id="toggle_btn" href="javascript:void(0);"></a>
@@ -74,24 +74,25 @@
         </div>
       </div>
 
+      <!-- Sidebar -->
       <div class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
           <div id="sidebar-menu" class="sidebar-menu">
             <ul>
               <li class="active">
-                <router-link to="estadisticas">
+                <router-link to="/dashboard/estadisticas">
                   <img src="../../public/img/icons/dashboard.svg" alt="dashboard" />
                   <span>Estadisticas</span>
                 </router-link>
               </li>
 
               <li class="submenu">
-                <a @click="toggleSubmenu">
+                <a href="javascript:void(0);" @click="toggleSubmenu('product')">
                   <img src="../../public/img/icons/product.svg" alt="product" />
                   <span>Product</span>
                   <span class="menu-arrow"></span>
                 </a>
-                <ul :style="{ display: showSubmenu ? 'block' : 'none' }">
+                <ul :style="{ display: submenus.product ? 'block' : 'none' }">
                   <li><router-link to="/dashboard/products">Product List</router-link></li>
                   <li><router-link to="/dashboard/add-product">Add Product</router-link></li>
                   <li><router-link to="/dashboard/categories">Category List</router-link></li>
@@ -100,22 +101,23 @@
               </li>
 
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../../public/img/icons/users1.svg" alt="img"><span> Cliente</span>
-                  <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="customerlist.html">Customer List</a></li>
-                  <li><a href="addcustomer.html">Add Customer </a></li>
-                  <li><a href="supplierlist.html">Supplier List</a></li>
-                  <li><a href="addsupplier.html">Add Supplier </a></li>
-                  <li><a href="userlist.html">User List</a></li>
-                  <li><a href="adduser.html">Add User</a></li>
-                  <li><a href="storelist.html">Store List</a></li>
-                  <li><a href="addstore.html">Add Store</a></li>
+                <a href="javascript:void(0);" @click="toggleSubmenu('client')">
+                  <img src="../../public/img/icons/users1.svg" alt="client" />
+                  <span>Cliente</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <ul :style="{ display: submenus.client ? 'block' : 'none' }">
+                  <li><router-link to="/dashboard/customerlist">Customer List</router-link></li>
+                  <li><router-link to="/dashboard/addcustomer">Add Customer</router-link></li>
+                  <li><router-link to="/dashboard/supplierlist">Supplier List</router-link></li>
+                  <li><router-link to="/dashboard/addsupplier">Add Supplier</router-link></li>
+                  <li><router-link to="/dashboard/userlist">User List</router-link></li>
+                  <li><router-link to="/dashboard/adduser">Add User</router-link></li>
+                  <li><router-link to="/dashboard/storelist">Store List</router-link></li>
+                  <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
                 </ul>
               </li>
               <!-- Añadir más submenús según sea necesario -->
-
-
             </ul>
           </div>
         </div>
@@ -136,17 +138,42 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      showSubmenu: false
-    }
+      submenus: {
+        product: false,
+        client: false
+      }
+    };
   },
   methods: {
-    toggleSubmenu(event) {
-      this.showSubmenu = !this.showSubmenu;
-      const dropdownLink = event.target.closest('a');
-      if (dropdownLink) {
-        dropdownLink.classList.toggle('subdrop');
-      }
+    toggleSubmenu(submenu) {
+      this.submenus[submenu] = !this.submenus[submenu];
     }
   }
-}
+};
 </script>
+
+<style scoped>
+/* Estilo para el sidebar y submenú */
+.sidebar-inner {
+  overflow-y: auto;
+}
+
+#sidebar-menu ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.submenu ul {
+  padding-left: 15px;
+}
+
+.submenu ul li {
+  padding-left: 20px;
+}
+
+.submenu ul li a {
+  color: #333;
+  display: block;
+  padding: 10px 15px;
+}
+</style>
