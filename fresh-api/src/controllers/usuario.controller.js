@@ -34,6 +34,7 @@ export const registrarUsuario = async (req, res) => {
       success: true,
       message: "Usuario registrado exitosamente",
       token: token,
+      usuario:usuario
     });
   } else {
     res.json({
