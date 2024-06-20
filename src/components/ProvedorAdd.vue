@@ -76,7 +76,6 @@
           telefono: "",
           direccion: "",
           cuentaPago: "",
-          proveedorImagen: null,
         },
       };
     },

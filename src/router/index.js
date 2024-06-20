@@ -9,6 +9,7 @@ import store from '@/store';
 import ProductList from '@/components/ProductList.vue';
 import ProvedorList from '@/components/ProvedorList.vue';
 import ProvedorAdd from '@/components/ProvedorAdd.vue';
+import ProvedorEdit from '@/components/ProveedorEdit';
 
 
 const routes = [
@@ -48,6 +49,11 @@ const routes = [
         path: 'provedorAdd',
         name: 'ProvedorAdd',
         component: ProvedorAdd
+      },
+      {
+        path: 'provedorEdit/:id',
+        name: 'ProvedorEdit',
+        component: ProvedorEdit
       }
       // {
       //   path: 'add-product',
