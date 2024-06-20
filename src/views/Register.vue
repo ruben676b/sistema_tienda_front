@@ -1,3 +1,4 @@
+<!-- src/views/Register.vue -->
 <template>
   <div class="account-page">
     <div class="main-wrapper">
@@ -28,12 +29,8 @@
               </div>
               <div class="form-login">
                 <label>Tipo de Usuario</label>
-                <div class="form-group">
-                  <select class="select select2-hidden-accessible" v-model="tipoUsuario">
-                    <option value="">Seleccione el tipo de usuario</option>
-                    <option value="admin">Admin</option>
-                    <option value="cajero">Cajero</option>
-                  </select>
+                <div class="form-addons">
+                  <input type="text" placeholder="Ingrese el tipo de usuario" v-model="tipoUsuario">
                 </div>
               </div>
               <div class="form-login">
@@ -62,31 +59,15 @@ export default {
   },
   methods: {
     async register() {
-      // Validar el tipo de usuario
-      if (this.tipoUsuario !== 'admin' && this.tipoUsuario !== 'cajero') {
-        alert('Por favor, seleccione un tipo de usuario válido');
-        return;
-      }
-
       const userData = {
         Nombre: this.nombre,
         Contrasenia: this.contrasenia,
         TipoUsuario: this.tipoUsuario
       };
-      try {
-        await this.$store.dispatch('signup', userData);
-        // Verificación del estado después de que el estado se haya actualizado
-        this.$nextTick(() => {
-          console.log('Usuario autenticado:', this.$store.getters.isAuthenticated); // Añadir este log
-          if (this.$store.getters.isAuthenticated) {
-            this.$router.push({ name: 'Dashboard' });
-            console.log('Registro exitoso');
-          } else {
-            console.log('No autenticado');
-          }
-        });
-      } catch (error) {
-        console.error('Error en el registro:', error);
+      await this.$store.dispatch('signup', userData);
+      if (this.$store.getters.isAuthenticated) {
+        this.$router.push({ name: 'Dashboard' });
+      } else {
         alert('Error en el registro. Intente nuevamente.');
       }
     }
