@@ -6,6 +6,11 @@ import Estadisticas from "@/components/Estadisticas.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import store from "@/store";
 
+import ProductList from '@/components/ProductList.vue';
+import ProvedorList from '@/components/ProvedorList.vue';
+import ProvedorAdd from '@/components/ProvedorAdd.vue';
+import ProvedorEdit from '@/components/ProveedorEdit';
+
 import ProductList from "@/components/ProductList.vue";
 import AddProduct from "@/components/Productadd.vue";
 
@@ -36,6 +41,26 @@ const routes = [
         name: "ProductList",
         component: ProductList,
       },
+      {
+        path: 'provedorList',
+        name: 'ProvedorList',
+        component: ProvedorList
+      },
+      {
+        path: 'provedorAdd',
+        name: 'ProvedorAdd',
+        component: ProvedorAdd
+      },
+      {
+        path: 'provedorEdit/:id',
+        name: 'ProvedorEdit',
+        component: ProvedorEdit
+      }
+      // {
+      //   path: 'add-product',
+      //   name: 'AddProduct',
+      //   component: AddProduct
+      // },
       {
         path: "add-product",
         name: "AddProduct",
