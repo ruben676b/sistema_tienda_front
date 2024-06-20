@@ -28,7 +28,7 @@
               </div>
               <div class="form-login">
                 <label>Tipo de Usuario</label>
-                <div class="form-addons">
+                <div class="form-group">
                   <select class="select select2-hidden-accessible" v-model="tipoUsuario">
                     <option value="">Seleccione el tipo de usuario</option>
                     <option value="admin">Admin</option>

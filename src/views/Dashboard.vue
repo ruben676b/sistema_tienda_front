@@ -120,6 +120,25 @@
                 </ul>
               </li>
 
+              <!-- PROVEDOR -->
+              <li class="submenu">
+                <a :class="submenus.provedor ? 'subdrop' : '' "
+                 @click="toggleSubmenu('provedor')">
+                  <img src="../../public/img/icons/users1.svg" alt="client" />
+                  <span>Provedor</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <ul :style="{ display: submenus.provedor ? 'block' : 'none' }">
+                  <li><router-link to="/dashboard/provedor">Listado de provedor</router-link></li>
+                  <li><router-link to="/dashboard/addcustomer">Add Customer</router-link></li>
+                  <li><router-link to="/dashboard/supplierlist">Supplier List</router-link></li>
+                  <li><router-link to="/dashboard/addsupplier">Add Supplier</router-link></li>
+                  <li><router-link to="/dashboard/userlist">User List</router-link></li>
+                  <li><router-link to="/dashboard/adduser">Add User</router-link></li>
+                  <li><router-link to="/dashboard/storelist">Store List</router-link></li>
+                  <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
+                </ul>
+              </li>
             
 
 
@@ -151,7 +170,8 @@ export default {
       submenus: {
         product: false,
         client: false,
-        venta: false
+        venta: false,
+        provedor: false
       }
     };
   },
