@@ -7,6 +7,7 @@ import Dashboard from '@/views/Dashboard.vue'
 import store from '@/store';
 
 import ProductList from '@/components/ProductList.vue';
+import ProvedorList from '@/components/ProvedorList.vue';
 
 
 const routes = [
@@ -36,6 +37,11 @@ const routes = [
         path: 'products',
         name: 'ProductList',
         component: ProductList
+      },
+      {
+        path: 'provedor',
+        name: 'ProvedorList',
+        component: ProvedorList
       },
       // {
       //   path: 'add-product',
