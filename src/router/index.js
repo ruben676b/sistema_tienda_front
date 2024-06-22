@@ -12,6 +12,12 @@ import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que 
 
 import AddProduct from "@/components/Productadd.vue";
 
+// VENTAS RUTAS
+import VentaList from "@/components/VentaList.vue";
+import VentaAdd from "@/components/VentaAdd.vue";
+
+
+
 const routes = [
   {
     path: "/login",
@@ -59,6 +65,16 @@ const routes = [
         name: "AddProduct",
         component: AddProduct,
       },
+      {
+        path: "ventaAdd",
+        name: "VentaAdd",
+        component: VentaAdd,
+      },
+      {
+        path: "ventaList",
+        name: "VentaList",
+        component: VentaList,
+      }
       // {
       //   path: "ProductoEdit/:id",
       //   name: "ProductoEdit",
