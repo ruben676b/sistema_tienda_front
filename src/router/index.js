@@ -1,64 +1,68 @@
-// src/router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
-import Estadisticas from '@/components/Estadisticas.vue';
-import Dashboard from '@/views/Dashboard.vue'
-import store from '@/store';
+import { createRouter, createWebHistory } from "vue-router";
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
+import Estadisticas from "@/components/Estadisticas.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import store from "@/store";
 
-import ProductList from '@/components/ProductList.vue';
-import ProvedorList from '@/components/ProvedorList.vue';
-import ProvedorAdd from '@/components/ProvedorAdd.vue';
-import ProvedorEdit from '@/components/ProveedorEdit';
+import ProductList from "@/components/ProductList.vue";
+import ProvedorList from "@/components/ProvedorList.vue";
+import ProvedorAdd from "@/components/ProvedorAdd.vue";
+import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
 
+import AddProduct from "@/components/Productadd.vue";
 
 const routes = [
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: Register
+    path: "/register",
+    name: "Register",
+    component: Register,
   },
   {
-    path: '/dashboard',
-    name:'Dashboard',
+    path: "/dashboard",
+    name: "Dashboard",
     component: Dashboard,
     meta: { requiresAuth: true },
     children: [
-
       {
-        path: 'estadisticas',
-        name: 'Estadisticas',
-        component: Estadisticas
+        path: "estadisticas",
+        name: "Estadisticas",
+        component: Estadisticas,
       },
       {
-        path: 'products',
-        name: 'ProductList',
-        component: ProductList
+        path: "products",
+        name: "ProductList",
+        component: ProductList,
       },
       {
-        path: 'provedorList',
-        name: 'ProvedorList',
-        component: ProvedorList
+        path: "provedorList",
+        name: "ProvedorList",
+        component: ProvedorList,
       },
       {
-        path: 'provedorAdd',
-        name: 'ProvedorAdd',
-        component: ProvedorAdd
+        path: "provedorAdd",
+        name: "ProvedorAdd",
+        component: ProvedorAdd,
       },
       {
-        path: 'provedorEdit/:id',
-        name: 'ProvedorEdit',
-        component: ProvedorEdit
-      }
+        path: "provedorEdit/:id",
+        name: "ProvedorEdit",
+        component: ProvedorEdit,
+      },
+      {
+        path: "addProduct",
+        name: "AddProduct",
+        component: AddProduct,
+      },
       // {
-      //   path: 'add-product',
-      //   name: 'AddProduct',
-      //   component: AddProduct
+      //   path: "ProductoEdit/:id",
+      //   name: "ProductoEdit",
+      //   component: EditProduct,
       // },
       // {
       //   path: 'categories',
@@ -70,24 +74,23 @@ const routes = [
       //   name: 'AddCategory',
       //   component: AddCategory
       // },
-      
-    ]
+    ],
   },
   {
-    path: '/:pathMatch(.*)*',
-    redirect: '/login'
-  }
+    path: "/:pathMatch(.*)*",
+    redirect: "/login",
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.getters.isAuthenticated) {
-      next({ name: 'Login' });
+      next({ name: "Login" });
     } else {
       next();
     }
