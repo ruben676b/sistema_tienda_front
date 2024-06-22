@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="content">
+    <div>
       <div class="row">
         <div class="page-header">
           <div class="page-title">
