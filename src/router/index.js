@@ -12,7 +12,8 @@ import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que 
 
 import AddProduct from "@/components/Productadd.vue";
 import ProductCompare from "@/components/ProductCompare.vue";
-
+import ProductEdit from "@/components/ProductEdit.vue";
+import DetailProduct from "@/components/DetailProduct.vue";
 const routes = [
   {
     path: "/login",
@@ -65,11 +66,16 @@ const routes = [
         name: "productCompare",
         component: ProductCompare,
       },
-      // {
-      //   path: "ProductoEdit/:id",
-      //   name: "ProductoEdit",
-      //   component: EditProduct,
-      // },
+      {
+        path: "ProductEdit/:id",
+        name: "ProductEdit",
+        component: ProductEdit,
+      },
+      {
+        path: "DetailProduct/:id",
+        name: "DetailProduct",
+        component: DetailProduct,
+      },
       // {
       //   path: 'categories',
       //   name: 'CategoryList',

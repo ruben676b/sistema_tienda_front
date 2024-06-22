@@ -130,6 +130,9 @@
                   <td>{{ product.StockMinimo }}</td>
                   <td>{{ product.CodigoBarra }}</td>
                   <td>
+                    <a class="me-3" @click="detailProducto(product.IdProducto)">
+                      <img src="../../public/img/icons/eye.svg" alt="img" />
+                    </a>
                     <a class="me-3" @click="editProducto(product.IdProducto)">
                       <img src="../../public/img/icons/edit.svg" alt="img" />
                     </a>
@@ -230,7 +233,11 @@ export default {
     },
     editProducto(id) {
       // Lógica para editar producto
-      this.$router.push({ name: "ProductoEdit", params: { id } });
+      this.$router.push({ name: "ProductEdit", params: { id } });
+    },
+    detailProducto(id) {
+      // Lógica para editar producto
+      this.$router.push({ name: "DetailProduct", params: { id } });
     },
     async deleteProducto(id) {
       try {
