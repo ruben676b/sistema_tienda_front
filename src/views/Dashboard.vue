@@ -122,6 +122,11 @@
                     >
                   </li>
                   <li>
+                    <router-link to="/dashboard/productCompare"
+                      >Comparar Precios</router-link
+                    >
+                  </li>
+                  <li>
                     <router-link to="/dashboard/categories"
                       >Category List</router-link
                     >

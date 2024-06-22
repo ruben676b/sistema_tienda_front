@@ -11,6 +11,7 @@ import ProvedorAdd from "@/components/ProvedorAdd.vue";
 import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
 
 import AddProduct from "@/components/Productadd.vue";
+import ProductCompare from "@/components/ProductCompare.vue";
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
         path: "addProduct",
         name: "AddProduct",
         component: AddProduct,
+      },
+      {
+        path: "productCompare",
+        name: "productCompare",
+        component: ProductCompare,
       },
       // {
       //   path: "ProductoEdit/:id",
