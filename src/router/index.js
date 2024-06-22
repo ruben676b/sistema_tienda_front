@@ -1,4 +1,3 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
@@ -6,12 +5,11 @@ import Estadisticas from "@/components/Estadisticas.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import store from "@/store";
 
-import ProductList from '@/components/ProductList.vue';
-import ProvedorList from '@/components/ProvedorList.vue';
-import ProvedorAdd from '@/components/ProvedorAdd.vue';
-import ProvedorEdit from '@/components/ProveedorEdit';
-
 import ProductList from "@/components/ProductList.vue";
+import ProvedorList from "@/components/ProvedorList.vue";
+import ProvedorAdd from "@/components/ProvedorAdd.vue";
+import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
+
 import AddProduct from "@/components/Productadd.vue";
 
 const routes = [
@@ -42,30 +40,30 @@ const routes = [
         component: ProductList,
       },
       {
-        path: 'provedorList',
-        name: 'ProvedorList',
-        component: ProvedorList
+        path: "provedorList",
+        name: "ProvedorList",
+        component: ProvedorList,
       },
       {
-        path: 'provedorAdd',
-        name: 'ProvedorAdd',
-        component: ProvedorAdd
+        path: "provedorAdd",
+        name: "ProvedorAdd",
+        component: ProvedorAdd,
       },
       {
-        path: 'provedorEdit/:id',
-        name: 'ProvedorEdit',
-        component: ProvedorEdit
-      }
-      // {
-      //   path: 'add-product',
-      //   name: 'AddProduct',
-      //   component: AddProduct
-      // },
+        path: "provedorEdit/:id",
+        name: "ProvedorEdit",
+        component: ProvedorEdit,
+      },
       {
-        path: "add-product",
+        path: "addProduct",
         name: "AddProduct",
         component: AddProduct,
       },
+      // {
+      //   path: "ProductoEdit/:id",
+      //   name: "ProductoEdit",
+      //   component: EditProduct,
+      // },
       // {
       //   path: 'categories',
       //   name: 'CategoryList',
