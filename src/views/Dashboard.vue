@@ -139,13 +139,21 @@
                   <li><router-link to="/dashboard/addstore">Add Store</router-link></li>
                 </ul>
               </li>
+              
+            <!-- Marca -->
+            <li class="submenu">
+                <a :class="submenus.marca ? 'subdrop' : '' "
+                 @click="toggleSubmenu('marca')">
+                  <img src="../../public/img/icons/users1.svg" alt="client" />
+                  <span>Marca</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <ul :style="{ display: submenus.marca ? 'block' : 'none' }">
+                  <li><router-link to="/dashboard/marca">Lista de Marcas</router-link></li>
+                  <li><router-link to="/dashboard/addmarca">Agregar Marca</router-link></li>
+                </ul>
+              </li>
             
-
-
-
-
-
-
 
             </ul>
           </div>
