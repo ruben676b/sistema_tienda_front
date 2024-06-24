@@ -6,65 +6,55 @@
 
             <!-- Cliente -->
             <div class="col-md-4">
-             
-               <div class="order-list">
-                  <div class="orderid">
-                     <h4>Datos del cliente</h4>
-         
-                  </div>
-
-               </div>
-               <a href="javascript:void(0);" class="btn btn-adds" data-bs-toggle="modal" data-bs-target="#create">
-                  <i class="fa fa-plus me-2"></i>
-                  <font>Agregar cliente</font>
-               </a>
-               <div class="card card-order">
-                  <div class="card-body">
-                     <div class="row">
-                        <!-- Boton para agregar un nuevo cliente -->
-
-                        <!-- Fin de Boton para agregar un nuevo cliente -->
-
-                        <!-- Agregar cliente ya existente -->
-
-                        <div class="select-split">
-                           <div class="select-group w-100">
-                              <select class="select select2-hidden-accessible" data-select2-id="1" tabindex="-1"
-                                 aria-hidden="true">
-                                 <option data-select2-id="3">Publico en general</option>
-                                 <option>Chris Moris</option>
-                              </select>
-                              <label class="col-form-label">Seleccionar cliente Existente</label>
-                              <span class="select2 select2-container select2-container--default" dir="ltr"
-                                 data-select2-id="2" style="width: 100%;">
-                                 <span class="selection">
-                                    <span class="select2-selection select2-selection--single" role="combobox"
-                                       aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false"
-                                       aria-labelledby="select2-y9w0-container">
-                                       <span class="select2-selection__rendered" id="select2-y9w0-container"
-                                          role="textbox" aria-readonly="true" title="Walk-in Customer">Cliente sin
-                                          cita previa</span>
-                                      
-                                    </span>
-                                 </span>
-                                 <span class="dropdown-wrapper" aria-hidden="true"></span>
-                              </span>
-                           </div>
-                        </div>
-
-                        <!-- Fin Agregar cliente ya existente -->
-                     </div>
-                  </div>
-               </div>
+          <div class="order-list">
+            <div class="orderid">
+              <h4>Datos del cliente</h4>
             </div>
-
+          </div>
+          <a href="javascript:void(0);" class="btn btn-adds" @click="openClientModal">
+            <i class="fa fa-plus me-2"></i>
+            <font>Agregar cliente</font>
+          </a>
+          <div class="card card-order">
+            <div class="card-body">
+              <div class="row">
+                <!-- Agregar cliente ya existente -->
+                <div class="select-split">
+                  <div class="select-group w-100">
+                    <select class="select select2-hidden-accessible" data-select2-id="1" tabindex="-1"
+                      aria-hidden="true">
+                      <option data-select2-id="3">Publico en general</option>
+                      <option>Chris Moris</option>
+                    </select>
+                    <label class="col-form-label">Seleccionar cliente Existente</label>
+                    <span class="select2 select2-container select2-container--default" dir="ltr"
+                      data-select2-id="2" style="width: 100%;">
+                      <span class="selection">
+                        <span class="select2-selection select2-selection--single" role="combobox"
+                          aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false"
+                          aria-labelledby="select2-y9w0-container">
+                          <span class="select2-selection__rendered" id="select2-y9w0-container"
+                            role="textbox" aria-readonly="true" title="Walk-in Customer">Cliente sin
+                            cita previa</span>
+                        </span>
+                      </span>
+                      <span class="dropdown-wrapper" aria-hidden="true"></span>
+                    </span>
+                  </div>
+                </div>
+                <!-- Fin Agregar cliente ya existente -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <component :is="selectedComponent" />
 
             <div class="col-md-4">
                <!-- Informacion de la factura o boleta de la venta -->
                <div class="order-list">
                   <div class="orderid">
                      <h4>Datos de comprobante</h4>
-                     <h5>ID de transacción : #65565</h5>
+                  
                   </div>
 
                </div>
@@ -84,11 +74,11 @@
                               title="orange">Factura</span></span></span><span class="dropdown-wrapper"
                         aria-hidden="true"></span></span>
                </div>
-         
-                  <label class="col-form-label">Serie</label>
 
-                  <input type="text" class="form-control">
-           
+               <label class="col-form-label">Serie</label>
+
+               <input type="text" class="form-control">
+
                <label class="col-form-label">Numero</label>
                <input type="text" class="form-control">
                <!-- Fin Informacion de la factura o boleta de la venta -->
@@ -111,67 +101,59 @@
 
          <!-- PRODUCTOS -->
          <div class="row">
-            <div class="col-12">
-               <!-- Listado de Productos por categorias -->
-               <div class="col-lg-8 col-sm-12 tabs_wrapper">
-                  <div class="page-header">
-                     <div class="page-title">
-                        <h4>Categorías</h4>
-                        <h6>Gestiona tus compras</h6>
-                     </div>
+    <div class="col-12">
+      <!-- Listado de Productos por categorias -->
+      <div class="col-lg-12 col-sm-12 tabs_wrapper">
+        <div class="page-header">
+          <div class="page-title">
+            <h4>Categorías</h4>
+            <h6>Gestiona tus compras</h6>
+          </div>
+        </div>
+        <!-- Listado de Categorias -->
+        <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded" >
+          <div class="owl-stage-outer">
+            <div class="row">
+              <div class=" col-lg-2 col-sm-6 d-flex" v-for="categoria in categorias" :key="categoria.id">
+                <li :class="{ active: categoriaActiva === categoria.id }" @click="cambiarCategoria(categoria.id)">
+                  <div class="product-details">
+                    
+                    <h6>{{ categoria.nombre }}</h6>
                   </div>
-                  <!-- Listado de Categorias -->
-                  <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
-                     <div class="owl-stage-outer">
-                        <div class="owl-stage"
-                           style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1055px;">
-                           <div class="owl-item active" style="width: 95.5px; margin-right: 10px;">
-                              <li class="active" id="fruits">
-                                 <div class="product-details">
-                                    <img src="../../public/img/product/product62.png" alt="img">
-                                    <h6>Frutas</h6>
-                                 </div>
-                              </li>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="owl-nav">
-                        <button type="button" role="presentation" class="owl-prev disabled"><span
-                              aria-label="Previous">‹</span></button>
-                        <button type="button" role="presentation" class="owl-next"><span
-                              aria-label="Next">›</span></button>
-                     </div>
-                     <div class="owl-dots disabled"></div>
-                  </ul>
-                  <!-- Fin de listado de Categorias -->
-
-                  <!-- Listado de Productos -->
-                  <div class="tabs_container">
-                     <div class="tab_content active" data-tab="fruits">
-                        <div class="row">
-                           <div class="col-lg-3 col-sm-6 d-flex">
-                              <div class="productset flex-fill active">
-                                 <div class="productsetimg">
-                                    <img src="../../public/img/product/product29.jpg" alt="img">
-                                    <h6>Cantidad: 5.00</h6>
-                                    <div class="check-product">
-                                       <i class="fa fa-check"></i>
-                                    </div>
-                                 </div>
-                                 <div class="productsetcontent">
-                                    <h5>Frutas</h5>
-                                    <h4>Naranja</h4>
-                                    <h6>150.00</h6>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <!-- Fin Listado de Productos -->
+                </li>
+              </div>
             </div>
-         </div>
+          </div>
+        </ul>
+        <!-- Fin de listado de Categorias -->
+
+        <!-- Listado de Productos -->
+        <div class="tabs_container">
+          <div class="tab_content active">
+            <div class="row">
+              <div class="col-lg-2 col-sm-6 d-flex" v-for="producto in productos" :key="producto.idProducto">
+                <div class="productset flex-fill active">
+                  <div class="productsetimg">
+                    <img :src="getProveedorImage(producto.RutaImagen)"  alt="img">
+                    <h6>Cantidad: {{ producto.Stock }}</h6>
+                    <div class="check-product">
+                      <i class="fa fa-check"></i>
+                    </div>
+                  </div>
+                  <div class="productsetcontent">
+                    <h5>{{ producto.Nombre }}</h5>
+                    <h4>{{ producto.Descripcion }}</h4>
+                    <h6>{{ producto.PrecioUnitario }}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Listado de Productos -->
+      </div>
+    </div>
+  </div>
 
          <div class="row">
             <div class="col-md-8">
@@ -187,7 +169,7 @@
                         <li>
                            <div class="productimg">
                               <div class="productimgs">
-                                 <img src="../../public/img/product/product31.jpg" alt="img">
+                                 <img src="../../../fresh-api/src/uploads/Productos/imagen-producto-1717639875653.png" alt="img">
                               </div>
                               <div class="productcontet">
                                  <h4>
@@ -294,3 +276,93 @@
       </div>
    </div>
 </template>
+
+<script>
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import ClienteAddNatural from './ClienteAddNatural.vue';
+import ClienteAddJuridico from './ClienteAddJuridico.vue';
+
+export default {
+  data() {
+    return {
+      categorias: [],
+      productos: [],
+      categoriaActiva: null,
+      selectedComponent: null, // Para manejar el componente a renderizar
+    };
+  },
+  created() {
+    this.obtenerCategorias();
+  },
+  methods: {
+    async obtenerCategorias() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/v1/categorias/');
+        if (response.data.success) {
+          this.categorias = response.data.categorias;
+          if (this.categorias.length > 0) {
+            this.categoriaActiva = this.categorias[0].id;
+            this.obtenerProductosPorCategoria(this.categoriaActiva);
+          }
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error('Error al obtener categorías:', error);
+      }
+    },
+    async obtenerProductosPorCategoria(categoriaId) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
+        if (response.data.success) {
+          this.productos = response.data.productos;
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error('Error al obtener productos por categoría:', error);
+      }
+    },
+    cambiarCategoria(categoriaId) {
+      this.categoriaActiva = categoriaId;
+      this.obtenerProductosPorCategoria(categoriaId);
+    },
+    getProveedorImage(imagePath) {
+      return imagePath
+        ? `http://localhost:3000/api/v1/uploads/productos/${imagePath}`
+        : "../../public/img/product/noimage.png";
+    },
+    openClientModal() {
+      Swal.fire({
+        title: 'Seleccione el tipo de cliente',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Cliente Natural',
+        denyButtonText: 'Cliente Jurídico',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.selectedComponent = ClienteAddNatural;
+        } else if (result.isDenied) {
+          this.selectedComponent = ClienteAddJuridico;
+        }
+      });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.tabs {
+  display: flex;
+  overflow-x: auto;
+}
+
+.tabs li {
+  cursor: pointer;
+}
+
+.tabs li.active .product-details {
+  border: 2px solid #007bff;
+}
+</style>
