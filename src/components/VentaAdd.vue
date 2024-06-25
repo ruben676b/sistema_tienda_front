@@ -97,132 +97,124 @@
 
          <!-- PRODUCTOS -->
          <div class="row">
-          <div class="col-12">
-            <!-- Buscadores -->
-            <div class="page-header">
-                <div class="page-title">
-                  <h4>Categorías</h4>
-                  <h6>Gestiona tus compras</h6>
-                </div>
-              </div>
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <input v-model="busquedaCategoria" type="text" class="form-control" placeholder="Buscar categoría...">
-              </div>
-              
-            </div>
+            <div class="col-12">
+               <!-- Buscadores -->
+               <div class="page-header">
+                  <div class="page-title">
+                     <h4>Categorías</h4>
+                     <h6>Gestiona tus compras</h6>
+                  </div>
+               </div>
+               <div class="row mb-3">
+                  <div class="col-md-6">
+                     <input v-model="busquedaCategoria" type="text" class="form-control"
+                        placeholder="Buscar categoría...">
+                  </div>
 
-            <!-- Listado de Productos por categorias -->
-            <div class="col-lg-12 col-sm-12 tabs_wrapper">
-              
-              <!-- Listado de Categorias -->
-              <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
-                <div class="owl-stage-outer">
-                  <div class="owl-stage row">
-                    <div class="owl-item col-lg-2 col-sm-12 d-flex" v-for="categoria in categoriasFiltradas" :key="categoria.id">
-                      <li :class="{ active: categoriaActiva === categoria.id }" @click="cambiarCategoria(categoria.id)">
-                        <div class="product-details">
-                          <h6>{{ categoria.nombre }}</h6>
+               </div>
+
+               <!-- Listado de Productos por categorias -->
+               <div class="col-lg-12 col-sm-12 tabs_wrapper">
+
+                  <!-- Listado de Categorias -->
+                  <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
+                     <div class="owl-stage-outer">
+                        <div class="owl-stage row">
+                           <div class="owl-item col-lg-2 col-sm-12 d-flex" v-for="categoria in categoriasFiltradas"
+                              :key="categoria.id">
+                              <li :class="{ active: categoriaActiva === categoria.id }"
+                                 @click="cambiarCategoria(categoria.id)">
+                                 <div class="product-details">
+                                    <h6>{{ categoria.nombre }}</h6>
+                                 </div>
+                              </li>
+                           </div>
                         </div>
-                      </li>
-                    </div>
+                     </div>
+                  </ul>
+                  <!-- Fin de listado de Categorias -->
+                  <div class="row mb-3">
+
+                     <div class="col-md-6">
+                        <input v-model="busquedaProducto" type="text" class="form-control"
+                           placeholder="Buscar producto...">
+                     </div>
                   </div>
-                </div>
-              </ul>
-              <!-- Fin de listado de Categorias -->
-              <div class="row mb-3">
-           
-              <div class="col-md-6">
-                <input v-model="busquedaProducto" type="text" class="form-control" placeholder="Buscar producto...">
-              </div>
-            </div>
-              <!-- Listado de Productos -->
-              <div class="tabs_container">
-                <div class="tab_content active">
-                  <div class="row">
-                    <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados" :key="producto.idProducto">
-                      <div class="productset flex-fill active">
-                        <div class="productsetimg">
-                          <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                          <h6>Cantidad: {{ producto.Stock }}</h6>
-                          <div class="check-product">
-                            <i class="fa fa-check"></i>
-                          </div>
+                  <!-- Listado de Productos -->
+                  <div class="tabs_container">
+                     <div class="tab_content active">
+                        <div class="row">
+                           <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados" :key="producto.idProducto">
+  <div 
+    class="productset flex-fill" 
+    :class="{ 'active': isProductoSeleccionado(producto) }"
+    @click="agregarProducto(producto)"
+  >
+    <div class="productsetimg">
+      <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+      <h6>Cantidad: {{ producto.Stock }}</h6>
+      <div class="check-product" v-if="isProductoSeleccionado(producto)">
+        <i class="fa fa-check"></i>
+      </div>
+    </div>
+    <div class="productsetcontent">
+      <h5>{{ producto.Nombre }}</h5>
+      <h4>{{ producto.Descripcion }}</h4>
+      <h6>{{ producto.PrecioUnitario }}</h6>
+    </div>
+  </div>
+</div>
                         </div>
-                        <div class="productsetcontent">
-                          <h5>{{ producto.Nombre }}</h5>
-                          <h4>{{ producto.Descripcion }}</h4>
-                          <h6>{{ producto.PrecioUnitario }}</h6>
-                        </div>
-                      </div>
-                    </div>
+                     </div>
                   </div>
-                </div>
-              </div>
-              <!-- Fin Listado de Productos -->
+                  <!-- Fin Listado de Productos -->
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
 
          <div class="row">
             <div class="col-md-8">
-               <!-- Informacion de los productos Añadidos -->
                <div class="card-body pt-0">
                   <div class="totalitem">
-                     <h4>Total de artículos : 4</h4>
-                     <a href="javascript:void(0);">Borrar todo</a>
+                     <h4>Total de artículos: {{ productosSeleccionados.length }}</h4>
+                     <a href="javascript:void(0);" @click="limpiarProductos">Borrar todo</a>
                   </div>
-                  <!-- PRODUCTO AÑADIDO -->
                   <div class="product-table">
-                     <ul class="product-lists">
-                        <li>
-                           <div class="productimg">
-                              <div class="productimgs">
-                                 <img src="../../public/img/product/product31.jpg" alt="img">
-                              </div>
-                              <div class="productcontet">
-                                 <h4>
-                                    <font>Fresa</font>
-                                    <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal"
-                                       data-bs-target="#edit">
-                                       <img src="../../public/img/icons/edit-5.svg" alt="img">
-                                    </a>
-                                 </h4>
-                                 <div class="productlinkset">
-                                    <h5>PT001</h5>
-                                 </div>
-                                 <div class="increment-decrement">
-                                    <div class="input-groups">
-                                       <input type="button" value="-" class="button-minus dec button">
-                                       <input type="text" name="child" value="0" class="quantity-field">
-                                       <input type="button" value="+" class="button-plus inc button">
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li>3000.00</li>
-                        <li>
-                           <a class="confirm-text" href="javascript:void(0);">
-                              <img src="../../public/img/icons/delete-2.svg" alt="img">
-                           </a>
-                        </li>
-                     </ul>
-                  </div>
-                  <!-- FIN DE PRODUCTO AÑADIDO -->
-               </div>
-               <!-- Fin Informacion de los productos Añadidos -->
-
-               <!-- Boton para escanear producto por codigo de barras -->
-               <div class="col-12">
-                  <div class="text-end">
-                     <a class="btn btn-scanner-set">
-                        <img src="../../public/img/icons/scanner1.svg" alt="img" class="me-2">
-                        <font>Escanear código de barra</font>
-                     </a>
+                     <ul class="product-lists" v-for="producto in productosSeleccionados" :key="producto.idProducto">
+  <li>
+    <div class="productimg">
+      <div class="productimgs">
+        <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+      </div>
+      <div class="productcontet">
+        <h4>
+          <font>{{ producto.Nombre }}</font>
+          <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
+            <img src="../../public/img/icons/edit-5.svg" alt="img">
+          </a>
+        </h4>
+        <div class="productlinkset">
+          <h5>{{ producto.idProducto }}</h5>
+        </div>
+        <div class="increment-decrement">
+          <div class="input-groups">
+            <input type="button" value="-" class="button-minus dec button" @click="decrementarCantidad(producto)">
+            <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
+            <input type="button" value="+" class="button-plus inc button" @click="incrementarCantidad(producto)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
+  <li>
+    <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
+      <img src="../../public/img/icons/delete-2.svg" alt="img">
+    </a>
+  </li>
+</ul>
                   </div>
                </div>
-               <!-- Fin Boton para escanear producto por codigo de barras -->
             </div>
 
             <div class="col-md-4">
@@ -289,38 +281,92 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import ClienteAddNatural from './ClienteAddNatural.vue';
-import ClienteAddJuridico from './ClienteAddJuridico.vue';
 import { useRouter } from 'vue-router';
 
 export default {
    data() {
-  return {
-    categorias: [],
-    productos: [], // Inicializar como array vacío
-    categoriaActiva: null,
-    selectedComponent: null,
-    busquedaCategoria: '',
-    busquedaProducto: '',
-  };
-},
-  created() {
-    this.obtenerCategorias();
-  },
-  computed: {
-  categoriasFiltradas() {
-    return this.categorias.filter(categoria =>
-      categoria.nombre.toLowerCase().includes(this.busquedaCategoria.toLowerCase())
-    );
-  },
-  productosFiltrados() {
-    if (!this.productos) return []; // Retorna un array vacío si this.productos es undefined o null
-    return this.productos.filter(producto =>
-      producto.Nombre.toLowerCase().includes(this.busquedaProducto.toLowerCase())
-    );
-  },
-},
+      return {
+         categorias: [],
+         productos: [], // Inicializar como array vacío
+         categoriaActiva: null,
+         selectedComponent: null,
+         busquedaCategoria: '',
+         busquedaProducto: '',
+         productosSeleccionados: [],
+      };
+   },
+   created() {
+      this.obtenerCategorias();
+   },
+   computed: {
+      totalVenta() {
+         return this.productosSeleccionados.reduce((total, producto) => {
+            return total + (producto.PrecioUnitario * producto.cantidad);
+         }, 0);
+      },
+      categoriasFiltradas() {
+         return this.categorias.filter(categoria =>
+            categoria.nombre.toLowerCase().includes(this.busquedaCategoria.toLowerCase())
+         );
+      },
+      productosFiltrados() {
+         if (!this.productos) return []; // Retorna un array vacío si this.productos es undefined o null
+         return this.productos.filter(producto =>
+            producto.Nombre.toLowerCase().includes(this.busquedaProducto.toLowerCase())
+         );
+      },
+      productosSeleccionadosConId() {
+         return this.productosSeleccionados.map((producto, index) => ({
+            ...producto,
+            uniqueId: `${producto.idProducto}-${index}`
+         }));
+      }
+   },
    methods: {
+      isProductoSeleccionado(producto) {
+  return this.productosSeleccionados.some(p => p.idProducto === producto.idProducto);
+},
+      agregarProducto(producto) {
+         const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
+         if (index !== -1) {
+            // Si el producto ya está en la lista, lo quitamos
+            this.productosSeleccionados.splice(index, 1);
+         } else {
+            // Si el producto no está en la lista, lo agregamos
+            this.productosSeleccionados.push({ ...producto, cantidad: 1 });
+         }
+         // Forzamos la actualización de la vista
+         this.$forceUpdate();
+      },
+
+      limpiarProductos() {
+         this.productosSeleccionados = [];
+      },
+
+      editarProducto(index) {
+         // Implementa la lógica de edición aquí
+      },
+
+      incrementarCantidad(producto) {
+  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
+  if (index !== -1) {
+    this.productosSeleccionados[index].cantidad++;
+  }
+},
+
+decrementarCantidad(producto) {
+  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
+  if (index !== -1 && this.productosSeleccionados[index].cantidad > 1) {
+    this.productosSeleccionados[index].cantidad--;
+  }
+},
+
+eliminarProducto(producto) {
+  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
+  if (index !== -1) {
+    this.productosSeleccionados.splice(index, 1);
+  }
+},
       async obtenerCategorias() {
          try {
             const response = await axios.get('http://localhost:3000/api/v1/categorias/');
@@ -338,19 +384,19 @@ export default {
          }
       },
       async obtenerProductosPorCategoria(categoriaId) {
-  try {
-    const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
-    if (response.data.success) {
-      this.productos = response.data.productos || []; // Usa un array vacío si no hay productos
-    } else {
-      console.error(response.data.message);
-      this.productos = []; // Asegúrate de que sea un array vacío en caso de error
-    }
-  } catch (error) {
-    console.error('Error al obtener productos por categoría:', error);
-    this.productos = []; // Asegúrate de que sea un array vacío en caso de error
-  }
-},
+         try {
+            const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
+            if (response.data.success) {
+               this.productos = response.data.productos || []; // Usa un array vacío si no hay productos
+            } else {
+               console.error(response.data.message);
+               this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+            }
+         } catch (error) {
+            console.error('Error al obtener productos por categoría:', error);
+            this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+         }
+      },
       cambiarCategoria(categoriaId) {
          this.categoriaActiva = categoriaId;
          this.obtenerProductosPorCategoria(categoriaId);
