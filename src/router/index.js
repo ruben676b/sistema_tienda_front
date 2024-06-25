@@ -16,6 +16,9 @@ import AddProduct from "@/components/Productadd.vue";
 import VentaList from "@/components/VentaList.vue";
 import VentaAdd from "@/components/VentaAdd.vue";
 
+import ClienteAddJuridico from "@/components/ClienteAddJuridico.vue";
+import ClienteAddNatural from "@/components/ClienteAddNatural.vue";
+
 
 
 const routes = [
@@ -74,6 +77,16 @@ const routes = [
         path: "ventaList",
         name: "VentaList",
         component: VentaList,
+      },
+      {
+        path: "clienteAddJuridico",
+        name: "ClienteAddJuridico",
+        component: ClienteAddJuridico,
+      },
+      {
+        path: "clienteAddNatural",
+        name: "ClienteAddNatural",
+        component: ClienteAddNatural,
       }
       // {
       //   path: "ProductoEdit/:id",
