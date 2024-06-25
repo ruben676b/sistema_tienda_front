@@ -97,58 +97,68 @@
 
          <!-- PRODUCTOS -->
          <div class="row">
-    <div class="col-12">
-      <!-- Listado de Productos por categorias -->
-      <div class="col-lg-12 col-sm-12 tabs_wrapper">
-        <div class="page-header">
-          <div class="page-title">
-            <h4>Categorías</h4>
-            <h6>Gestiona tus compras</h6>
-          </div>
-        </div>
-        <!-- Listado de Categorias -->
-        <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
-          <div class="owl-stage-outer">
-            <div class="owl-stage row">
-              <div class="owl-item col-lg-2 col-sm-12 d-flex" v-for="categoria in categorias" :key="categoria.id">
-                <li :class="{ active: categoriaActiva === categoria.id }" @click="cambiarCategoria(categoria.id)">
-                  <div class="product-details">
-                    <h6>{{ categoria.nombre }}</h6>
-                  </div>
-                </li>
+          <div class="col-12">
+            <!-- Buscadores -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input v-model="busquedaCategoria" type="text" class="form-control" placeholder="Buscar categoría...">
+              </div>
+              <div class="col-md-6">
+                <input v-model="busquedaProducto" type="text" class="form-control" placeholder="Buscar producto...">
               </div>
             </div>
-          </div>
-        </ul>
-        <!-- Fin de listado de Categorias -->
 
-        <!-- Listado de Productos -->
-        <div class="tabs_container">
-          <div class="tab_content active">
-            <div class="row">
-              <div class="col-lg-2 col-sm-12 d-flex " v-for="producto in productos" :key="producto.idProducto">
-                <div class="productset flex-fill active">
-                  <div class="productsetimg">
-                    <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                    <h6>Cantidad: {{ producto.Stock }}</h6>
-                    <div class="check-product">
-                      <i class="fa fa-check"></i>
+            <!-- Listado de Productos por categorias -->
+            <div class="col-lg-12 col-sm-12 tabs_wrapper">
+              <div class="page-header">
+                <div class="page-title">
+                  <h4>Categorías</h4>
+                  <h6>Gestiona tus compras</h6>
+                </div>
+              </div>
+              <!-- Listado de Categorias -->
+              <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
+                <div class="owl-stage-outer">
+                  <div class="owl-stage row">
+                    <div class="owl-item col-lg-2 col-sm-12 d-flex" v-for="categoria in categoriasFiltradas" :key="categoria.id">
+                      <li :class="{ active: categoriaActiva === categoria.id }" @click="cambiarCategoria(categoria.id)">
+                        <div class="product-details">
+                          <h6>{{ categoria.nombre }}</h6>
+                        </div>
+                      </li>
                     </div>
                   </div>
-                  <div class="productsetcontent">
-                    <h5>{{ producto.Nombre }}</h5>
-                    <h4>{{ producto.Descripcion }}</h4>
-                    <h6>{{ producto.PrecioUnitario }}</h6>
+                </div>
+              </ul>
+              <!-- Fin de listado de Categorias -->
+
+              <!-- Listado de Productos -->
+              <div class="tabs_container">
+                <div class="tab_content active">
+                  <div class="row">
+                    <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados" :key="producto.idProducto">
+                      <div class="productset flex-fill active">
+                        <div class="productsetimg">
+                          <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+                          <h6>Cantidad: {{ producto.Stock }}</h6>
+                          <div class="check-product">
+                            <i class="fa fa-check"></i>
+                          </div>
+                        </div>
+                        <div class="productsetcontent">
+                          <h5>{{ producto.Nombre }}</h5>
+                          <h4>{{ producto.Descripcion }}</h4>
+                          <h6>{{ producto.PrecioUnitario }}</h6>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- Fin Listado de Productos -->
             </div>
           </div>
         </div>
-        <!-- Fin Listado de Productos -->
-      </div>
-    </div>
-  </div>
 
          <div class="row">
             <div class="col-md-8">
@@ -281,16 +291,31 @@ import { useRouter } from 'vue-router';
 
 export default {
    data() {
-      return {
-         categorias: [],
-         productos: [],
-         categoriaActiva: null,
-         selectedComponent: null, // Para manejar el componente a renderizar
-      };
-   },
-   created() {
-      this.obtenerCategorias();
-   },
+  return {
+    categorias: [],
+    productos: [], // Inicializar como array vacío
+    categoriaActiva: null,
+    selectedComponent: null,
+    busquedaCategoria: '',
+    busquedaProducto: '',
+  };
+},
+  created() {
+    this.obtenerCategorias();
+  },
+  computed: {
+  categoriasFiltradas() {
+    return this.categorias.filter(categoria =>
+      categoria.nombre.toLowerCase().includes(this.busquedaCategoria.toLowerCase())
+    );
+  },
+  productosFiltrados() {
+    if (!this.productos) return []; // Retorna un array vacío si this.productos es undefined o null
+    return this.productos.filter(producto =>
+      producto.Nombre.toLowerCase().includes(this.busquedaProducto.toLowerCase())
+    );
+  },
+},
    methods: {
       async obtenerCategorias() {
          try {
@@ -309,17 +334,19 @@ export default {
          }
       },
       async obtenerProductosPorCategoria(categoriaId) {
-         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
-            if (response.data.success) {
-               this.productos = response.data.productos;
-            } else {
-               console.error(response.data.message);
-            }
-         } catch (error) {
-            console.error('Error al obtener productos por categoría:', error);
-         }
-      },
+  try {
+    const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
+    if (response.data.success) {
+      this.productos = response.data.productos || []; // Usa un array vacío si no hay productos
+    } else {
+      console.error(response.data.message);
+      this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+    }
+  } catch (error) {
+    console.error('Error al obtener productos por categoría:', error);
+    this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+  }
+},
       cambiarCategoria(categoriaId) {
          this.categoriaActiva = categoriaId;
          this.obtenerProductosPorCategoria(categoriaId);
