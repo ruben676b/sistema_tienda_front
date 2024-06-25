@@ -99,23 +99,22 @@
          <div class="row">
           <div class="col-12">
             <!-- Buscadores -->
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <input v-model="busquedaCategoria" type="text" class="form-control" placeholder="Buscar categoría...">
-              </div>
-              <div class="col-md-6">
-                <input v-model="busquedaProducto" type="text" class="form-control" placeholder="Buscar producto...">
-              </div>
-            </div>
-
-            <!-- Listado de Productos por categorias -->
-            <div class="col-lg-12 col-sm-12 tabs_wrapper">
-              <div class="page-header">
+            <div class="page-header">
                 <div class="page-title">
                   <h4>Categorías</h4>
                   <h6>Gestiona tus compras</h6>
                 </div>
               </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input v-model="busquedaCategoria" type="text" class="form-control" placeholder="Buscar categoría...">
+              </div>
+              
+            </div>
+
+            <!-- Listado de Productos por categorias -->
+            <div class="col-lg-12 col-sm-12 tabs_wrapper">
+              
               <!-- Listado de Categorias -->
               <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
                 <div class="owl-stage-outer">
@@ -131,7 +130,12 @@
                 </div>
               </ul>
               <!-- Fin de listado de Categorias -->
-
+              <div class="row mb-3">
+           
+              <div class="col-md-6">
+                <input v-model="busquedaProducto" type="text" class="form-control" placeholder="Buscar producto...">
+              </div>
+            </div>
               <!-- Listado de Productos -->
               <div class="tabs_container">
                 <div class="tab_content active">
