@@ -10,6 +10,7 @@ import ProductList from '@/components/ProductList.vue';
 import ProvedorList from '@/components/ProvedorList.vue';
 import MarcaList from '@/components/MarcaList.vue';
 import AddMarcas from '@/components/AddMarcas.vue';
+import GestionStock from '@/components/GestionStock.vue';
 
 
 const routes = [
@@ -55,6 +56,12 @@ const routes = [
         name: 'AddMarcas',
         component: AddMarcas
       },
+      {
+        path: 'gestionstock',
+        name: 'GestionStock',
+        component: GestionStock
+      },
+      
       // {
       //   path: 'add-product',
       //   name: 'AddProduct',

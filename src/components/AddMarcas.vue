@@ -1,73 +1,89 @@
-vue
-Copiar código
 <template>
-    <div>
-        <!-- Page Wrapper -->
-        <div class="page-wrapper">
-            <div class="content">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div class="page-title">
-                        <h4>Agregar Nueva Marca</h4>
-                    </div>
-                </div>
-                <!-- /Page Header -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-lg-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label>Nombre de la Marca</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label>Código de la Marca</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Imagen de la Marca</label>
-                                        <div class="image-upload">
-                                            <input type="file" class="form-control">
-                                            <div class="image-uploads">
-                                                <img src="../../public/img/icons/upload.svg" alt="img">
-                                                <h4>Arrastra y suelta un archivo para subir</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-submit me-2">Guardar</button>
-                                    <a href="brandlist.html" class="btn btn-cancel">Cancelar</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!-- /Card -->
-            </div>
-        </div>
-        <!-- /Page Wrapper -->
+  <div>
+    <div class="page-header">
+      <div class="page-title">
+        <h4>Gestión de Marcas</h4>
+        <h6>Agregar Marca</h6>
+      </div>
     </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-sm-6 col-12">
+            <div class="form-group">
+              <label>Nombre de la marca</label>
+              <input type="text" v-model="form.nombre" />
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button @click="submitForm" class="btn btn-submit me-2">Enviar</button>
+            <button @click="cancelForm" class="btn btn-cancel">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
+import Swal from "sweetalert2";
+
 export default {
-    name: 'AddMarcas',
-    methods: {
-        handleSubmit() {
-            // Handle form submission
+  data() {
+    return {
+      form: {
+        nombre: "",
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      const formData = new FormData();
+      formData.append("Nombre", this.form.nombre);
+
+      try {
+        const response = await axios.post("http://localhost:3000/api/v1/marcas", formData);
+        if (response.data.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: "Marca guardada exitosamente",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al guardar la marca",
+          });
         }
-    }
-}
+      } catch (error) {
+        console.error("Error al guardar la marca:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error al guardar la marca. Intente nuevamente.",
+        });
+      }
+    },
+    cancelForm() {
+      this.form = {
+        nombre: "",
+      };
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Add any scoped CSS here if needed */
+.btn-submit {
+  background-color: green;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: red;
+  color: white;
+}
 </style>
