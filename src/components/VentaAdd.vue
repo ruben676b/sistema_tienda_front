@@ -144,26 +144,24 @@
                   <div class="tabs_container">
                      <div class="tab_content active">
                         <div class="row">
-                           <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados" :key="producto.idProducto">
-  <div 
-    class="productset flex-fill" 
-    :class="{ 'active': isProductoSeleccionado(producto) }"
-    @click="agregarProducto(producto)"
-  >
-    <div class="productsetimg">
-      <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-      <h6>Cantidad: {{ producto.Stock }}</h6>
-      <div class="check-product" v-if="isProductoSeleccionado(producto)">
-        <i class="fa fa-check"></i>
-      </div>
-    </div>
-    <div class="productsetcontent">
-      <h5>{{ producto.Nombre }}</h5>
-      <h4>{{ producto.Descripcion }}</h4>
-      <h6>{{ producto.PrecioUnitario }}</h6>
-    </div>
-  </div>
-</div>
+                           <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados"
+                              :key="producto.idProducto">
+                              <div class="productset flex-fill" :class="{ 'active': isProductoSeleccionado(producto) }"
+                                 @click="agregarProducto(producto)">
+                                 <div class="productsetimg">
+                                    <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+                                    <h6>Cantidad: {{ producto.Stock }}</h6>
+                                    <div class="check-product" v-if="isProductoSeleccionado(producto)">
+                                       <i class="fa fa-check"></i>
+                                    </div>
+                                 </div>
+                                 <div class="productsetcontent">
+                                    <h5>{{ producto.Nombre }}</h5>
+                                    <h4>{{ producto.Descripcion }}</h4>
+                                    <h6>{{ producto.PrecioUnitario }}</h6>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -181,38 +179,40 @@
                   </div>
                   <div class="product-table">
                      <ul class="product-lists" v-for="producto in productosSeleccionados" :key="producto.idProducto">
-  <li>
-    <div class="productimg">
-      <div class="productimgs">
-        <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-      </div>
-      <div class="productcontet">
-        <h4>
-          <font>{{ producto.Nombre }}</font>
-          <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
-            <img src="../../public/img/icons/edit-5.svg" alt="img">
-          </a>
-        </h4>
-        <div class="productlinkset">
-          <h5>{{ producto.idProducto }}</h5>
-        </div>
-        <div class="increment-decrement">
-          <div class="input-groups">
-            <input type="button" value="-" class="button-minus dec button" @click="decrementarCantidad(producto)">
-            <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
-            <input type="button" value="+" class="button-plus inc button" @click="incrementarCantidad(producto)">
-          </div>
-        </div>
-      </div>
-    </div>
-  </li>
-  <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
-  <li>
-    <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
-      <img src="../../public/img/icons/delete-2.svg" alt="img">
-    </a>
-  </li>
-</ul>
+                        <li>
+                           <div class="productimg">
+                              <div class="productimgs">
+                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+                              </div>
+                              <div class="productcontet">
+                                 <h4>
+                                    <font>{{ producto.Nombre }}</font>
+                                    <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
+                                       <img src="../../public/img/icons/edit-5.svg" alt="img">
+                                    </a>
+                                 </h4>
+                                 <div class="productlinkset">
+                                    <h5>{{ producto.idProducto }}</h5>
+                                 </div>
+                                 <div class="increment-decrement">
+                                    <div class="input-groups">
+                                       <input type="button" value="-" class="button-minus dec button"
+                                          @click="decrementarCantidad(producto)">
+                                       <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
+                                       <input type="button" value="+" class="button-plus inc button"
+                                          @click="incrementarCantidad(producto)">
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
+                        <li>
+                           <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
+                              <img src="../../public/img/icons/delete-2.svg" alt="img">
+                           </a>
+                        </li>
+                     </ul>
                   </div>
                </div>
             </div>
@@ -318,16 +318,20 @@ export default {
       productosSeleccionadosConId() {
          return this.productosSeleccionados.map((producto, index) => ({
             ...producto,
-            uniqueId: `${producto.idProducto}-${index}`
+            uniqueId: `${producto.IdProducto}-${index}`
          }));
       }
    },
    methods: {
       isProductoSeleccionado(producto) {
-  return this.productosSeleccionados.some(p => p.idProducto === producto.idProducto);
-},
+         console.log("Comprobando si está seleccionado:", producto);
+         console.log("Productos seleccionados:", JSON.parse(JSON.stringify(this.productosSeleccionados)));
+         return this.productosSeleccionados.some(p => p.IdProducto === producto.IdProducto);
+      },
       agregarProducto(producto) {
-         const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
+         console.log("Antes de agregar/quitar:", JSON.parse(JSON.stringify(this.productosSeleccionados)));
+
+         const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
          if (index !== -1) {
             // Si el producto ya está en la lista, lo quitamos
             this.productosSeleccionados.splice(index, 1);
@@ -335,38 +339,33 @@ export default {
             // Si el producto no está en la lista, lo agregamos
             this.productosSeleccionados.push({ ...producto, cantidad: 1 });
          }
-         // Forzamos la actualización de la vista
-         this.$forceUpdate();
-      },
 
+         console.log("Después de agregar/quitar:", JSON.parse(JSON.stringify(this.productosSeleccionados)));
+      },
       limpiarProductos() {
          this.productosSeleccionados = [];
       },
-
       editarProducto(index) {
          // Implementa la lógica de edición aquí
       },
-
       incrementarCantidad(producto) {
-  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
-  if (index !== -1) {
-    this.productosSeleccionados[index].cantidad++;
-  }
-},
-
-decrementarCantidad(producto) {
-  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
-  if (index !== -1 && this.productosSeleccionados[index].cantidad > 1) {
-    this.productosSeleccionados[index].cantidad--;
-  }
-},
-
-eliminarProducto(producto) {
-  const index = this.productosSeleccionados.findIndex(p => p.idProducto === producto.idProducto);
-  if (index !== -1) {
-    this.productosSeleccionados.splice(index, 1);
-  }
-},
+        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+        if (index !== -1) {
+          this.productosSeleccionados[index].cantidad++;
+        }
+      },
+      decrementarCantidad(producto) {
+        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+        if (index !== -1 && this.productosSeleccionados[index].cantidad > 1) {
+          this.productosSeleccionados[index].cantidad--;
+        }
+      },
+      eliminarProducto(producto) {
+        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+        if (index !== -1) {
+          this.productosSeleccionados.splice(index, 1);
+        }
+      },
       async obtenerCategorias() {
          try {
             const response = await axios.get('http://localhost:3000/api/v1/categorias/');
