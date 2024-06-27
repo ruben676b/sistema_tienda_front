@@ -6,11 +6,8 @@ import Estadisticas from '@/components/Estadisticas.vue';
 import Dashboard from '@/views/Dashboard.vue'
 import store from '@/store';
 
-import ProductList from '@/components/ProductList.vue';
-import ProvedorList from '@/components/ProvedorList.vue';
 import MarcaList from '@/components/MarcaList.vue';
 import AddMarcas from '@/components/AddMarcas.vue';
-import EditMarca from '@/components/EditMarca.vue';
 import GestionStock from '@/components/GestionStock.vue';
 
 const routes = [
@@ -36,16 +33,7 @@ const routes = [
         name: 'Estadisticas',
         component: Estadisticas
       },
-      {
-        path: 'products',
-        name: 'ProductList',
-        component: ProductList
-      },
-      {
-        path: 'provedor',
-        name: 'ProvedorList',
-        component: ProvedorList
-      },
+
       {
         path: 'marca',
         name: 'MarcaList',
@@ -56,12 +44,6 @@ const routes = [
         name: 'AddMarcas',
         component: AddMarcas
       },
-      {
-        path: 'editmarca',
-        name: 'EditMarca',
-        component: EditMarca
-      },
- 
       
        {
          path: 'gestionstock',

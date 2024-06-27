@@ -94,14 +94,9 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.product ? 'block' : 'none' }">
-                  <li><router-link to="/dashboard/products">Product List</router-link></li>
-                  <li><router-link to="/dashboard/add-product">Add Product</router-link></li>
-                  <li><router-link to="/dashboard/categories">Category List</router-link></li>
-                  <li><router-link to="/dashboard/add-category">Add Category</router-link></li>
                   <li><router-link to="/dashboard/marca">Lista de Marcas</router-link></li>
                   <li><router-link to="/dashboard/addmarca">Agregar Marca</router-link></li>
                   <li><router-link to="/dashboard/gestionstock">Gestion Stock</router-link></li>
-                  <li><router-link to="/dashboard/provedor">Producto add</router-link></li>
                 </ul>
               </li>
               <!-- CLIENTE -->

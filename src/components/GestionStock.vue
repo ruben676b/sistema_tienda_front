@@ -11,6 +11,14 @@
       <div class="card-body">
         <div class="table-top">
           <div class="search-set">
+            <div class="search-path">
+              <a class="btn btn-filter" id="filter_search">
+                <img src="../../public/img/icons/filter.svg" alt="img" />
+                <span>
+                  <img src="../../public/img/icons/closes.svg" alt="img" />
+                </span>
+              </a>
+            </div>
             <div class="search-input">
               <input
                 type="search"
@@ -84,7 +92,7 @@
     <div v-if="showEditModal" class="modal" @click.self="closeEditModal">
       <div class="modal-content">
         <button class="close" @click="closeEditModal">&times;</button>
-        <h2>Editar Producto</h2>
+        <h2>Editar Stock del Producto</h2>
         <div v-if="selectedProduct" class="product-info">
           <img
             :src="getProductImage(selectedProduct.RutaImagen)"
