@@ -101,6 +101,7 @@
                   <li><router-link to="/dashboard/marca">Lista de Marcas</router-link></li>
                   <li><router-link to="/dashboard/addmarca">Agregar Marca</router-link></li>
                   <li><router-link to="/dashboard/gestionstock">Gestion Stock</router-link></li>
+                  <li><router-link to="/dashboard/provedor">Producto add</router-link></li>
                 </ul>
               </li>
               <!-- CLIENTE -->

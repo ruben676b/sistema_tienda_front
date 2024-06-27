@@ -10,8 +10,8 @@ import ProductList from '@/components/ProductList.vue';
 import ProvedorList from '@/components/ProvedorList.vue';
 import MarcaList from '@/components/MarcaList.vue';
 import AddMarcas from '@/components/AddMarcas.vue';
+import EditMarca from '@/components/EditMarca.vue';
 import GestionStock from '@/components/GestionStock.vue';
-
 
 const routes = [
   {
@@ -57,16 +57,17 @@ const routes = [
         component: AddMarcas
       },
       {
-        path: 'gestionstock',
-        name: 'GestionStock',
-        component: GestionStock
+        path: 'editmarca',
+        name: 'EditMarca',
+        component: EditMarca
       },
+ 
       
-      // {
-      //   path: 'add-product',
-      //   name: 'AddProduct',
-      //   component: AddProduct
-      // },
+       {
+         path: 'gestionstock',
+        name: 'GestionStock',
+         component: GestionStock
+       },
       // {
       //   path: 'categories',
       //   name: 'CategoryList',

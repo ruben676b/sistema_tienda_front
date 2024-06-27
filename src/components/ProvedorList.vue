@@ -1,177 +1,277 @@
 <template>
+  <div>
     <div>
-      <div class="page-header">
-        <div class="page-title">
-          <h4>Lista de Marcas</h4>
-          <h6>Gestiona tus Marcas</h6>
-        </div>
-        <div class="page-btn">
-          <router-link to="/dashboard/marcaAdd">
-            <a class="btn btn-added">
-              <img src="../../public/img/icons/plus.svg" alt="img" />
-              Agregar marca
-            </a>
-          </router-link>
-        </div>
-      </div>
-  
-      <div class="card">
-        <div class="card-body">
-          <div class="table-top">
-            <div class="search-set">
-              <div class="search-path">
-                <a class="btn btn-filter" id="filter_search">
-                  <img src="../../public/img/icons/filter.svg" alt="img" />
-                  <span><img src="../../public/img/icons/closes.svg" alt="img" /></span>
-                </a>
-              </div>
-              <div class="search-input">
-                <a class="btn btn-searchset">
-                  <img src="../../public/img/icons/search-white.svg" alt="img" />
-                </a>
-                <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                  <label>
-                    <input
-                      type="search"
-                      class="form-control form-control-sm"
-                      placeholder="Buscar..."
-                      v-model="searchQuery"
-                      @input="filterMarcas"
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="wordset">
-              <ul>
-                <li>
-                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
-                    <img src="../../public/img/icons/pdf.svg" alt="img" />
-                  </a>
-                </li>
-                <li>
-                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
-                    <img src="../../public/img/icons/excel.svg" alt="img" />
-                  </a>
-                </li>
-                <li>
-                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
-                    <img src="../../public/img/icons/printer.svg" alt="img" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+      <div class="row">
+        <div class="page-header">
+          <div class="page-title">
+            <h4 id="title_header">Añadir Producto</h4>
           </div>
-  
-          <div class="table-responsive">
-            <table class="table datanew dataTable no-footer">
-              <thead>
-                <tr>
-                  <th>
-                    <label class="checkboxs">
-                      <input type="checkbox" id="select-all" />
-                      <span class="checkmarks"></span>
-                    </label>
-                  </th>
-                  <th>Nombre de la Marca</th>
-                  <th>Descripción</th>
-                  <th>País</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="marca in filteredMarcas" :key="marca.idMarca">
-                  <td>
-                    <label class="checkboxs">
-                      <input type="checkbox" />
-                      <span class="checkmarks"></span>
-                    </label>
-                  </td>
-                  <td>{{ marca.nombre}}</td>
-                  <td>{{ marca.id }}</td>
-                  <td>
-                    <a class="me-3" @click="editMarca(marca.idMarca)">
-                      <img src="../../public/img/icons/edit.svg" alt="img" />
-                    </a>
-                    <a class="me-3 confirm-text" @click="deleteMarca(marca.idMarca)">
-                      <img src="../../public/img/icons/delete.svg" alt="img" />
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        </div>
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <form id="form" class="row">
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Nombre del producto</label>
+                      <input type="text" id="nombre" v-model="nombre" />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Precio Unitario</label>
+                      <input
+                        type="number"
+                        id="PrecioUnitario"
+                        v-model="precioUnitario"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Precio Total</label>
+                      <input
+                        type="number"
+                        id="PrecioTotal"
+                        v-model="precioTotal"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Fecha de Vencimiento</label>
+                      <input
+                        type="date"
+                        id="fechaVencimiento"
+                        v-model="fechaVencimiento"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Stock</label>
+                      <input type="number" id="stock" v-model="stock" />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Stock Minimo</label>
+                      <input
+                        type="number"
+                        id="stockMinimo"
+                        v-model="stockMinimo"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Unidad de medida</label>
+                      <input
+                        type="text"
+                        id="unidadMedida"
+                        v-model="unidadMedida"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Codigo de barra</label>
+                      <input
+                        type="text"
+                        id="codigoBarra"
+                        v-model="codigoBarra"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <label style="margin-bottom: 7px">Elige la Marca</label>
+                    <select class="select" id="marca"></select>
+                  </div>
+
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <label style="margin-bottom: 7px">Elige la Categoria</label>
+                    <select class="select" id="categoria"></select>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <label style="margin-bottom: 7px">Elige el Proveedor</label>
+                    <select class="select" id="proveedor"></select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Descripcion</label>
+                    <textarea
+                      class="form-control"
+                      id="Descripcion"
+                      v-model="descripcion"
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label"
+                      >Subir imagen del Producto</label
+                    >
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="formFile"
+                      @change="handleFileUpload"
+                    />
+                  </div>
+
+                  <div class="col-lg-12">
+                    <button type="submit" class="btn btn-submit me-2">
+                      Añadir Producto
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import axios from "axios";
-  
-  export default {
-    data() {
-      return {
-        marcas: [],
-        filteredMarcas: [],
-        searchQuery: "",
-      };
-    },
-    methods: {
-      async fetchMarcas() {
-        try {
-          const response = await axios.get("http://localhost:3000/api/marcas");
-          this.marcas = response.data; // Suponiendo que la API devuelve un array de marcas
-          this.filterMarcas();
-        } catch (error) {
-          console.error("Error fetching marcas:", error);
-        }
-      },
-      async deleteMarca(idMarca) {
-        try {
-          const result = await Swal.fire({
-            title: "¿Estás seguro?",
-            text: "No podrás revertir esto!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, bórralo!",
-          });
-          if (result.isConfirmed) {
-            await axios.delete(`http
-  ://localhost:3000/api/marcas/${idMarca}`);
-  Swal.fire("¡Borrado!", "La marca ha sido borrada.", "success");
-  this.fetchMarcas();
-  }
-  } catch (error) {
-  console.error("Error al borrar la marca:", error);
-  Swal.fire({
-  icon: "error",
-  title: "Error",
-  text: "Error al borrar la marca. Intente nuevamente.",
-  });
-  }
-  },
-  filterMarcas() {
-  if (this.searchQuery) {
-  this.filteredMarcas = this.marcas.filter((marca) =>
-  marca.nombreMarca.toLowerCase().includes(this.searchQuery.toLowerCase())
-  );
-  } else {
-  this.filteredMarcas = this.marcas;
-  }
-  },
-  editMarca(idMarca) {
-  this.$router.push({ name: "MarcaEdit", params: { idMarca } });
-  },
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      nombre: "",
+      precioUnitario: "",
+      precioTotal: "",
+      fechaVencimiento: "",
+      stock: "",
+      stockMinimo: "",
+      unidadMedida: "",
+      codigoBarra: "",
+      marcaId: null,
+      categoriaId: null,
+      proveedorId: null,
+      descripcion: "",
+      file: null,
+    };
   },
   mounted() {
-  this.fetchMarcas();
+    this.llenarMarca();
+    this.llenarCategoria();
+    this.llenarProveedor();
+
+    $("#marca").on("change", (event) => {
+      this.marcaId = $(event.target).find("option:selected").data("id");
+    });
+
+    $("#categoria").on("change", (event) => {
+      this.categoriaId = $(event.target).find("option:selected").data("id");
+    });
+
+    $("#proveedor").on("change", (event) => {
+      this.proveedorId = $(event.target).find("option:selected").data("id");
+    });
+
+    $("#form").on("submit", async (event) => {
+      event.preventDefault();
+
+      let formData = new FormData();
+      formData.append("Nombre", this.nombre);
+      formData.append("Descripcion", this.descripcion);
+      formData.append("PrecioUnitario", this.precioUnitario);
+      formData.append("PrecioTotal", this.precioTotal);
+      formData.append("FechaVencimiento", this.fechaVencimiento);
+      formData.append("Stock", this.stock);
+      formData.append("StockMinimo", this.stockMinimo);
+      formData.append("UnidadMedida", this.unidadMedida);
+      formData.append("CodigoBarra", this.codigoBarra);
+      formData.append("CategoriaId", this.categoriaId);
+      formData.append("MarcaId", this.marcaId);
+      formData.append("ProveedorId", this.proveedorId);
+      formData.append("imagen-producto", this.file);
+
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/v1/productos/",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          Swal.fire(
+            "Añadido!",
+            "El producto ha sido añadido Correctamente.",
+            "success"
+          );
+          // window.location.href = "/dashboard/products";
+        } else {
+          throw new Error("Error al añadir producto");
+        }
+      } catch (error) {
+        Swal.fire(
+          "Producto no Añadido!",
+          "Asegurese de rellenar todos los campos! .",
+          "warning"
+        );
+      }
+    });
   },
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos específicos para este componente */
-  </style>
+  methods: {
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
+    async llenarMarca() {
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/marcas");
+        const data = await res.json();
+        const marcas = data["Marcas"];
+
+        let marcaBody = `<option value="" disabled selected>Selecciona una marca</option>`;
+        marcas.forEach((marca) => {
+          marcaBody += `<option data-id="${marca.id}">${marca.nombre}</option>`;
+        });
+        $("#marca").html(marcaBody);
+      } catch (error) {
+        console.error("Error llenando marcas:", error);
+      }
+    },
+    async llenarCategoria() {
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/categorias");
+        const data = await res.json();
+        const categorias = data["categorias"];
+
+        let categoriaBody = `<option value="" disabled selected>Selecciona una categoría</option>`;
+        categorias.forEach((categoria) => {
+          categoriaBody += `<option data-id="${categoria.id}">${categoria.nombre}</option>`;
+        });
+        $("#categoria").html(categoriaBody);
+      } catch (error) {
+        console.error("Error llenando categorías:", error);
+      }
+    },
+    async llenarProveedor() {
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/proveedores");
+        const data = await res.json();
+        const proveedores = data["proveedores"];
+
+        let proveedoresBody = `<option value="" disabled selected>Selecciona un proveedor</option>`;
+        proveedores.forEach((proveedor) => {
+          proveedoresBody += `<option data-id="${proveedor.IdProveedor}">${proveedor.NombreEmpresa}</option>`;
+        });
+        $("#proveedor").html(proveedoresBody);
+      } catch (error) {
+        console.error("Error llenando proveedores:", error);
+      }
+    },
+  },
+};
+</script>
+
+<style>
+/* Estilos opcionales */
+</style>

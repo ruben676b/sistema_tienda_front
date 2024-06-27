@@ -7,9 +7,8 @@
       </div>
       <div class="page-btn">
         <router-link :to="{ name: 'AddMarcas' }" class="btn btn-added">
-            <img src="../../public/img/icons/plus.svg" alt="img" />
-            Agregar Marca
-          
+          <img src="../../public/img/icons/plus.svg" alt="img" />
+          Agregar Marca
         </router-link>
       </div>
     </div>
@@ -103,70 +102,41 @@
 </template>
 
 <script>
-import axios from "axios";
-import Swal from "sweetalert2";
-
 export default {
   data() {
     return {
-      marcas: [], // Asegúrate de inicializar marcas como un array vacío
+      marcas: [],
       searchQuery: "",
     };
   },
   computed: {
     filteredMarcas() {
-      if (!this.marcas) return [];
       return this.marcas.filter((marca) =>
         marca.nombre.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
   },
   methods: {
-    async fetchMarcas() {
-      try {
-        const response = await axios.get("http://localhost:3000/api/v1/marcas");
-        this.marcas = response.data.marcas;
-      } catch (error) {
-        console.error("Error al obtener las marcas:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al obtener las marcas. Intente nuevamente.",
-        });
-      }
-    },
-    editMarca(id) {
-      // Lógica para editar marca
-      this.$router.push({ name: "MarcaEdit", params: { id } });
-    },
-    async deleteMarca(id) {
-      try {
-        const result = await Swal.fire({
-          title: "¿Estás seguro?",
-          text: "No podrás revertir esto!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Sí, bórrala!",
-        });
-        if (result.isConfirmed) {
-          await axios.delete(`http://localhost:3000/api/v1/marcas/${id}`);
-          this.marcas = this.marcas.filter((marca) => marca.id !== id);
-          Swal.fire("¡Borrado!", "La marca ha sido borrada.", "success");
-        }
-      } catch (error) {
-        console.error("Error al borrar la marca:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al borrar la marca. Intente nuevamente.",
-        });
-      }
+    fetchMarcas() {
+      fetch("http://localhost:3000/api/v1/marcas")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            this.marcas = data.Marcas;
+          }
+        })
+        .catch((error) => console.error("Error fetching marcas:", error));
     },
     filterMarcas() {
-      // Lógica de filtrado de marcas
-      // Este método es llamado automáticamente por el v-model en el input de búsqueda
+      // Este método es llamado cuando el searchQuery cambia
+    },
+    editMarca(id) {
+      // Lógica para editar una marca
+      console.log("Edit marca con ID:", id);
+    },
+    deleteMarca(id) {
+      // Lógica para eliminar una marca
+      console.log("Delete marca con ID:", id);
     },
   },
   mounted() {
@@ -175,14 +145,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.btn-submit {
-  background-color: green;
-  color: white;
-}
-
-.btn-cancel {
-  background-color: red;
-  color: white;
-}
+<style>
+/* Agrega tus estilos aquí */
 </style>
