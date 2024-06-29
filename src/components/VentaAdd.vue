@@ -1,6 +1,130 @@
 <template>
    <div>
       <div class="container-fluid">
+         <div class="row">
+            <div class="col-12">
+               <!-- Buscador general de productos -->
+               <div class="order-list">
+                  <div class="orderid">
+                     <h4>Elegir Productos</h4>
+                  </div>
+               </div>
+               
+               <div class="row mb-3">
+                  
+                  <div class="col-md-6">
+                     
+                     <input v-model="busquedaProducto" type="text" class="form-control"
+                        placeholder="Buscar producto...">
+                  </div>
+               </div>
+               <!-- Listado de Productos -->
+               <div class="tabs_container">
+                  <div class="tab_content active">
+                     <div class="row" v-if="productosFiltrados.length > 0">
+                        <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados"
+                           :key="producto.idProducto">
+                           <div class="productset flex-fill" :class="{ 'active': isProductoSeleccionado(producto) }"
+                              @click="agregarProducto(producto)">
+                              <div class="productsetimg">
+                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+                                 <h6>Cantidad: {{ producto.Stock }}</h6>
+                                 <div class="check-product" v-if="isProductoSeleccionado(producto)">
+                                    <i class="fa fa-check"></i>
+                                 </div>
+                              </div>
+                              <div class="productsetcontent">
+                                 <h5>{{ producto.Nombre }}</h5>
+                                 <h4>{{ producto.Descripcion }}</h4>
+                                 <h6>{{ producto.PrecioUnitario }}</h6>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div v-else class="text-center">No se encontraron productos.</div>
+                  </div>
+               </div>
+               <!-- Fin Listado de Productos -->
+            </div>
+         </div>
+         <br>
+         <br>
+         <div class="row">
+            <div class="col-md-9">
+               <div class="card-body pt-0">
+                  <div class="totalitem">
+                     <h4>Total de artículos: {{ productosSeleccionados.length }}</h4>
+                     <a href="javascript:void(0);" @click="limpiarProductos">Borrar todo</a>
+                  </div>
+                  <div class="product-table">
+                     <ul class="product-lists" v-for="producto in productosSeleccionados" :key="producto.idProducto">
+                        <li>
+                           <div class="productimg">
+                              <div class="productimgs">
+                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
+                              </div>
+                              <div class="productcontet">
+                                 <h4>
+                                    <font>{{ producto.Nombre }}</font>
+                                    <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
+                                       <img src="../../public/img/icons/edit-5.svg" alt="img">
+                                    </a>
+                                 </h4>
+                                 <div class="productlinkset">
+                                    <h5>{{ producto.idProducto }}</h5>
+                                 </div>
+                                 <div class="increment-decrement">
+                                    <div class="input-groups">
+                                       <input type="button" value="-" class="button-minus dec button"
+                                          @click="decrementarCantidad(producto)">
+                                       <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
+                                       <input type="button" value="+" class="button-plus inc button"
+                                          @click="incrementarCantidad(producto)">
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
+                        <li>
+                           <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
+                              <img src="../../public/img/icons/delete-2.svg" alt="img">
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-md-3">
+               <!-- Pago y suma de los productos -->
+               <div class="card-body pt-0 pb-2">
+                  <!-- Suma de los productos -->
+                  <h4>Informacion de venta</h4>
+                  <div class="setvalue">
+                     <ul>
+                        <li>
+                           <h5>Subtotal</h5>
+                           <h6>55.00$</h6>
+                        </li>
+                        <li>
+                           <h5>Impuesto</h5>
+                           <h6>5.00$</h6>
+                        </li>
+                        <li class="total-value">
+                           <h5>Total</h5>
+                           <h6>60.00$</h6>
+                        </li>
+                     </ul>
+                  </div>
+                  <!-- Fin de Suma de los productos -->
+
+                  <!-- Elegir Forma de pago -->
+                 
+                  <!-- Fin de Registrar Pago -->
+               </div>
+            </div>
+         </div>
          <div class="row" style=" padding: 10px;">
 
             <!-- Cliente -->
@@ -96,152 +220,7 @@
          </div>
 
          <!-- PRODUCTOS -->
-         <div class="row">
-            <div class="col-12">
-               <!-- Buscadores -->
-               <div class="page-header">
-                  <div class="page-title">
-                     <h4>Categorías</h4>
-                     <h6>Gestiona tus compras</h6>
-                  </div>
-               </div>
-               <div class="row mb-3">
-                  <div class="col-md-6">
-                     <input v-model="busquedaCategoria" type="text" class="form-control"
-                        placeholder="Buscar categoría...">
-                  </div>
-
-               </div>
-
-               <!-- Listado de Productos por categorias -->
-               <div class="col-lg-12 col-sm-12 tabs_wrapper">
-
-                  <!-- Listado de Categorias -->
-                  <ul class="tabs owl-carousel owl-theme owl-product border-0 owl-loaded">
-                     <div class="owl-stage-outer">
-                        <div class="owl-stage row">
-                           <div class="owl-item col-lg-2 col-sm-12 d-flex" v-for="categoria in categoriasFiltradas"
-                              :key="categoria.id">
-                              <li :class="{ active: categoriaActiva === categoria.id }"
-                                 @click="cambiarCategoria(categoria.id)">
-                                 <div class="product-details">
-                                    <h6>{{ categoria.nombre }}</h6>
-                                 </div>
-                              </li>
-                           </div>
-                        </div>
-                     </div>
-                  </ul>
-                  <!-- Fin de listado de Categorias -->
-                  <div class="row mb-3">
-
-                     <div class="col-md-6">
-                        <input v-model="busquedaProducto" type="text" class="form-control"
-                           placeholder="Buscar producto...">
-                     </div>
-                  </div>
-                  <!-- Listado de Productos -->
-                  <div class="tabs_container">
-                     <div class="tab_content active">
-                        <div class="row">
-                           <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados"
-                              :key="producto.idProducto">
-                              <div class="productset flex-fill" :class="{ 'active': isProductoSeleccionado(producto) }"
-                                 @click="agregarProducto(producto)">
-                                 <div class="productsetimg">
-                                    <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                                    <h6>Cantidad: {{ producto.Stock }}</h6>
-                                    <div class="check-product" v-if="isProductoSeleccionado(producto)">
-                                       <i class="fa fa-check"></i>
-                                    </div>
-                                 </div>
-                                 <div class="productsetcontent">
-                                    <h5>{{ producto.Nombre }}</h5>
-                                    <h4>{{ producto.Descripcion }}</h4>
-                                    <h6>{{ producto.PrecioUnitario }}</h6>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- Fin Listado de Productos -->
-               </div>
-            </div>
-         </div>
-
-         <div class="row">
-            <div class="col-md-8">
-               <div class="card-body pt-0">
-                  <div class="totalitem">
-                     <h4>Total de artículos: {{ productosSeleccionados.length }}</h4>
-                     <a href="javascript:void(0);" @click="limpiarProductos">Borrar todo</a>
-                  </div>
-                  <div class="product-table">
-                     <ul class="product-lists" v-for="producto in productosSeleccionados" :key="producto.idProducto">
-                        <li>
-                           <div class="productimg">
-                              <div class="productimgs">
-                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                              </div>
-                              <div class="productcontet">
-                                 <h4>
-                                    <font>{{ producto.Nombre }}</font>
-                                    <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
-                                       <img src="../../public/img/icons/edit-5.svg" alt="img">
-                                    </a>
-                                 </h4>
-                                 <div class="productlinkset">
-                                    <h5>{{ producto.idProducto }}</h5>
-                                 </div>
-                                 <div class="increment-decrement">
-                                    <div class="input-groups">
-                                       <input type="button" value="-" class="button-minus dec button"
-                                          @click="decrementarCantidad(producto)">
-                                       <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
-                                       <input type="button" value="+" class="button-plus inc button"
-                                          @click="incrementarCantidad(producto)">
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
-                        <li>
-                           <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
-                              <img src="../../public/img/icons/delete-2.svg" alt="img">
-                           </a>
-                        </li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-
-            <div class="col-md-4">
-               <!-- Pago y suma de los productos -->
-               <div class="card-body pt-0 pb-2">
-                  <!-- Suma de los productos -->
-                  <h4>Informacion de venta</h4>
-                  <div class="setvalue">
-                     <ul>
-                        <li>
-                           <h5>Subtotal</h5>
-                           <h6>55.00$</h6>
-                        </li>
-                        <li>
-                           <h5>Impuesto</h5>
-                           <h6>5.00$</h6>
-                        </li>
-                        <li class="total-value">
-                           <h5>Total</h5>
-                           <h6>60.00$</h6>
-                        </li>
-                     </ul>
-                  </div>
-                  <!-- Fin de Suma de los productos -->
-
-                  <!-- Elegir Forma de pago -->
-                  <div class="setvaluecash">
+         <div class="setvaluecash">
                      <ul>
                         <li>
                            <a href="javascript:void(0);" class="paymentmethod">
@@ -270,10 +249,7 @@
                      <h5>Caja</h5>
                      <h6>60.00$</h6>
                   </div>
-                  <!-- Fin de Registrar Pago -->
-               </div>
-            </div>
-         </div>
+
       </div>
    </div>
 </template>
@@ -286,31 +262,27 @@ import { useRouter } from 'vue-router';
 export default {
    data() {
       return {
-         categorias: [],
          productos: [], // Inicializar como array vacío
-         categoriaActiva: null,
          selectedComponent: null,
-         busquedaCategoria: '',
          busquedaProducto: '',
          productosSeleccionados: [],
       };
    },
    created() {
-      this.obtenerCategorias();
+      this.obtenerProductos();
    },
    computed: {
+
       totalVenta() {
          return this.productosSeleccionados.reduce((total, producto) => {
             return total + (producto.PrecioUnitario * producto.cantidad);
          }, 0);
       },
-      categoriasFiltradas() {
-         return this.categorias.filter(categoria =>
-            categoria.nombre.toLowerCase().includes(this.busquedaCategoria.toLowerCase())
-         );
-      },
+
       productosFiltrados() {
-         if (!this.productos) return []; // Retorna un array vacío si this.productos es undefined o null
+         if (!this.productos || this.busquedaProducto.length === 0) {
+            return [];
+         }
          return this.productos.filter(producto =>
             producto.Nombre.toLowerCase().includes(this.busquedaProducto.toLowerCase())
          );
@@ -323,6 +295,20 @@ export default {
       }
    },
    methods: {
+      async obtenerProductos() {
+         try {
+            const response = await axios.get('http://localhost:3000/api/v1/productos');
+            if (response.data.success) {
+               this.productos = response.data.productos || []; // Usa un array vacío si no hay productos
+            } else {
+               console.error(response.data.message);
+               this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+            }
+         } catch (error) {
+            console.error('Error al obtener productos:', error);
+            this.productos = []; // Asegúrate de que sea un array vacío en caso de error
+         }
+      },
       isProductoSeleccionado(producto) {
          console.log("Comprobando si está seleccionado:", producto);
          console.log("Productos seleccionados:", JSON.parse(JSON.stringify(this.productosSeleccionados)));
@@ -349,57 +335,24 @@ export default {
          // Implementa la lógica de edición aquí
       },
       incrementarCantidad(producto) {
-        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
-        if (index !== -1) {
-          this.productosSeleccionados[index].cantidad++;
-        }
+         const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+         if (index !== -1) {
+            this.productosSeleccionados[index].cantidad++;
+         }
       },
       decrementarCantidad(producto) {
-        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
-        if (index !== -1 && this.productosSeleccionados[index].cantidad > 1) {
-          this.productosSeleccionados[index].cantidad--;
-        }
+         const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+         if (index !== -1 && this.productosSeleccionados[index].cantidad > 1) {
+            this.productosSeleccionados[index].cantidad--;
+         }
       },
       eliminarProducto(producto) {
-        const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
-        if (index !== -1) {
-          this.productosSeleccionados.splice(index, 1);
-        }
-      },
-      async obtenerCategorias() {
-         try {
-            const response = await axios.get('http://localhost:3000/api/v1/categorias/');
-            if (response.data.success) {
-               this.categorias = response.data.categorias;
-               if (this.categorias.length > 0) {
-                  this.categoriaActiva = this.categorias[0].id;
-                  this.obtenerProductosPorCategoria(this.categoriaActiva);
-               }
-            } else {
-               console.error(response.data.message);
-            }
-         } catch (error) {
-            console.error('Error al obtener categorías:', error);
+         const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
+         if (index !== -1) {
+            this.productosSeleccionados.splice(index, 1);
          }
       },
-      async obtenerProductosPorCategoria(categoriaId) {
-         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/productos/filtrar/${categoriaId}`);
-            if (response.data.success) {
-               this.productos = response.data.productos || []; // Usa un array vacío si no hay productos
-            } else {
-               console.error(response.data.message);
-               this.productos = []; // Asegúrate de que sea un array vacío en caso de error
-            }
-         } catch (error) {
-            console.error('Error al obtener productos por categoría:', error);
-            this.productos = []; // Asegúrate de que sea un array vacío en caso de error
-         }
-      },
-      cambiarCategoria(categoriaId) {
-         this.categoriaActiva = categoriaId;
-         this.obtenerProductosPorCategoria(categoriaId);
-      },
+
       getProveedorImage(imagePath) {
          return imagePath
             ? `http://localhost:3000/api/v1/uploads/productos/${imagePath}`
