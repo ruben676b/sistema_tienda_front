@@ -2,18 +2,18 @@
    <div>
       <div class="container-fluid">
          <div class="row">
-            <div class="col-12">
+            <div class="col-12 ">
                <!-- Buscador general de productos -->
                <div class="order-list">
                   <div class="orderid">
                      <h4>Elegir Productos</h4>
                   </div>
                </div>
-               
-               <div class="row mb-3">
-                  
-                  <div class="col-md-6">
-                     
+
+               <div class="row mb-3 ">
+
+                  <div class="col-md-6 ">
+
                      <input v-model="busquedaProducto" type="text" class="form-control"
                         placeholder="Buscar producto...">
                   </div>
@@ -71,7 +71,7 @@
                                     </a>
                                  </h4>
                                  <div class="productlinkset">
-                                    <h5>{{ producto.idProducto }}</h5>
+                                    <h5>Stock: {{ producto.Stock }}</h5>
                                  </div>
                                  <div class="increment-decrement">
                                     <div class="input-groups">
@@ -120,7 +120,7 @@
                   <!-- Fin de Suma de los productos -->
 
                   <!-- Elegir Forma de pago -->
-                 
+
                   <!-- Fin de Registrar Pago -->
                </div>
             </div>
@@ -221,34 +221,34 @@
 
          <!-- PRODUCTOS -->
          <div class="setvaluecash">
-                     <ul>
-                        <li>
-                           <a href="javascript:void(0);" class="paymentmethod">
-                              <img src="../../public/img/icons/cash.svg" alt="img" class="me-2">
-                              <font>Efectivo</font>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="javascript:void(0);" class="paymentmethod">
-                              <img src="../../public/img/icons/debitcard.svg" alt="img" class="me-2">
-                              <font>Débito</font>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="javascript:void(0);" class="paymentmethod">
-                              <img src="../../public/img/icons/scan.svg" alt="img" class="me-2">
-                              <font>Escanear</font>
-                           </a>
-                        </li>
-                     </ul>
-                  </div>
-                  <!-- Fin de Elegir Forma de pago -->
+            <ul>
+               <li>
+                  <a href="javascript:void(0);" class="paymentmethod">
+                     <img src="../../public/img/icons/cash.svg" alt="img" class="me-2">
+                     <font>Efectivo</font>
+                  </a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);" class="paymentmethod">
+                     <img src="../../public/img/icons/debitcard.svg" alt="img" class="me-2">
+                     <font>Débito</font>
+                  </a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);" class="paymentmethod">
+                     <img src="../../public/img/icons/scan.svg" alt="img" class="me-2">
+                     <font>Escanear</font>
+                  </a>
+               </li>
+            </ul>
+         </div>
+         <!-- Fin de Elegir Forma de pago -->
 
-                  <!-- Registrar Pago -->
-                  <div class="btn-totallabel">
-                     <h5>Caja</h5>
-                     <h6>60.00$</h6>
-                  </div>
+         <!-- Registrar Pago -->
+         <div class="btn-totallabel">
+            <h5>Caja</h5>
+            <h6>60.00$</h6>
+         </div>
 
       </div>
    </div>
@@ -337,7 +337,18 @@ export default {
       incrementarCantidad(producto) {
          const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
          if (index !== -1) {
-            this.productosSeleccionados[index].cantidad++;
+            if(this.productosSeleccionados[index].cantidad<this.productosSeleccionados[index].Stock)
+            {
+
+               this.productosSeleccionados[index].cantidad++;
+            }
+            else{
+               Swal.fire({
+            title: 'Stock Maximo',
+            icon: "info",
+           
+         })
+            }
          }
       },
       decrementarCantidad(producto) {
