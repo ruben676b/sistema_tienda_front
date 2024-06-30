@@ -2,104 +2,44 @@
    <div>
       <div class="container-fluid">
          <div class="row">
-            <div class="col-12 ">
-               <!-- Buscador general de productos -->
+
+            <div class="col-md-3">
                <div class="order-list">
                   <div class="orderid">
-                     <h4>Elegir Productos</h4>
+                     <h4>Elegir Productos:</h4>
                   </div>
                </div>
-
-               <div class="row mb-3 ">
-
-                  <div class="col-md-6 ">
-
-                     <input v-model="busquedaProducto" type="text" class="form-control"
-                        placeholder="Buscar producto...">
-                  </div>
-               </div>
-               <!-- Listado de Productos -->
-               <div class="tabs_container">
-                  <div class="tab_content active">
-                     <div class="row" v-if="productosFiltrados.length > 0">
-                        <div class="col-lg-2 col-sm-12 d-flex" v-for="producto in productosFiltrados"
-                           :key="producto.idProducto">
-                           <div class="productset flex-fill" :class="{ 'active': isProductoSeleccionado(producto) }"
-                              @click="agregarProducto(producto)">
-                              <div class="productsetimg">
-                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                                 <h6>Cantidad: {{ producto.Stock }}</h6>
-                                 <div class="check-product" v-if="isProductoSeleccionado(producto)">
-                                    <i class="fa fa-check"></i>
-                                 </div>
-                              </div>
-                              <div class="productsetcontent">
-                                 <h5>{{ producto.Nombre }}</h5>
-                                 <h4>{{ producto.Descripcion }}</h4>
-                                 <h6>{{ producto.PrecioUnitario }}</h6>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div v-else class="text-center">No se encontraron productos.</div>
-                  </div>
-               </div>
-               <!-- Fin Listado de Productos -->
             </div>
+
+            <div class="col-md-10">
+               <BuscarProducto :busquedaProducto="busquedaProducto"
+                  @update:busquedaProducto="busquedaProducto = $event" />
+            </div>
+
+
+
+            <ListadoProductos :productosFiltrados="productosFiltrados" :isProductoSeleccionado="isProductoSeleccionado"
+               :agregarProducto="agregarProducto" :getProveedorImage="getProveedorImage" />
+
          </div>
          <br>
          <br>
          <div class="row">
             <div class="col-md-9">
                <div class="card-body pt-0">
-                  <div class="totalitem">
-                     <h4>Total de artículos: {{ productosSeleccionados.length }}</h4>
-                     <a href="javascript:void(0);" @click="limpiarProductos">Borrar todo</a>
-                  </div>
+                  <TotalArticulos :productosSeleccionados="productosSeleccionados"
+                     @limpiar-productos="limpiarProductos" />
                   <div class="product-table">
-                     <ul class="product-lists" v-for="producto in productosSeleccionados" :key="producto.idProducto">
-                        <li>
-                           <div class="productimg">
-                              <div class="productimgs">
-                                 <img :src="getProveedorImage(producto.RutaImagen)" alt="img">
-                              </div>
-                              <div class="productcontet">
-                                 <h4>
-                                    <font>{{ producto.Nombre }}</font>
-                                    <a href="javascript:void(0);" class="ms-2" @click="editarProducto(producto)">
-                                       <img src="../../public/img/icons/edit-5.svg" alt="img">
-                                    </a>
-                                 </h4>
-                                 <div class="productlinkset">
-                                    <h5>Stock: {{ producto.Stock }}</h5>
-                                 </div>
-                                 <div class="increment-decrement">
-                                    <div class="input-groups">
-                                       <input type="button" value="-" class="button-minus dec button"
-                                          @click="decrementarCantidad(producto)">
-                                       <input type="text" :value="producto.cantidad" class="quantity-field" readonly>
-                                       <input type="button" value="+" class="button-plus inc button"
-                                          @click="incrementarCantidad(producto)">
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li>{{ producto.PrecioUnitario * producto.cantidad }}</li>
-                        <li>
-                           <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
-                              <img src="../../public/img/icons/delete-2.svg" alt="img">
-                           </a>
-                        </li>
-                     </ul>
+                     <ProductoSeleccionado v-for="producto in productosSeleccionados" :key="producto.idProducto"
+                        :producto="producto" :getProveedorImage="getProveedorImage" @editar-producto="editarProducto"
+                        @decrementar-cantidad="decrementarCantidad" @incrementar-cantidad="incrementarCantidad"
+                        @eliminar-producto="eliminarProducto" />
                   </div>
                </div>
             </div>
 
             <div class="col-md-3">
-               <!-- Pago y suma de los productos -->
                <div class="card-body pt-0 pb-2">
-                  <!-- Suma de los productos -->
                   <h4>Informacion de venta</h4>
                   <div class="setvalue">
                      <ul>
@@ -117,151 +57,66 @@
                         </li>
                      </ul>
                   </div>
-                  <!-- Fin de Suma de los productos -->
-
-                  <!-- Elegir Forma de pago -->
-
-                  <!-- Fin de Registrar Pago -->
-               </div>
-            </div>
-         </div>
-         <div class="row" style=" padding: 10px;">
-
-            <!-- Cliente -->
-            <div class="col-md-4">
-               <div class="order-list">
-                  <div class="orderid">
-                     <h4>Datos del cliente</h4>
-                  </div>
-               </div>
-               <a href="javascript:void(0);" class="btn btn-adds" @click="openClientModal">
-                  <i class="fa fa-plus me-2"></i>
-                  <font>Agregar cliente</font>
-               </a>
-               <div class="card card-order">
-                  <div class="card-body">
-                     <div class="row">
-                        <!-- Agregar cliente ya existente -->
-                        <div class="select-split">
-                           <div class="select-group w-100">
-                              <select class="select select2-hidden-accessible" data-select2-id="1" tabindex="-1"
-                                 aria-hidden="true">
-                                 <option data-select2-id="3">Publico en general</option>
-                                 <option>Chris Moris</option>
-                              </select>
-                              <label class="col-form-label">Seleccionar cliente Existente</label>
-                              <span class="select2 select2-container select2-container--default" dir="ltr"
-                                 data-select2-id="2" style="width: 100%;">
-                                 <span class="selection">
-                                    <span class="select2-selection select2-selection--single" role="combobox"
-                                       aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false"
-                                       aria-labelledby="select2-y9w0-container">
-                                       <span class="select2-selection__rendered" id="select2-y9w0-container"
-                                          role="textbox" aria-readonly="true" title="Walk-in Customer">Cliente sin
-                                          cita previa</span>
-                                    </span>
-                                 </span>
-                                 <span class="dropdown-wrapper" aria-hidden="true"></span>
-                              </span>
-                           </div>
-                        </div>
-                        <!-- Fin Agregar cliente ya existente -->
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            <!-- Renderiza el componente según la elección del usuario -->
-            <component :is="selectedComponent" />
-
-            <div class="col-md-4">
-               <!-- Informacion de la factura o boleta de la venta -->
-               <div class="order-list">
-                  <div class="orderid">
-                     <h4>Datos de comprobante</h4>
-                     <h5>ID de transacción : #65565</h5>
-                  </div>
-               </div>
-               <div>
-                  <label class="col-form-label">Tipo de comprobante</label>
-                  <select class="js-example-basic-single select2 select2-hidden-accessible" data-select2-id="18"
-                     tabindex="-1" aria-hidden="true">
-                     <option selected="selected" data-select2-id="20">Factura</option>
-                     <option data-select2-id="99">white</option>
-                     <option data-select2-id="100">purple</option>
-                  </select><span class="select2 select2-container select2-container--default select2-container--below"
-                     dir="ltr" data-select2-id="19" style="width: 66px;"><span class="selection"><span
-                           class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
-                           aria-expanded="false" tabindex="0" aria-disabled="false"
-                           aria-labelledby="select2-htm5-container"><span class="select2-selection__rendered"
-                              id="select2-htm5-container" role="textbox" aria-readonly="true"
-                              title="orange">Factura</span></span></span><span class="dropdown-wrapper"
-                        aria-hidden="true"></span></span>
-               </div>
-
-               <label class="col-form-label">Serie</label>
-               <input type="text" class="form-control">
-
-               <label class="col-form-label">Numero</label>
-               <input type="text" class="form-control">
-               <!-- Fin Informacion de la factura o boleta de la venta -->
-            </div>
-            <div class="col-md-4">
-               <div class="order-list">
-                  <div class="orderid">
-                     <h4>Datos de venta</h4>
-                     <label class="col-form-label">Fecha</label>
-                     <input type="date" class="form-control">
-                     <label class="col-form-label">IGV</label>
-                     <input type="text" value="18 %" class="form-control" disabled="disabled">
-                  </div>
                </div>
             </div>
          </div>
 
-         <!-- PRODUCTOS -->
-         <div class="setvaluecash">
-            <ul>
-               <li>
-                  <a href="javascript:void(0);" class="paymentmethod">
-                     <img src="../../public/img/icons/cash.svg" alt="img" class="me-2">
-                     <font>Efectivo</font>
-                  </a>
-               </li>
-               <li>
-                  <a href="javascript:void(0);" class="paymentmethod">
-                     <img src="../../public/img/icons/debitcard.svg" alt="img" class="me-2">
-                     <font>Débito</font>
-                  </a>
-               </li>
-               <li>
-                  <a href="javascript:void(0);" class="paymentmethod">
-                     <img src="../../public/img/icons/scan.svg" alt="img" class="me-2">
-                     <font>Escanear</font>
-                  </a>
-               </li>
-            </ul>
-         </div>
-         <!-- Fin de Elegir Forma de pago -->
+         <div class="row">
+            <div class="col-6">
+               <div class="form-group">
+                  <label for="tipoComprobante">Tipo de Comprobante</label>
+                  <select v-model="tipoComprobante" class="form-control" id="tipoComprobante">
+                     <option value="">Seleccione un tipo de comprobante</option>
+                     <option value="factura">Factura</option>
+                     <option value="boleta">Boleta</option>
+                     <option value="ticket">Ticket</option>
+                  </select>
+               </div>
+               <div v-if="tipoComprobante === 'factura'">
+                  <ComprobanteFactura :datos="datosComprobante" />
+               </div>
+               <div v-if="tipoComprobante === 'boleta'">
+                  <ComprobanteBoleta :datos="datosComprobante" />
+               </div>
+            </div>
+            <div class="col-6">
+               <DatosCliente @open-client-modal="openClientModal" />
+            </div>
 
-         <!-- Registrar Pago -->
-         <div class="btn-totallabel">
-            <h5>Caja</h5>
-            <h6>60.00$</h6>
          </div>
-
       </div>
    </div>
 </template>
 
 <script>
+import BuscarProducto from './BuscarProducto.vue';
+import ListadoProductos from './ListadoProductos.vue';
+import TotalArticulos from './TotalArticulos.vue';
+import ProductoSeleccionado from './ProductoSeleccionado.vue';
+import DatosCliente from './DatosCliente.vue';
+import ComprobanteFactura from './ComprobanteFactura.vue';
+import ComprobanteBoleta from './ComprobanteBoleta.vue';
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
 
 export default {
+   components: {
+      BuscarProducto,
+      ListadoProductos,
+      TotalArticulos,
+      ProductoSeleccionado,
+      DatosCliente,
+      ComprobanteFactura,
+      ComprobanteBoleta,
+   },
    data() {
       return {
+         tipoComprobante: '',
+         datosComprobante: {
+            fecha: new Date().toISOString().slice(0, 10),
+            // otros datos necesarios
+         },
          productos: [], // Inicializar como array vacío
          selectedComponent: null,
          busquedaProducto: '',
@@ -337,17 +192,16 @@ export default {
       incrementarCantidad(producto) {
          const index = this.productosSeleccionados.findIndex(p => p.IdProducto === producto.IdProducto);
          if (index !== -1) {
-            if(this.productosSeleccionados[index].cantidad<this.productosSeleccionados[index].Stock)
-            {
+            if (this.productosSeleccionados[index].cantidad < this.productosSeleccionados[index].Stock) {
 
                this.productosSeleccionados[index].cantidad++;
             }
-            else{
+            else {
                Swal.fire({
-            title: 'Stock Maximo',
-            icon: "info",
-           
-         })
+                  title: 'Stock Maximo',
+                  icon: "info",
+
+               })
             }
          }
       },
