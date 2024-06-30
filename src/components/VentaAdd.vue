@@ -79,9 +79,14 @@
                   <ComprobanteBoleta :datos="datosComprobante" />
                </div>
             </div>
-            <div class="col-6">
-               <DatosCliente @open-client-modal="openClientModal" />
-            </div>
+            <div class="col-lg-6">
+        <div v-if="tipoCliente === 'juridico'">
+          <ClienteJuridico />
+        </div>
+        <div v-if="tipoCliente === 'natural'">
+          <ClienteNatural />
+        </div>
+      </div>
 
          </div>
       </div>
@@ -97,6 +102,9 @@ import DatosCliente from './DatosCliente.vue';
 import ComprobanteFactura from './ComprobanteFactura.vue';
 import ComprobanteBoleta from './ComprobanteBoleta.vue';
 
+import ClienteJuridico from '../components/ClienteAddJuridico.vue';
+import ClienteNatural from '../components/ClienteAddNatural.vue';
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -109,20 +117,25 @@ export default {
       DatosCliente,
       ComprobanteFactura,
       ComprobanteBoleta,
+      ClienteJuridico,
+      ClienteNatural,
    },
    data() {
       return {
          tipoComprobante: '',
+         tipoCliente: '',
          datosComprobante: {
-            fecha: new Date().toISOString().slice(0, 10),
-            // otros datos necesarios
-         },
+        fecha: new Date().toISOString().substring(0, 10),
+        serie: '',
+        numero: '',
+      },
          productos: [], // Inicializar como array vacío
          selectedComponent: null,
          busquedaProducto: '',
          productosSeleccionados: [],
       };
    },
+   
    created() {
       this.obtenerProductos();
    },
@@ -148,6 +161,17 @@ export default {
             uniqueId: `${producto.IdProducto}-${index}`
          }));
       }
+   },
+   watch: {
+    tipoComprobante(newVal) {
+      if (newVal === 'factura') {
+        this.tipoCliente = 'juridico';
+      } else if (newVal === 'boleta') {
+        this.tipoCliente = 'natural';
+      } else {
+        this.tipoCliente = '';
+      }
+    },
    },
    methods: {
       async obtenerProductos() {
