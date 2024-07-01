@@ -6,15 +6,14 @@ import Estadisticas from "@/components/Estadisticas.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import store from "@/store";
 
-import ProductList from '@/components/ProductList.vue';
-import ProvedorList from '@/components/ProvedorList.vue';
-import ProvedorAdd from '@/components/ProvedorAdd.vue';
-import ProvedorEdit from '@/components/ProveedorEdit';
-import AddCategoria from '@/components/AddCategoria.vue';
-import ModifyProduct from '@/components/ModifyProduct.vue';
-
-
 import ProductList from "@/components/ProductList.vue";
+import ProvedorList from "@/components/ProvedorList.vue";
+import ProvedorAdd from "@/components/ProvedorAdd.vue";
+import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Corregido el nombre del archivo
+import AddCategoria from "@/components/AddCategoria.vue";
+import ModifyCategoria from "@/components/ModifyCategoria.vue";
+import ListCategoria from "@/components/ListCategoria.vue";
+import AddCustomer from "@/components/AddCustomer.vue"
 import AddProduct from "@/components/Productadd.vue";
 
 const routes = [
@@ -58,37 +57,32 @@ const routes = [
         path: 'provedorEdit/:id',
         name: 'ProvedorEdit',
         component: ProvedorEdit
-      }
+      },
       {
         path: 'categoria',
         name: 'AddCategoria',
         component: AddCategoria
       },
       {
-        path: 'modifypro',
-        name: 'ModifyProduct',
-        component: ModifyProduct
+        path: 'modifyCate',
+        name: 'ModifyCategoria',
+        component: ModifyCategoria
       },
-      // {
-      //   path: 'add-product',
-      //   name: 'AddProduct',
-      //   component: AddProduct
-      // },
+      {
+        path: 'listCate',
+        name: 'ListCategoria',
+        component: ListCategoria
+      },
+      {
+        path: 'AddClients',
+        name: 'AddCustomer',
+        component: AddCustomer
+      },
       {
         path: "add-product",
         name: "AddProduct",
         component: AddProduct,
       },
-      // {
-      //   path: 'categories',
-      //   name: 'CategoryList',
-      //   component: CategoryList
-      // },
-      // {
-      //   path: 'add-category',
-      //   name: 'AddCategory',
-      //   component: AddCategory
-      // },
     ],
   },
   {
