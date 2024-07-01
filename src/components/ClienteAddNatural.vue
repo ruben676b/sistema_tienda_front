@@ -49,7 +49,7 @@ export default {
       return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     },
     async buscarClienteNatural() {
-      if (this.cliente.NombreCliente.trim().length >= 3) {
+      if (this.cliente.NombreCliente.trim().length >= 1) {
         try {
           const response = await axios.get('http://localhost:3000/api/v1/clientes-naturales');
           const clientes = response.data.clientes || [];
