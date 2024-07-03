@@ -1,6 +1,10 @@
 <template>
   <div>
     <h4>Datos del Cliente Jurídico</h4>
+    <div v-if="clienteSeleccionado && clienteUsado" class="mt-3">
+      <strong>Cliente seleccionado: </strong>{{ cliente.RUCCliente }}
+    </div>
+    <br>
     <div class="form-group">
       <label>RUC Cliente</label>
       <input type="text" v-model="cliente.RUCCliente" @input="buscarClienteJuridico" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
@@ -55,6 +59,7 @@ export default {
       sugerencias: [],
       clienteIdParaVenta: null,
       clienteOriginal: null,
+      clienteUsado: false,
       clienteSeleccionado: false,
       modoEdicion: false,
     };
@@ -83,6 +88,7 @@ export default {
       this.clienteIdParaVenta = clienteSeleccionado.IdCliente;
       this.clienteSeleccionado = true;
       this.modoEdicion = false;
+      this.clienteUsado = false;
       this.sugerencias = [];
     },
     async agregarNuevoCliente() {
@@ -105,7 +111,8 @@ export default {
       }
     },
     usarClienteExistente() {
-      Swal.fire('Cliente seleccionado', `Se usará el cliente con ID: ${this.clienteIdParaVenta}`, 'info');
+      this.clienteUsado = true;
+      //Swal.fire('Cliente seleccionado', `Se usará el cliente con ID: ${this.clienteIdParaVenta}`, 'info');
       // Aquí puedes agregar la lógica para usar este cliente en el registro de venta
     },
     habilitarEdicion() {

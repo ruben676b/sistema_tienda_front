@@ -1,9 +1,13 @@
 <template>
   <div>
     <h4>Datos del Cliente Natural</h4>
+    <div v-if="clienteSeleccionado && clienteUsado" class="mt-3">
+      <strong>Cliente seleccionado: </strong>{{ cliente.NombreCliente }}
+    </div>
+    <br>
     <div class="form-group">
       <label>Nombre del Cliente</label>
-      <input type="text" v-model="cliente.NombreCliente" @input="buscarClienteNatural" class="form-control">
+      <input type="text" v-model="cliente.NombreCliente" @input="buscarClienteNatural" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
       <ul v-if="sugerencias.length > 0" class="list-group mt-2">
         <li v-for="sugerencia in sugerencias" :key="sugerencia.IdCliente" 
             class="list-group-item list-group-item-action"
@@ -14,17 +18,24 @@
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input type="text" v-model="cliente.Email" class="form-control">
+      <input type="text" v-model="cliente.Email" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
     </div>
     <div class="form-group">
       <label>Teléfono</label>
-      <input type="text" v-model="cliente.Telefono" class="form-control">
+      <input type="text" v-model="cliente.Telefono" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
     </div>
     <div class="form-group">
       <label>Dirección</label>
-      <input type="text" v-model="cliente.DireccionCliente" class="form-control">
+      <input type="text" v-model="cliente.DireccionCliente" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
     </div>
-    <button class="btn btn-submit me-2" @click="agregarClienteNatural">Enviar</button>
+    <div class="mt-3">
+      <button v-if="!clienteSeleccionado" class="btn btn-primary me-2" @click="agregarNuevoCliente">Agregar Nuevo Cliente</button>
+      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-success me-2" @click="usarClienteExistente">Usar Cliente Existente</button>
+      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-warning me-2" @click="habilitarEdicion">Modificar Cliente</button>
+      <button v-if="modoEdicion" class="btn btn-info me-2" @click="guardarModificaciones">Guardar Modificaciones</button>
+      <button v-if="clienteSeleccionado || modoEdicion" class="btn btn-secondary" @click="cancelar">Cancelar</button>
+    </div>
+
   </div>
 </template>
 
@@ -42,22 +53,22 @@ export default {
         DireccionCliente: '',
       },
       sugerencias: [],
+      clienteIdParaVenta: null,
+      clienteOriginal: null,
+      clienteUsado: false,
+      clienteSeleccionado: false,
+      modoEdicion: false,
     };
   },
   methods: {
-    normalizarTexto(texto) {
-      return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    },
     async buscarClienteNatural() {
       if (this.cliente.NombreCliente.trim().length >= 1) {
         try {
           const response = await axios.get('http://localhost:3000/api/v1/clientes-naturales');
           const clientes = response.data.clientes || [];
-          
-          const nombreClienteNormalizado = this.normalizarTexto(this.cliente.NombreCliente.trim());
           this.sugerencias = clientes.filter(cliente => 
-            this.normalizarTexto(cliente.NombreCliente).includes(nombreClienteNormalizado)
-          ).slice(0, 5); // Limita a 5 sugerencias
+            cliente.NombreCliente.toLowerCase().includes(this.cliente.NombreCliente.trim().toLowerCase())
+          ).slice(0, 5);
         } catch (error) {
           console.error('Error al buscar el cliente:', error);
           this.sugerencias = [];
@@ -67,46 +78,25 @@ export default {
       }
     },
     seleccionarCliente(clienteSeleccionado) {
+      this.clienteOriginal = { ...clienteSeleccionado };
       this.cliente = { ...clienteSeleccionado };
+      this.clienteIdParaVenta = clienteSeleccionado.IdCliente;
+      this.clienteSeleccionado = true;
+      this.clienteUsado = false;
+      this.modoEdicion = false;
       this.sugerencias = [];
     },
-    async agregarClienteNatural() {
-      try {
-        const clienteExistente = await this.verificarClienteExistente();
-        if (clienteExistente) {
-          Swal.fire({
-            title: 'Cliente Existente',
-            text: '¿Deseas actualizar la información del cliente?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, actualizar',
-            cancelButtonText: 'No, cancelar'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.actualizarCliente(clienteExistente.IdCliente);
-            }
-          });
-        } else {
-          this.crearNuevoCliente();
-        }
-      } catch (error) {
-        Swal.fire('Error', 'Hubo un problema al procesar la solicitud.', 'error');
-      }
-    },
-    async verificarClienteExistente() {
-      const response = await axios.get('http://localhost:3000/api/v1/clientes-naturales');
-      const clientes = response.data.clientes || [];
-      return clientes.find(c => 
-        this.normalizarTexto(c.NombreCliente) === this.normalizarTexto(this.cliente.NombreCliente) &&
-        this.normalizarTexto(c.Email) === this.normalizarTexto(this.cliente.Email)
-      );
-    },
-    async crearNuevoCliente() {
+    async agregarNuevoCliente() {
       try {
         const response = await axios.post('http://localhost:3000/api/v1/clientes-naturales', this.cliente);
         if (response.data.success) {
+          this.clienteIdParaVenta = response.data.id;
           Swal.fire('Cliente Natural agregado exitosamente!', '', 'success');
-          this.limpiarFormulario();
+          // Seleccionar automáticamente el nuevo cliente creado
+          this.seleccionarCliente({
+            ...this.cliente,
+            IdCliente: this.clienteIdParaVenta
+          });
         } else {
           Swal.fire('Error al agregar cliente natural', response.data.message, 'error');
         }
@@ -114,17 +104,37 @@ export default {
         Swal.fire('Error', 'Hubo un problema al agregar el cliente natural.', 'error');
       }
     },
-    async actualizarCliente(idCliente) {
+    usarClienteExistente() {
+      this.clienteUsado = true;
+      //Swal.fire('Cliente seleccionado', `Se usará el cliente con ID: ${this.clienteIdParaVenta}`, 'info');
+      // Aquí puedes agregar la lógica para usar este cliente en el registro de venta
+    },
+    
+    habilitarEdicion() {
+      this.modoEdicion = true;
+    },
+    async guardarModificaciones() {
       try {
-        const response = await axios.put(`http://localhost:3000/api/v1/clientes-naturales/${idCliente}`, this.cliente);
+        const response = await axios.put(`http://localhost:3000/api/v1/clientes-naturales/${this.clienteIdParaVenta}`, this.cliente);
         if (response.data.success) {
-          Swal.fire('Cliente Natural actualizado exitosamente!', '', 'success');
-          this.limpiarFormulario();
+          Swal.fire('Cliente actualizado exitosamente!', '', 'success');
+          this.modoEdicion = false;
+          this.clienteOriginal = { ...this.cliente };
         } else {
-          Swal.fire('Error al actualizar cliente natural', response.data.message, 'error');
+          Swal.fire('Error al actualizar cliente', response.data.message, 'error');
         }
       } catch (error) {
-        Swal.fire('Error', 'Hubo un problema al actualizar el cliente natural.', 'error');
+        Swal.fire('Error', 'Hubo un problema al actualizar el cliente.', 'error');
+      }
+    },
+    cancelar() {
+      if (this.modoEdicion) {
+        // Si estaba en modo edición, restaurar los datos originales
+        this.cliente = { ...this.clienteOriginal };
+        this.modoEdicion = false;
+      } else {
+        // Si no estaba en modo edición, limpiar completamente el formulario
+        this.limpiarFormulario();
       }
     },
     limpiarFormulario() {
@@ -135,6 +145,10 @@ export default {
         DireccionCliente: '',
       };
       this.sugerencias = [];
+      this.clienteOriginal = null;
+      this.clienteSeleccionado = false;
+      this.modoEdicion = false;
+      this.clienteIdParaVenta = null;
     },
   },
 };
