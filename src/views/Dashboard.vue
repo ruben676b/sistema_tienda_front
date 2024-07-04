@@ -130,10 +130,14 @@
                     <router-link to="/dashboard/categories"
                       >Category List</router-link
                     >
+                    <router-link to="/dashboard/categories"
+                      >Category List</router-link
+                    >
                   </li>
+
                   <li>
-                    <router-link to="/dashboard/add-category"
-                      >Add Category</router-link
+                    <router-link to="/dashboard/añadirMarca"
+                      >Lista marcas</router-link
                     >
                   </li>
                 </ul>
@@ -213,6 +217,30 @@
                   </li>
                 </ul>
               </li>
+
+              <!-- Venta Submenu -->
+              <li class="submenu">
+                <a
+                  :class="submenus.venta ? 'subdrop' : ''"
+                  @click="toggleSubmenu('venta')"
+                  ><img
+                    src="../../public/img/icons/sales1.svg"
+                    alt="img" /><span> Ventas</span>
+                  <span class="menu-arrow"></span
+                ></a>
+                <ul :style="{ display: submenus.venta ? 'block' : 'none' }">
+                  <li>
+                    <router-link to="/dashboard/ventaList"
+                      >Listado de ventas</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/ventaAdd"
+                      >Añadir Ventas</router-link
+                    >
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
@@ -238,6 +266,7 @@ export default {
         client: false,
         venta: false,
         provedor: false,
+        venta: false,
       },
     };
   },

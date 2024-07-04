@@ -267,7 +267,7 @@ export default {
     },
     getProveedorImage(imagePath) {
       return imagePath
-        ? `http://localhost:3000/api/v1/uploads/productos/${imagePath}`
+        ? `http://localhost:3000/api/v1/uploads/Productos/${imagePath}`
         : "../../public/img/product/noimage.png";
     },
     formatFechaVencimiento(fecha) {
@@ -278,6 +278,9 @@ export default {
     this.fetchProducts();
   },
 };
+
+let res2 = axios.get("http://localhost:3000/api/v1/marcas");
+console.log(res2);
 </script>
 
 <style scoped>

@@ -11,9 +11,19 @@ import ProvedorAdd from "@/components/ProvedorAdd.vue";
 import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
 
 import AddProduct from "@/components/Productadd.vue";
+
 import ProductCompare from "@/components/ProductCompare.vue";
 import ProductEdit from "@/components/ProductEdit.vue";
 import DetailProduct from "@/components/DetailProduct.vue";
+
+// VENTAS RUTAS
+import VentaList from "@/components/VentaList.vue";
+import VentaAdd from "@/components/VentaAdd.vue";
+
+import ClienteAddJuridico from "@/components/ClienteAddJuridico.vue";
+import ClienteAddNatural from "@/components/ClienteAddNatural.vue";
+
+import AñadirMarca from "@/components/MarcaList.vue";
 const routes = [
   {
     path: "/login",
@@ -76,6 +86,37 @@ const routes = [
         name: "DetailProduct",
         component: DetailProduct,
       },
+      {
+        path: "ventaAdd",
+        name: "VentaAdd",
+        component: VentaAdd,
+      },
+      {
+        path: "ventaList",
+        name: "VentaList",
+        component: VentaList,
+      },
+      {
+        path: "clienteAddJuridico",
+        name: "ClienteAddJuridico",
+        component: ClienteAddJuridico,
+      },
+      {
+        path: "clienteAddNatural",
+        name: "ClienteAddNatural",
+        component: ClienteAddNatural,
+      },
+      {
+        path: "añadirMarca",
+        name: "añadirMarca",
+        component: AñadirMarca,
+      },
+      // {
+      //   path: "ProductoEdit/:id",
+      //   name: "ProductoEdit",
+      //   component: EditProduct,
+      // },
+
       // {
       //   path: 'categories',
       //   name: 'CategoryList',
