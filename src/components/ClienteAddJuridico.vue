@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h4>Datos del Cliente Jurídico</h4>
+    <div class="order-list">
+                        <div class="orderid">
+                          <h4>Datos del Cliente Jurídico</h4>
+                        </div>
+                     </div>
     <div v-if="clienteSeleccionado && clienteUsado" class="mt-3">
       <strong>Cliente seleccionado: </strong>{{ cliente.RUCCliente }}
     </div>
@@ -161,6 +165,7 @@ export default {
 
 <style scoped>
 .list-group {
+  background-color: aqua;
   position: absolute;
   z-index: 1000;
   width: 100%;

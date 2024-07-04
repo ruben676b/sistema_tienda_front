@@ -61,5 +61,5 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos específicos si es necesario */
+
 </style>

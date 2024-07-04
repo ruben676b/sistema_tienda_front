@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h4>Datos del Cliente Natural</h4>
+    <div class="order-list">
+                        <div class="orderid">
+                          <h4>Datos del Cliente Natural</h4>
+                        </div>
+                     </div>
     <div v-if="clienteSeleccionado && clienteUsado" class="mt-3">
       <strong>Cliente seleccionado: </strong>{{ cliente.NombreCliente }}
     </div>
@@ -158,5 +162,7 @@ export default {
   position: absolute;
   z-index: 1000;
   width: 100%;
+  
 }
+
 </style>

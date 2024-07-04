@@ -1,6 +1,11 @@
 <template>
     <div>
-      <h4>Datos de Boleta</h4>
+      <div class="order-list">
+                        <div class="orderid">
+                          <h4>Datos de Boleta</h4>
+                        </div>
+                     </div>
+      
       <div class="form-group">
         <label for="fecha">Fecha</label>
         <input type="text" class="form-control" :value="datos.fecha" readonly>

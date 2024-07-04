@@ -61,9 +61,14 @@
             </div>
 
             <div class="row">
+               
                <div class="col-6">
                   <div class="form-group">
-                     <label for="tipoComprobante">Tipo de Comprobante</label>
+                     <div class="order-list">
+                        <div class="orderid">
+                           <h4 for="tipoComprobante">Tipo de Comprobante</h4>
+                        </div>
+                     </div>
                      <select v-model="tipoComprobante" class="form-control" id="tipoComprobante">
                         <option value="">Seleccione un tipo de comprobante</option>
                         <option value="factura">Factura</option>
@@ -87,10 +92,19 @@
                   </div>
                </div>
             </div>
-            <div class="row">
-               <div class="col-md-6">
+            <br>
+            <div class="row" style="padding-top: 20px;">
+               <div class="col-md-2">
+                  <div class="order-list">
+                     <div class="orderid">
+                        <h4 for="formaPago">Forma de pago:</h4>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+
                   <div class="form-group">
-                     <label for="formaPago">Forma de pago</label>
+
                      <select v-model="idFormaPago" class="form-control" id="formaPago">
                         <option value="">Seleccione una forma de pago</option>
                         <option v-for="formaPago in formasPago" :key="formaPago.IdFormaPago"
@@ -100,13 +114,15 @@
                      </select>
                   </div>
                </div>
-               <div class="row mt-4">
-                  <div class="col-md-12">
-                     <button @click="registrarVenta" class="btn btn-primary">
-                        Registrar Venta
-                     </button>
+               <div class="col-md-4">
+                  <div class="col-md-8">
+                     <div @click="registrarVenta" class="btn-totallabel">
+                        <h5>Caja</h5>
+                        <h6>{{ formatearPrecio(total) }}$</h6>
+                     </div>
                   </div>
                </div>
+
             </div>
          </div>
       </div>
@@ -345,22 +361,22 @@ export default {
          return imagePath ? `http://localhost:3000/api/v1/uploads/productos/${imagePath}` : "../../public/img/product/noimage.png";
       },
       limpiarFormulario() {
-      this.productosSeleccionados = [];
-      this.idFormaPago = null;
-      this.tipoComprobante = '';
-      this.datosComprobante = {
-        fecha: new Date().toISOString().substring(0, 10),
-        serie: '',
-        numero: '',
-      };
-      this.idCliente = null;
-      this.publicoGeneral = 0;
-      this.calcularTotales();
-    },
+         this.productosSeleccionados = [];
+         this.idFormaPago = null;
+         this.tipoComprobante = '';
+         this.datosComprobante = {
+            fecha: new Date().toISOString().substring(0, 10),
+            serie: '',
+            numero: '',
+         };
+         this.idCliente = null;
+         this.publicoGeneral = 0;
+         this.calcularTotales();
+      },
 
    },
-   
-   
+
+
 };
 </script>
 
