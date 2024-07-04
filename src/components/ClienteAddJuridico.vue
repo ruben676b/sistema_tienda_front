@@ -34,7 +34,7 @@
     </div>
     <div class="mt-3">
       <button v-if="!clienteSeleccionado" class="btn btn-primary me-2" @click="agregarNuevoCliente">Agregar Nuevo Cliente</button>
-      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-success me-2" @click="usarClienteExistente">Usar Cliente Existente</button>
+      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-success me-2" @click="usarClienteExistente">Usar Cliente </button>
       <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-warning me-2" @click="habilitarEdicion">Modificar Cliente</button>
       <button v-if="modoEdicion" class="btn btn-info me-2" @click="guardarModificaciones">Guardar Modificaciones</button>
       <button v-if="clienteSeleccionado || modoEdicion" class="btn btn-secondary" @click="cancelar">Cancelar</button>
@@ -111,10 +111,9 @@ export default {
       }
     },
     usarClienteExistente() {
-      this.clienteUsado = true;
-      //Swal.fire('Cliente seleccionado', `Se usará el cliente con ID: ${this.clienteIdParaVenta}`, 'info');
-      // Aquí puedes agregar la lógica para usar este cliente en el registro de venta
-    },
+  this.clienteUsado = true;
+  this.$emit('cliente-seleccionado', this.clienteIdParaVenta);
+},
     habilitarEdicion() {
       this.modoEdicion = true;
     },

@@ -30,6 +30,7 @@ export default createStore({
           commit('setUser', data.usuario);
           commit('setToken', data.token);
           localStorage.setItem('token', data.token);
+          console.log(data)
         } else {
           throw new Error(data.message || 'Error en el inicio de sesión');
         }

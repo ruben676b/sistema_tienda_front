@@ -105,10 +105,9 @@ export default {
       }
     },
     usarClienteExistente() {
-      this.clienteUsado = true;
-      //Swal.fire('Cliente seleccionado', `Se usará el cliente con ID: ${this.clienteIdParaVenta}`, 'info');
-      // Aquí puedes agregar la lógica para usar este cliente en el registro de venta
-    },
+  this.clienteUsado = true;
+  this.$emit('cliente-seleccionado', this.clienteIdParaVenta);
+},
     
     habilitarEdicion() {
       this.modoEdicion = true;
