@@ -1,4 +1,3 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
@@ -9,13 +8,19 @@ import store from "@/store";
 import ProductList from "@/components/ProductList.vue";
 import ProvedorList from "@/components/ProvedorList.vue";
 import ProvedorAdd from "@/components/ProvedorAdd.vue";
+import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
+
+import ProvedorList from "@/components/ProvedorList.vue";
+import ProvedorAdd from "@/components/ProvedorAdd.vue";
 import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Corregido el nombre del archivo
 import AddCategoria from "@/components/AddCategoria.vue";
 import ModifyCategoria from "@/components/ModifyCategoria.vue";
 import ListCategoria from "@/components/ListCategoria.vue";
 import AddCustomer from "@/components/AddCustomer.vue"
 import AddProduct from "@/components/Productadd.vue";
-
+import ProductCompare from "@/components/ProductCompare.vue";
+import ProductEdit from "@/components/ProductEdit.vue";
+import DetailProduct from "@/components/DetailProduct.vue";
 const routes = [
   {
     path: "/login",
@@ -44,16 +49,20 @@ const routes = [
         component: ProductList,
       },
       {
-        path: 'provedorList',
-        name: 'ProvedorList',
-        component: ProvedorList
+        path: "provedorList",
+        name: "ProvedorList",
+        component: ProvedorList,
       },
       {
-        path: 'provedorAdd',
-        name: 'ProvedorAdd',
-        component: ProvedorAdd
+        path: "provedorAdd",
+        name: "ProvedorAdd",
+        component: ProvedorAdd,
       },
       {
+        path: "provedorEdit/:id",
+        name: "ProvedorEdit",
+        component: ProvedorEdit,
+      },
         path: 'provedorEdit/:id',
         name: 'ProvedorEdit',
         component: ProvedorEdit
@@ -79,10 +88,35 @@ const routes = [
         component: AddCustomer
       },
       {
-        path: "add-product",
+        path: "addProduct",
         name: "AddProduct",
         component: AddProduct,
       },
+      {
+        path: "productCompare",
+        name: "productCompare",
+        component: ProductCompare,
+      },
+      {
+        path: "ProductEdit/:id",
+        name: "ProductEdit",
+        component: ProductEdit,
+      },
+      {
+        path: "DetailProduct/:id",
+        name: "DetailProduct",
+        component: DetailProduct,
+      },
+      // {
+      //   path: 'categories',
+      //   name: 'CategoryList',
+      //   component: CategoryList
+      // },
+      // {
+      //   path: 'add-category',
+      //   name: 'AddCategory',
+      //   component: AddCategory
+      // },
     ],
   },
   {

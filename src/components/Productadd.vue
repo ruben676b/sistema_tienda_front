@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="content">
+    <div>
       <div class="row">
         <div class="page-header">
           <div class="page-title">
@@ -22,45 +22,69 @@
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Precio Unitario</label>
-                      <input type="text" id="PrecioUnitario" v-model="precioUnitario" />
+                      <input
+                        type="number"
+                        id="PrecioUnitario"
+                        v-model="precioUnitario"
+                      />
                     </div>
                   </div>
 
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Precio Total</label>
-                      <input type="text" id="PrecioTotal" v-model="precioTotal" />
+                      <input
+                        type="number"
+                        id="PrecioTotal"
+                        v-model="precioTotal"
+                      />
                     </div>
                   </div>
 
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Fecha de Vencimiento</label>
-                      <input type="date" id="fechaVencimiento" v-model="fechaVencimiento" />
+                      <input
+                        type="date"
+                        id="fechaVencimiento"
+                        v-model="fechaVencimiento"
+                      />
                     </div>
                   </div>
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Stock</label>
-                      <input type="text" id="stock" v-model="stock" />
+                      <input type="number" id="stock" v-model="stock" />
                     </div>
                   </div>
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Stock Minimo</label>
-                      <input type="text" id="stockMinimo" v-model="stockMinimo" />
+                      <input
+                        type="number"
+                        id="stockMinimo"
+                        v-model="stockMinimo"
+                      />
                     </div>
                   </div>
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Unidad de medida</label>
-                      <input type="text" id="unidadMedida" v-model="unidadMedida" />
+                      <input
+                        type="text"
+                        id="unidadMedida"
+                        v-model="unidadMedida"
+                      />
                     </div>
                   </div>
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Codigo de barra</label>
-                      <input type="text" id="codigoBarra" v-model="codigoBarra" />
+                      <input
+                        type="text"
+                        id="codigoBarra"
+                        v-model="codigoBarra"
+                      />
                     </div>
                   </div>
 
@@ -68,6 +92,7 @@
                     <label style="margin-bottom: 7px">Elige la Marca</label>
                     <select class="select" id="marca"></select>
                   </div>
+
                   <div class="col-lg-3 col-sm-6 col-12">
                     <label style="margin-bottom: 7px">Elige la Categoria</label>
                     <select class="select" id="categoria"></select>
@@ -79,15 +104,28 @@
 
                   <div class="form-group">
                     <label>Descripcion</label>
-                    <textarea class="form-control" id="Descripcion" v-model="descripcion"></textarea>
+                    <textarea
+                      class="form-control"
+                      id="Descripcion"
+                      v-model="descripcion"
+                    ></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="formFile" class="form-label">Subir imagen del Producto</label>
-                    <input class="form-control" type="file" id="formFile" @change="handleFileUpload" />
+                    <label for="formFile" class="form-label"
+                      >Subir imagen del Producto</label
+                    >
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="formFile"
+                      @change="handleFileUpload"
+                    />
                   </div>
 
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-submit me-2">Añadir Producto</button>
+                    <button type="submit" class="btn btn-submit me-2">
+                      Añadir Producto
+                    </button>
                   </div>
                 </form>
               </div>
@@ -154,21 +192,30 @@ export default {
       formData.append("imagen-producto", this.file);
 
       try {
-        const response = await fetch("http://localhost:3000/api/v1/productos/", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          "http://localhost:3000/api/v1/productos/",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (response.ok) {
-          
-          Swal.fire("Añadido!", "El producto ha sido añadido Correctamente.", "success");
+          Swal.fire(
+            "Añadido!",
+            "El producto ha sido añadido Correctamente.",
+            "success"
+          );
           // window.location.href = "/dashboard/products";
         } else {
           throw new Error("Error al añadir producto");
         }
       } catch (error) {
-        console.error("Error enviando datos:", error);
-        alert("Hubo un error al añadir el producto");
+        Swal.fire(
+          "Producto no Añadido!",
+          "Asegurese de rellenar todos los campos! .",
+          "warning"
+        );
       }
     });
   },
