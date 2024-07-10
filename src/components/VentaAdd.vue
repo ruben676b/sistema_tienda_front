@@ -259,7 +259,7 @@ export default {
     async registrarVenta() {
       const datosVenta = {
         venta: {
-          IdUsuario: this.user ? this.user.id : null,
+          IdUsuario: this.user ? this.user.id : 29,
           FechaVenta: new Date().toISOString().slice(0, 19).replace("T", " "),
           Total: this.total,
           IdFormaPago: this.idFormaPago,

@@ -8,6 +8,7 @@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
       <!-- Header -->
+      <!-- ... (mantener el código del header sin cambios) ... -->
       <div class="header">
         <div class="header-left active">
           <router-link to="/dashboard/estadisticas" class="logo">
@@ -85,23 +86,24 @@
           </div>
         </div>
       </div>
-
       <!-- Sidebar -->
-      <div class="sidebar" id="sidebar">
+      <div v-if="isAdmin" class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
           <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-              <li class="active">
+              <!-- Estadísticas (solo para admin) -->
+              <li v-if="isAdmin" class="active">
                 <router-link to="/dashboard/estadisticas">
                   <img
                     src="../../public/img/icons/dashboard.svg"
                     alt="dashboard"
                   />
-                  <span>Estadisticas</span>
+                  <span>Estadísticas</span>
                 </router-link>
               </li>
-              <!-- PRODUCTOS -->
-              <li class="submenu">
+
+              <!-- PRODUCTOS (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
                 <a
                   :class="submenus.product ? 'subdrop' : ''"
                   @click="toggleSubmenu('product')"
@@ -130,11 +132,7 @@
                     <router-link to="/dashboard/categories"
                       >Category List</router-link
                     >
-                    <router-link to="/dashboard/categories"
-                      >Category List</router-link
-                    >
                   </li>
-
                   <li>
                     <router-link to="/dashboard/añadirMarca"
                       >Lista marcas</router-link
@@ -142,8 +140,10 @@
                   </li>
                 </ul>
               </li>
-              <!-- CLIENTE -->
-              <li class="submenu">
+
+              <!-- CLIENTE (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
+                <!-- ... (mantener el código del submenu de cliente) ... -->
                 <a
                   :class="submenus.client ? 'subdrop' : ''"
                   @click="toggleSubmenu('client')"
@@ -194,8 +194,9 @@
                 </ul>
               </li>
 
-              <!-- PROVEDOR -->
-              <li class="submenu">
+              <!-- PROVEEDOR (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
+                <!-- ... (mantener el código del submenu de proveedor) ... -->
                 <a
                   :class="submenus.provedor ? 'subdrop' : ''"
                   @click="toggleSubmenu('provedor')"
@@ -218,18 +219,19 @@
                 </ul>
               </li>
 
-              <!-- Venta Submenu -->
-              <li class="submenu">
+              <!-- Venta Submenu (para admin y cajero) -->
+              <li class="submenu" v-if="isCajero">
+                <div style="display: none"></div>
                 <a
                   :class="submenus.venta ? 'subdrop' : ''"
                   @click="toggleSubmenu('venta')"
-                  ><img
-                    src="../../public/img/icons/sales1.svg"
-                    alt="img" /><span> Ventas</span>
-                  <span class="menu-arrow"></span
-                ></a>
+                >
+                  <img src="../../public/img/icons/sales1.svg" alt="img" />
+                  <span>Ventas</span>
+                  <span class="menu-arrow"></span>
+                </a>
                 <ul :style="{ display: submenus.venta ? 'block' : 'none' }">
-                  <li>
+                  <li v-if="isAdmin">
                     <router-link to="/dashboard/ventaList"
                       >Listado de ventas</router-link
                     >
@@ -237,6 +239,25 @@
                   <li>
                     <router-link to="/dashboard/ventaAdd"
                       >Añadir Ventas</router-link
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <!-- GRÁFICOS (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
+                <a
+                  :class="submenus.graficos ? 'subdrop' : ''"
+                  @click="toggleSubmenu('graficos')"
+                >
+                  <img src="../../public/img/icons/time.svg" alt="img" />
+                  <span>Gráficos</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <ul :style="{ display: submenus.graficos ? 'block' : 'none' }">
+                  <li>
+                    <router-link to="/dashboard/graficos"
+                      >Ver gráficos</router-link
                     >
                   </li>
                 </ul>
@@ -266,9 +287,22 @@ export default {
         client: false,
         venta: false,
         provedor: false,
-        venta: false,
+        graficos: false,
       },
     };
+  },
+  computed: {
+    userRole() {
+      return this.$store.state.user
+        ? this.$store.state.user.TipoUsuario.toLowerCase()
+        : null;
+    },
+    isAdmin() {
+      return this.userRole === "admin";
+    },
+    isCajero() {
+      return this.userRole === "cajero";
+    },
   },
   methods: {
     toggleSubmenu(submenu) {
@@ -278,6 +312,9 @@ export default {
 };
 </script>
 
+<style scoped>
+/* ... (mantener los estilos sin cambios) ... */
+</style>
 <style scoped>
 /* Estilo para el sidebar y submenú */
 .sidebar-inner {
