@@ -23,9 +23,9 @@
             Seleccione el tipo de datos que quiere visualizar:
           </option>
           <option value="ventas">Ventas</option>
-          <option value="productos">Productos</option>
-          <option value="clientes">Clientes</option>
-          <option value="categorias">Categorías</option>
+          <option value="productos">Productos más vendidos</option>
+          <option value="clientes">Tipos de Clientes</option>
+          <option value="categorias">Productos por Categoría</option>
           <option value="devoluciones">Devoluciones</option>
           <option value="vendedores">Top Vendedores</option>
         </select>
@@ -40,10 +40,10 @@
     </div>
     <div v-if="tipoVisualizacion === 'vendedores'" class="col-6 mt-3">
       <select class="form-control" v-model="periodoVendedores">
-        <option value="dia">Últimos 7 días</option>
-        <option value="semana">Últimas 4 semanas</option>
-        <option value="mes">Este mes</option>
-        <option value="anual">Este año</option>
+        <option value="7dias">Últimos 7 días</option>
+        <option value="4semanas">Últimas 4 semanas</option>
+        <option value="mesActual">Este mes</option>
+        <option value="anioActual">Este año</option>
       </select>
     </div>
     <div class="row mt-4">
@@ -67,6 +67,7 @@
 
 <script>
 import { Chart, registerables } from "chart.js";
+import axios from "axios";
 Chart.register(...registerables);
 
 export default {
@@ -74,7 +75,7 @@ export default {
     return {
       tipoVisualizacion: "",
       periodoVentas: "dia",
-      periodoVendedores: "dia",
+      periodoVendedores: "7dias",
       charts: {},
       chartConfigs: [
         { id: "chartBar", title: "Gráfico de Barras", type: "bar" },
@@ -127,114 +128,119 @@ export default {
         });
       }
     },
-    actualizarGraficos() {
+    async actualizarGraficos() {
       let datos;
-      switch (this.tipoVisualizacion) {
-        case "ventas":
-          datos = this.getDatosVentas();
-          break;
-        case "productos":
-          datos = this.getDatosProductos();
-          break;
-        case "clientes":
-          datos = this.getDatosClientes();
-          break;
-        case "categorias":
-          datos = this.getDatosCategorias();
-          break;
-        case "devoluciones":
-          datos = this.getDatosDevoluciones();
-          break;
-        case "vendedores":
-          datos = this.getDatosVendedores();
-          break;
-        default:
-          datos = this.getDatosVentas();
-      }
-
-      this.chartConfigs.forEach((config) => {
-        if (
-          ["pie", "doughnut"].includes(config.type) &&
-          this.tipoVisualizacion !== "vendedores"
-        ) {
-          this.inicializarGrafico(
-            config.id,
-            config.type,
-            this.convertirDatosParaCircular(datos)
-          );
-        } else {
-          this.inicializarGrafico(config.id, config.type, datos);
+      try {
+        switch (this.tipoVisualizacion) {
+          case "ventas":
+            datos = await this.getDatosVentas();
+            break;
+          case "productos":
+            datos = await this.getDatosProductos();
+            break;
+          case "clientes":
+            datos = await this.getDatosClientes();
+            break;
+          case "categorias":
+            datos = await this.getDatosCategorias();
+            break;
+          case "devoluciones":
+            datos = await this.getDatosDevoluciones();
+            break;
+          case "vendedores":
+            datos = await this.getDatosVendedores();
+            break;
+          default:
+            datos = await this.getDatosVentas();
         }
-      });
-    },
-    getDatosVentas() {
-      // Simulación de datos de ventas
-      switch (this.periodoVentas) {
-        case "dia":
-          return {
-            labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-            datasets: [
-              {
-                label: "Ventas por Día",
-                data: [1200, 1900, 3000, 5000, 2000, 3000, 1000],
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                borderColor: "rgba(75, 192, 192, 1)",
-                borderWidth: 1,
-              },
-            ],
-          };
-        case "mes":
-          return {
-            labels: [
-              "Ene",
-              "Feb",
-              "Mar",
-              "Abr",
-              "May",
-              "Jun",
-              "Jul",
-              "Ago",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dic",
-            ],
-            datasets: [
-              {
-                label: "Ventas por Mes",
-                data: [
-                  65000, 59000, 80000, 81000, 56000, 55000, 40000, 45000, 70000,
-                  75000, 60000, 85000,
-                ],
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1,
-              },
-            ],
-          };
-        case "anio":
-          return {
-            labels: ["2020", "2021", "2022", "2023", "2024"],
-            datasets: [
-              {
-                label: "Ventas por Año",
-                data: [500000, 650000, 750000, 800000, 900000],
-                backgroundColor: "rgba(54, 162, 235, 0.2)",
-                borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1,
-              },
-            ],
-          };
+
+        this.chartConfigs.forEach((config) => {
+          if (
+            ["pie", "doughnut"].includes(config.type) &&
+            this.tipoVisualizacion !== "vendedores"
+          ) {
+            this.inicializarGrafico(
+              config.id,
+              config.type,
+              this.convertirDatosParaCircular(datos)
+            );
+          } else {
+            this.inicializarGrafico(config.id, config.type, datos);
+          }
+        });
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
       }
     },
-    getDatosProductos() {
-      // Simulación de datos de productos más vendidos
+    async getDatosVentas() {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/estadisticas/ventas/${this.periodoVentas}`
+      );
+      const datos = response.data.datos;
+
+      if (this.periodoVentas === "dia") {
+        return {
+          labels: datos.map((d) =>
+            new Date(d.Fecha).toLocaleDateString("es-ES", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })
+          ),
+          datasets: [
+            {
+              label: `Ventas por día`,
+              data: datos.map((d) => d.TotalVentas),
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        };
+      } else if (this.periodoVentas === "mes") {
+        return {
+          labels: datos.map((d) =>
+            new Date(d.Anio, d.Mes - 1).toLocaleDateString("es-ES", {
+              month: "long",
+              year: "numeric",
+            })
+          ),
+          datasets: [
+            {
+              label: `Ventas por mes`,
+              data: datos.map((d) => d.TotalVentas),
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        };
+      } else if (this.periodoVentas === "anio") {
+        return {
+          labels: datos.map((d) => d.Anio.toString()),
+          datasets: [
+            {
+              label: `Ventas por año`,
+              data: datos.map((d) => d.TotalVentas),
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        };
+      }
+    },
+    async getDatosProductos() {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/estadisticas/productos-mas-vendidos"
+      );
+      const datos = response.data.datos;
       return {
-        labels: ["Leche", "Pan", "Galletas", "Cereal", "Arroz"],
+        labels: datos.map((d) => d.Nombre),
         datasets: [
           {
             label: "Unidades Vendidas",
-            data: [500, 300, 400, 200, 600],
+            data: datos.map((d) => d.UnidadesVendidas),
             backgroundColor: "rgba(255, 206, 86, 0.2)",
             borderColor: "rgba(255, 206, 86, 1)",
             borderWidth: 1,
@@ -242,14 +248,17 @@ export default {
         ],
       };
     },
-    getDatosClientes() {
-      // Simulación de datos de tipos de clientes
+    async getDatosClientes() {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/estadisticas/tipos-clientes"
+      );
+      const datos = response.data.datos;
       return {
-        labels: ["Natural", "Jurídico", "Público"],
+        labels: datos.map((d) => d.TipoCliente),
         datasets: [
           {
             label: "Número de Clientes",
-            data: [30, 15, 5],
+            data: datos.map((d) => d.NumeroClientes),
             backgroundColor: "rgba(153, 102, 255, 0.2)",
             borderColor: "rgba(153, 102, 255, 1)",
             borderWidth: 1,
@@ -257,23 +266,17 @@ export default {
         ],
       };
     },
-    getDatosCategorias() {
-      // Simulación de datos de categorías de productos
+    async getDatosCategorias() {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/estadisticas/productos-por-categoria"
+      );
+      const datos = response.data.datos;
       return {
-        labels: [
-          "LACTEOS",
-          "JUGUETES",
-          "REFRESCOS",
-          "COMIDA",
-          "SOYA",
-          "AGUA",
-          "MAIZ",
-          "CAFE",
-        ],
+        labels: datos.map((d) => d.Nombre),
         datasets: [
           {
             label: "Número de Productos",
-            data: [10, 5, 8, 15, 3, 6, 4, 7],
+            data: datos.map((d) => d.NumeroProductos),
             backgroundColor: "rgba(255, 159, 64, 0.2)",
             borderColor: "rgba(255, 159, 64, 1)",
             borderWidth: 1,
@@ -281,163 +284,87 @@ export default {
         ],
       };
     },
-    getDatosDevoluciones() {
-      // Simulación de datos de devoluciones
+    async getDatosDevoluciones() {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/estadisticas/devoluciones"
+      );
+      const datos = response.data.datos;
       return {
-        labels: [
-          "Producto en mal estado",
-          "Error en la entrega",
-          "Cambio de opinión",
-          "Producto defectuoso",
-        ],
+        labels: datos.map((d) => d.Fecha),
         datasets: [
           {
             label: "Número de Devoluciones",
-            data: [5, 3, 2, 4],
-            backgroundColor: "rgba(201, 203, 207, 0.2)",
-            borderColor: "rgba(201, 203, 207, 1)",
+            data: datos.map((d) => d.NumeroDevoluciones),
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
             borderWidth: 1,
           },
         ],
       };
     },
-    getDatosVendedores() {
-      // Simulación de datos
-      const generarDatosAleatorios = (meses) => {
-        return Array.from({ length: meses }, () => ({
-          ventas: Math.floor(Math.random() * 500) + 100,
-          total: Math.floor(Math.random() * 50000) + 10000,
-        }));
-      };
-
-      const vendedores = [
-        { nombre: "Vendedor1", datos: generarDatosAleatorios(12) },
-        { nombre: "Vendedor2", datos: generarDatosAleatorios(12) },
-        { nombre: "Vendedor3", datos: generarDatosAleatorios(12) },
-        { nombre: "Vendedor4", datos: generarDatosAleatorios(12) },
-        { nombre: "Vendedor5", datos: generarDatosAleatorios(12) },
-      ];
-
-      let labels, datos;
-      switch (this.periodoVendedores) {
-        case "dia":
-          labels = Array.from({ length: 7 }, (_, i) => `Día ${i + 1}`);
-          datos = vendedores.map((v) => ({
-            nombre: v.nombre,
-            ventas: v.datos.slice(0, 7).map((d) => d.ventas),
-          }));
-          break;
-        case "semana":
-          labels = ["Sem 1", "Sem 2", "Sem 3", "Sem 4"];
-          datos = vendedores.map((v) => ({
-            nombre: v.nombre,
-            ventas: v.datos.slice(0, 4).map((d) => d.ventas),
-          }));
-          break;
-        case "mes":
-          labels = ["Este mes"];
-          datos = vendedores.map((v) => ({
-            nombre: v.nombre,
-            ventas: [v.datos[0].ventas],
-          }));
-          break;
-        case "anual":
-          labels = [
-            "Ene",
-            "Feb",
-            "Mar",
-            "Abr",
-            "May",
-            "Jun",
-            "Jul",
-            "Ago",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dic",
-          ];
-          datos = vendedores.map((v) => ({
-            nombre: v.nombre,
-            ventas: v.datos.map((d) => d.ventas),
-          }));
-          break;
-      }
-
+    async getDatosVendedores() {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/estadisticas/vendedores-top/${this.periodoVendedores}`
+      );
+      const datos = response.data.datos;
       return {
-        labels: labels,
-        datasets: vendedores.map((v, index) => ({
-          label: v.nombre,
-          data: datos.find((d) => d.nombre === v.nombre).ventas,
-          backgroundColor: `rgba(${index * 50}, ${
-            255 - index * 50
-          }, ${150}, 0.2)`,
-          borderColor: `rgba(${index * 50}, ${255 - index * 50}, ${150}, 1)`,
-          borderWidth: 1,
-          fill: false,
-        })),
+        labels: datos.map((d) => d.Nombre),
+        datasets: [
+          {
+            label: "Ventas Totales",
+            data: datos.map((d) => d.TotalVentas),
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 1,
+          },
+        ],
       };
     },
     convertirDatosParaCircular(datos) {
-      if (!datos || !datos.datasets || !datos.datasets[0]) {
-        console.error("Invalid data structure for circular chart");
-        return {
-          labels: [],
-          datasets: [
-            {
-              data: [],
-              backgroundColor: [],
-              borderColor: [],
-              borderWidth: 1,
-            },
-          ],
-        };
-      }
-
-      const colors = [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-        "rgba(201, 203, 207, 0.2)",
-        "rgba(255, 99, 132, 0.2)",
-      ];
-
       return {
         labels: datos.labels,
         datasets: [
           {
             data: datos.datasets[0].data,
-            backgroundColor: colors.slice(0, datos.labels.length),
-            borderColor: colors
-              .slice(0, datos.labels.length)
-              .map((color) => color.replace("0.2", "1")),
-            borderWidth: 1,
+            backgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#FF9F40",
+              "#4BC0C0",
+              "#9966FF",
+              "#FF6384",
+            ],
+            hoverBackgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#FF9F40",
+              "#4BC0C0",
+              "#9966FF",
+              "#FF6384",
+            ],
           },
         ],
       };
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      this.actualizarGraficos();
-    });
+    this.actualizarGraficos();
   },
 };
 </script>
 
-<style>
-.h-300 {
+<style scoped>
+.page-header {
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+.card-body {
+  position: relative;
   height: 300px;
-}
-.mb-4 {
-  margin-bottom: 1rem;
-}
-.mt-3 {
-  margin-top: 0.75rem;
-}
-.mt-4 {
-  margin-top: 1rem;
 }
 </style>
