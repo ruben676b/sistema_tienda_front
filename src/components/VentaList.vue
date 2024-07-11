@@ -219,8 +219,8 @@
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Tipo de Comprobante</th>
-            <th>Serie</th>
-            <th>Número</th>
+            <th>Serie_Número</th>
+          
             <th>Total</th>
             <th>Forma de Pago</th>
             <th>ID Usuario</th>
@@ -232,8 +232,7 @@
             <td>{{ formatDate(venta.FechaVenta) }}</td>
             <td>{{ getNombreCliente(venta) }}</td>
             <td>{{ venta.TipoComprobante }}</td>
-            <td>{{ venta.Serie }}</td>
-            <td>{{ venta.Numero }}</td>
+            <td>{{ venta.Serie + venta.Numero }}</td>
             <td>{{ venta.Total }}</td>
             <td>{{ venta.FormaPago }}</td>
             <td>{{ venta.IdUsuario }}</td>
