@@ -18,25 +18,57 @@
                       <input type="text" id="nombre" v-model="nombre" />
                     </div>
                   </div>
-
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                      <label>Precio Unitario</label>
+                      <label>Stock</label>
                       <input
                         type="number"
-                        id="PrecioUnitario"
-                        v-model="precioUnitario"
+                        id="stock"
+                        v-model="stock"
+                        @input="calcularPrecioTotal"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Stock Minimo</label>
+                      <input
+                        type="number"
+                        id="stockMinimo"
+                        v-model="stockMinimo"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Precio de Compra</label>
+                      <input
+                        type="number"
+                        id="PrecioCompra"
+                        v-model="precioCompra"
+                        @input="calcularPrecioTotal"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                      <label>Precio de Venta</label>
+                      <input
+                        type="number"
+                        id="PrecioVenta"
+                        v-model="precioVenta"
                       />
                     </div>
                   </div>
 
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                      <label>Precio Total</label>
+                      <label>Precio de compra Total</label>
                       <input
                         type="number"
                         id="PrecioTotal"
                         v-model="precioTotal"
+                        readonly
                       />
                     </div>
                   </div>
@@ -51,22 +83,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label>Stock</label>
-                      <input type="number" id="stock" v-model="stock" />
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label>Stock Minimo</label>
-                      <input
-                        type="number"
-                        id="stockMinimo"
-                        v-model="stockMinimo"
-                      />
-                    </div>
-                  </div>
+
                   <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                       <label>Unidad de medida</label>
@@ -142,10 +159,11 @@ export default {
   data() {
     return {
       nombre: "",
-      precioUnitario: "",
-      precioTotal: "",
+      precioCompra: 0,
+      precioVenta: "",
+      precioTotal: 0,
       fechaVencimiento: "",
-      stock: "",
+      stock: 0,
       stockMinimo: "",
       unidadMedida: "",
       codigoBarra: "",
@@ -179,7 +197,8 @@ export default {
       let formData = new FormData();
       formData.append("Nombre", this.nombre);
       formData.append("Descripcion", this.descripcion);
-      formData.append("PrecioUnitario", this.precioUnitario);
+      formData.append("PrecioCompra", this.precioCompra);
+      formData.append("PrecioVenta", this.precioVenta);
       formData.append("PrecioTotal", this.precioTotal);
       formData.append("FechaVencimiento", this.fechaVencimiento);
       formData.append("Stock", this.stock);
@@ -220,6 +239,9 @@ export default {
     });
   },
   methods: {
+    calcularPrecioTotal() {
+      this.precioTotal = this.precioCompra * this.stock;
+    },
     handleFileUpload(event) {
       this.file = event.target.files[0];
     },
@@ -271,7 +293,6 @@ export default {
   },
 };
 </script>
-
 <style>
 /* Estilos opcionales */
 </style>
