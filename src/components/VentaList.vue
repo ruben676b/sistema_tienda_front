@@ -6,7 +6,7 @@
         <h6 _msttexthash="361400" _msthash="174">Gestiona tus ventas</h6>
       </div>
       <div class="page-btn">
-        <a href="add-sales.html" class="btn btn-added"
+        <router-link to="/dashboard/ventaAdd" href="add-sales.html" class="btn btn-added"
           ><img
             src="../../public/img/icons/plus.svg"
             alt="img"
@@ -17,7 +17,7 @@
           <font _mstmutation="1" _msttexthash="233012" _msthash="176"
             >Agregar ventas</font
           >
-        </a>
+        </router-link>
       </div>
     </div>
 

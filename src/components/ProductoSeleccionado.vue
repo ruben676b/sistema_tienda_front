@@ -27,8 +27,8 @@
             </div>
          </div>
       </li>
-      <li>S/ {{ producto.PrecioUnitario }}</li>
-      <li>S/ {{ formatearPrecio(producto.PrecioUnitario * producto.cantidad) }}</li>
+      <li>S/ {{ producto.PrecioVenta }}</li>
+      <li>S/ {{ formatearPrecio(producto.PrecioVenta * producto.cantidad) }}</li>
       <li>
          <a class="confirm-text" href="javascript:void(0);" @click="eliminarProducto(producto)">
             <img src="../../public/img/icons/delete-2.svg" alt="img">

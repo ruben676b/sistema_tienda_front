@@ -15,7 +15,7 @@
                    <div class="productsetcontent">
                       <h5>{{ producto.Nombre }}</h5>
                       <h4>{{ producto.Descripcion }}</h4>
-                      <h6>{{ producto.PrecioUnitario }}</h6>
+                      <h6>{{ producto.PrecioVenta }}</h6>
                    </div>
                 </div>
              </div>

@@ -223,7 +223,7 @@ export default {
     },
     totalVenta() {
       return this.productosSeleccionados.reduce((total, producto) => {
-        return total + producto.PrecioUnitario * producto.cantidad;
+        return total + producto.PrecioVenta * producto.cantidad;
       }, 0);
     },
     productosFiltrados() {
@@ -330,7 +330,7 @@ export default {
         doc.text(
           `${index + 1}. ${producto.Nombre} - Cantidad: ${
             producto.cantidad
-          } - Precio: $${producto.PrecioUnitario.toFixed(2)}`,
+          } - Precio: $${producto.PrecioVenta.toFixed(2)}`,
           30,
           yPos
         );
@@ -376,7 +376,7 @@ export default {
         detallesVenta: this.productosSeleccionados.map((producto) => ({
           IdProducto: producto.IdProducto,
           Cantidad: producto.cantidad,
-          PrecioUnitario: parseFloat(producto.PrecioUnitario),
+          PrecioVenta: parseFloat(producto.PrecioVenta),
         })),
         comprobante: {
           TipoComprobante: this.tipoComprobante,
@@ -449,7 +449,7 @@ export default {
     },
     calcularTotales() {
       this.total = this.productosSeleccionados.reduce((total, producto) => {
-        return total + producto.PrecioUnitario * producto.cantidad;
+        return total + producto.PrecioVenta * producto.cantidad;
       }, 0);
       this.impuesto = this.total * 0.18;
       this.subtotal = this.total - this.impuesto;
