@@ -1,24 +1,28 @@
 <template>
   <div>
     <div class="order-list">
-                        <div class="orderid">
-                          <h4>Datos del Cliente Natural</h4>
-                        </div>
-                     </div>
+      <div class="orderid">
+        <h4>Datos del Cliente Natural</h4>
+      </div>
+    </div>
     <div v-if="clienteSeleccionado && clienteUsado" class="mt-3">
       <strong>Cliente seleccionado: </strong>{{ cliente.NombreCliente }}
     </div>
     <br>
     <div class="form-group">
-      <label>Nombre del Cliente</label>
-      <input type="text" v-model="cliente.NombreCliente" @input="buscarClienteNatural" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
+      <label>DNI</label>
+      <input type="text" v-model="cliente.DNI" @input="buscarClienteNatural" class="form-control" :disabled="clienteSeleccionado && !modoEdicion" maxlength="8">
       <ul v-if="sugerencias.length > 0" class="list-group mt-2">
         <li v-for="sugerencia in sugerencias" :key="sugerencia.IdCliente" 
             class="list-group-item list-group-item-action"
             @click="seleccionarCliente(sugerencia)">
-          {{ sugerencia.NombreCliente }} - {{ sugerencia.Email }}
+          {{ sugerencia.DNI }} - {{ sugerencia.NombreCliente }}
         </li>
       </ul>
+    </div>
+    <div class="form-group">
+      <label>Nombre del Cliente</label>
+      <input type="text" v-model="cliente.NombreCliente" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
     </div>
     <div class="form-group">
       <label>Email</label>
@@ -34,12 +38,11 @@
     </div>
     <div class="mt-3">
       <button v-if="!clienteSeleccionado" class="btn btn-primary me-2" @click="agregarNuevoCliente">Agregar Nuevo Cliente</button>
-      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-success me-2" @click="usarClienteExistente">Usar Cliente Existente</button>
+      <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-success me-2" @click="usarClienteExistente">Usar Cliente </button>
       <button v-if="clienteSeleccionado && !modoEdicion" class="btn btn-warning me-2" @click="habilitarEdicion">Modificar Cliente</button>
       <button v-if="modoEdicion" class="btn btn-info me-2" @click="guardarModificaciones">Guardar Modificaciones</button>
       <button v-if="clienteSeleccionado || modoEdicion" class="btn btn-secondary" @click="cancelar">Cancelar</button>
     </div>
-
   </div>
 </template>
 
@@ -55,6 +58,7 @@ export default {
         Email: '',
         Telefono: '',
         DireccionCliente: '',
+        DNI: '',
       },
       sugerencias: [],
       clienteIdParaVenta: null,
@@ -66,12 +70,13 @@ export default {
   },
   methods: {
     async buscarClienteNatural() {
-      if (this.cliente.NombreCliente.trim().length >= 1) {
+      if (this.cliente.DNI.length >= 1) {
         try {
           const response = await axios.get('http://localhost:3000/api/v1/clientes-naturales');
           const clientes = response.data.clientes || [];
+          
           this.sugerencias = clientes.filter(cliente => 
-            cliente.NombreCliente.toLowerCase().includes(this.cliente.NombreCliente.trim().toLowerCase())
+            cliente.DNI && cliente.DNI.startsWith(this.cliente.DNI)
           ).slice(0, 5);
         } catch (error) {
           console.error('Error al buscar el cliente:', error);
@@ -96,7 +101,6 @@ export default {
         if (response.data.success) {
           this.clienteIdParaVenta = response.data.id;
           Swal.fire('Cliente Natural agregado exitosamente!', '', 'success');
-          // Seleccionar automáticamente el nuevo cliente creado
           this.seleccionarCliente({
             ...this.cliente,
             IdCliente: this.clienteIdParaVenta
@@ -109,10 +113,9 @@ export default {
       }
     },
     usarClienteExistente() {
-  this.clienteUsado = true;
-  this.$emit('cliente-seleccionado', this.clienteIdParaVenta);
-},
-    
+      this.clienteUsado = true;
+      this.$emit('cliente-seleccionado', this.clienteIdParaVenta);
+    },
     habilitarEdicion() {
       this.modoEdicion = true;
     },
@@ -132,11 +135,9 @@ export default {
     },
     cancelar() {
       if (this.modoEdicion) {
-        // Si estaba en modo edición, restaurar los datos originales
         this.cliente = { ...this.clienteOriginal };
         this.modoEdicion = false;
       } else {
-        // Si no estaba en modo edición, limpiar completamente el formulario
         this.limpiarFormulario();
       }
     },
@@ -146,6 +147,7 @@ export default {
         Email: '',
         Telefono: '',
         DireccionCliente: '',
+        DNI: '',
       };
       this.sugerencias = [];
       this.clienteOriginal = null;
@@ -162,7 +164,5 @@ export default {
   position: absolute;
   z-index: 1000;
   width: 100%;
-  
 }
-
 </style>
