@@ -12,12 +12,9 @@
       </div>
       <div class="form-group">
         <label for="serie">Serie</label>
-        <input type="text" class="form-control" v-model="datos.serie">
+        <input type="text" class="form-control" value="datos.serie" v-model="datos.serie" >
       </div>
-      <div class="form-group">
-        <label for="numero">Número</label>
-        <input type="text" class="form-control" v-model="datos.numero">
-      </div>
+      
       <!-- Otros campos específicos de la boleta -->
     </div>
   </template>

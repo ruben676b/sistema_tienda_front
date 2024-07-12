@@ -188,7 +188,7 @@ export default {
       tipoCliente: "",
       datosComprobante: {
         fecha: new Date().toISOString().substring(0, 10),
-        serie: "",
+        serie: "FRK",
         numero: "",
       },
       productos: [],
@@ -381,7 +381,6 @@ export default {
         comprobante: {
           TipoComprobante: this.tipoComprobante,
           Serie: this.datosComprobante.serie,
-          Numero: parseInt(this.datosComprobante.numero),
         },
       };
 
@@ -406,6 +405,7 @@ export default {
           datosVenta
         );
         if (response.data.success) {
+          this.datosComprobante.numero = response.data.numeroComprobante;
           Swal.fire("Éxito", "Venta registrada correctamente", "success");
           this.generatePDF();
           this.limpiarFormulario(); // Ahora esto debería funcionar
