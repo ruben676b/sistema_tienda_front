@@ -97,19 +97,24 @@
           <div v-if="tipoComprobante === 'boleta'">
             <ComprobanteBoleta :datos="datosComprobante" />
           </div>
+          <div v-if="tipoComprobante === 'ticket'">
+            <ComprobanteTicket :datos="datosComprobante" />
+          </div>
         </div>
         <div class="col-lg-6">
-          <div v-if="tipoCliente === 'juridico'">
-            <ClienteJuridico
-              @cliente-seleccionado="actualizarIdCliente"
-              v-if="tipoCliente === 'juridico'"
-            />
-          </div>
-          <div v-if="tipoCliente === 'natural'">
-            <ClienteNatural
-              @cliente-seleccionado="actualizarIdCliente"
-              v-if="tipoCliente === 'natural'"
-            />
+          <div v-if="tipoComprobante !== 'ticket'">
+            <div v-if="tipoCliente === 'juridico'">
+              <ClienteJuridico
+                @cliente-seleccionado="actualizarIdCliente"
+                v-if="tipoCliente === 'juridico'"
+              />
+            </div>
+            <div v-if="tipoCliente === 'natural'">
+              <ClienteNatural
+                @cliente-seleccionado="actualizarIdCliente"
+                v-if="tipoCliente === 'natural'"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +161,7 @@ import TotalArticulos from "./TotalArticulos.vue";
 import ProductoSeleccionado from "./ProductoSeleccionado.vue";
 import ComprobanteFactura from "./ComprobanteFactura.vue";
 import ComprobanteBoleta from "./ComprobanteBoleta.vue";
+import ComprobanteTicket from "./ComprobanteTicket.vue";
 import ClienteJuridico from "../components/ClienteAddJuridico.vue";
 import ClienteNatural from "../components/ClienteAddNatural.vue";
 
@@ -172,6 +178,7 @@ export default {
     ProductoSeleccionado,
     ComprobanteFactura,
     ComprobanteBoleta,
+    ComprobanteTicket,
     ClienteJuridico,
     ClienteNatural,
   },
@@ -194,7 +201,7 @@ export default {
       impuesto: 0,
       total: 0,
       idCliente: null, // Deberás establecer esto cuando se seleccione un cliente
-      publicoGeneral: 0, // 0 si es cliente específico, 1 si es público general
+      publicoGeneral: false, // 0 si es cliente específico, 1 si es público general
     };
   },
 
@@ -246,15 +253,25 @@ export default {
     tipoComprobante(newVal) {
       if (newVal === "factura") {
         this.tipoCliente = "juridico";
+        this.publicoGeneral = false;
+        // No resetear idCliente aquí, ya que se necesita para factura
       } else if (newVal === "boleta") {
         this.tipoCliente = "natural";
+        this.publicoGeneral = false;
+        // No resetear idCliente aquí, ya que se necesita para boleta
+      } else if (newVal === "ticket") {
+        this.tipoCliente = "";
+        this.publicoGeneral = true;
+        this.idCliente = null; // Resetear idCliente para ticket
       } else {
         this.tipoCliente = "";
+        this.publicoGeneral = false;
+        this.idCliente = null;
       }
     },
   },
   methods: {
-   async generatePDF() {
+    async generatePDF() {
       // Crear un nuevo documento PDF
       const doc = new jsPDF();
 
@@ -273,17 +290,33 @@ export default {
       // Información del comprobante
       doc.setFontSize(12);
       doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 60);
-      
+
       // Obtener el nombre del cliente (asumiendo que tienes una función para esto)
       const nombreCliente = await this.obtenerNombreCliente(this.idCliente);
       doc.text(`Cliente: ${nombreCliente}`, 20, 70);
-      
-      doc.text(`Tipo de Comprobante: ${this.tipoComprobante.toUpperCase()}`, 20, 80);
-      doc.text(`Serie-Número: ${this.datosComprobante.serie}-${this.datosComprobante.numero}`, 20, 90);
-      
+
+      doc.text(
+        `Tipo de Comprobante: ${this.tipoComprobante.toUpperCase()}`,
+        20,
+        80
+      );
+      doc.text(
+        `Serie-Número: ${this.datosComprobante.serie}-${this.datosComprobante.numero}`,
+        20,
+        90
+      );
+
       // Obtener la descripción de la forma de pago
-      const formaPago = this.formasPago.find(fp => fp.IdFormaPago === this.idFormaPago);
-      doc.text(`Forma de Pago: ${formaPago ? formaPago.Descripcion : 'No especificada'}`, 20, 100);
+      const formaPago = this.formasPago.find(
+        (fp) => fp.IdFormaPago === this.idFormaPago
+      );
+      doc.text(
+        `Forma de Pago: ${
+          formaPago ? formaPago.Descripcion : "No especificada"
+        }`,
+        20,
+        100
+      );
 
       doc.text(`Total: $${this.total.toFixed(2)}`, 20, 110);
 
@@ -294,24 +327,34 @@ export default {
       doc.setFontSize(12);
       yPos += 10;
       this.productosSeleccionados.forEach((producto, index) => {
-        doc.text(`${index + 1}. ${producto.Nombre} - Cantidad: ${producto.cantidad} - Precio: $${producto.PrecioUnitario.toFixed(2)}`, 30, yPos);
+        doc.text(
+          `${index + 1}. ${producto.Nombre} - Cantidad: ${
+            producto.cantidad
+          } - Precio: $${producto.PrecioUnitario.toFixed(2)}`,
+          30,
+          yPos
+        );
         yPos += 10;
       });
 
       // Guardar el PDF
-      doc.save(`comprobante_${this.tipoComprobante}_${this.datosComprobante.serie}-${this.datosComprobante.numero}.pdf`);
+      doc.save(
+        `comprobante_${this.tipoComprobante}_${this.datosComprobante.serie}-${this.datosComprobante.numero}.pdf`
+      );
     },
 
     async obtenerNombreCliente(idCliente) {
       // Implementa esta función para obtener el nombre del cliente basado en su ID
       // Podrías hacer una llamada a la API aquí
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/clientes/${idCliente}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/clientes/${idCliente}`
+        );
         if (response.data && response.data.cliente) {
           return response.data.cliente.Nombre; // Ajusta esto según la estructura de tu respuesta
         }
       } catch (error) {
-        console.error('Error al obtener el nombre del cliente:', error);
+        console.error("Error al obtener el nombre del cliente:", error);
       }
       return `Cliente ID: ${idCliente}`; // Fallback si no se puede obtener el nombre
     },
@@ -325,8 +368,8 @@ export default {
           FechaVenta: new Date().toISOString().slice(0, 19).replace("T", " "),
           Total: this.total,
           IdFormaPago: this.idFormaPago,
-          IdCliente: this.idCliente,
-          PublicoGeneral: this.idCliente ? 0 : 1, // 0 si hay cliente, 1 si es público general
+          IdCliente: this.tipoComprobante === "ticket" ? null : this.idCliente,
+          PublicoGeneral: this.tipoComprobante === "ticket" ? 1 : 0,
           IGV: 0.18,
           Subtotal: this.subtotal,
         },
