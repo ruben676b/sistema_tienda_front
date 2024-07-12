@@ -23,7 +23,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-lg-3 col-sm-6 col-12 d-flex">
         <div class="dash-count das3">
           <div class="dash-counts">
@@ -45,7 +44,7 @@
           <div
             class="card-header pb-0 d-flex justify-content-between align-items-center"
           >
-            <h5 class="card-title mb-0">Gráfico de top Ventas de hoy dia</h5>
+            <h5 class="card-title mb-0">Gráfico de Ventas por Día</h5>
           </div>
           <div class="card-body">
             <canvas id="sales_charts"></canvas>
@@ -69,14 +68,14 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li>
-                  <a href="productlist.html" class="dropdown-item"
-                    >Lista de Productos</a
-                  >
+                  <router-link to="/dashboard/products">
+                    <a class="dropdown-item">Lista de Productos</a>
+                  </router-link>
                 </li>
                 <li>
-                  <a href="addproduct.html" class="dropdown-item"
-                    >Añadir Producto</a
-                  >
+                  <router-link to="/dashboard/addProduct">
+                    <a class="dropdown-item">Añadir Producto</a>
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -120,6 +119,7 @@
         </div>
       </div>
     </div>
+
     <div class="card mb-0">
       <div class="card-body">
         <h4 class="card-title">Productos Expirados</h4>
@@ -141,7 +141,6 @@
                 :key="index"
               >
                 <td>{{ index + 1 }}</td>
-
                 <td class="productimgname">
                   <a class="product-img" href="productlist.html">
                     <img
@@ -203,18 +202,42 @@ export default {
       if (this.chart) {
         this.chart.destroy();
       }
+
+      // Ordenar las ventas por fecha
+      const sortedSales = this.dashboardData.topVentasHoy.sort(
+        (a, b) => new Date(a.Fecha) - new Date(b.Fecha)
+      );
+
+      // Función para obtener el nombre del día de la semana
+      const getDayName = (dateString) => {
+        const days = [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ];
+        const date = new Date(dateString);
+        return days[date.getDay()];
+      };
+
+      // Preparar los datos para el gráfico
+      const labels = sortedSales.map((sale) => getDayName(sale.Fecha));
+      const data = sortedSales.map((sale) => parseFloat(sale.TotalVentas));
+
       this.chart = new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
-          labels: this.dashboardData.topVentasHoy.map(
-            (_, index) => `${index + 1}`
-          ),
+          labels: labels,
           datasets: [
             {
-              label: "Ventas",
-              data: this.dashboardData.topVentasHoy,
-              borderColor: "rgb(75, 192, 192)",
-              tension: 0.1,
+              label: "Ventas Totales",
+              data: data,
+              backgroundColor: "rgba(75, 192, 192, 0.6)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
             },
           ],
         },
@@ -222,15 +245,36 @@ export default {
           responsive: true,
           scales: {
             x: {
-              display: false, // Oculta el eje X
+              display: true,
+              title: {
+                display: true,
+                text: "Día de la semana",
+              },
             },
             y: {
               beginAtZero: true,
+              title: {
+                display: true,
+                text: "Total de Ventas (S/.)",
+              },
             },
           },
           plugins: {
             legend: {
-              display: false, // Oculta la leyenda
+              display: true,
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `Ventas: S/. ${context.parsed.y.toFixed(2)}`;
+                },
+                title: function (tooltipItems) {
+                  const date = new Date(
+                    sortedSales[tooltipItems[0].dataIndex].Fecha
+                  );
+                  return `${getDayName(date)} - ${date.toLocaleDateString()}`;
+                },
+              },
             },
           },
         },
