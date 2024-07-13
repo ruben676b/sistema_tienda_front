@@ -47,24 +47,20 @@
           <div class="wordset">
             <ul>
               <li>
-                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                <a dhref="#" @click="exportarPDF">
                   <img src="../../public/img/icons/pdf.svg" alt="img" />
                 </a>
               </li>
               <li>
                 <a
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="excel"
+                  href="#" @click="exportarExcelProvider"
                 >
                   <img src="../../public/img/icons/excel.svg" alt="img" />
                 </a>
               </li>
               <li>
                 <a
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="print"
+                  href="#" @click="imprimir"
                 >
                   <img src="../../public/img/icons/printer.svg" alt="img" />
                 </a>
@@ -138,6 +134,9 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import html2pdf from 'html2pdf.js'; // Librería para exportar a PDF
+import * as XLSX from 'xlsx';
+import {saveAs} from 'file-saver';
 
 export default {
   data() {
@@ -171,6 +170,34 @@ export default {
         });
       }
     },
+
+    // Método para exportar a PDF
+    exportarPDF() {
+      const element = document.querySelector('.table-responsive');
+      html2pdf(element, {
+        margin: 1,
+        filename: 'lista_empleados.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      });
+    },
+
+    // Método para exportar a Excel
+    exportarExcelProvider() {
+      const ws = XLSX.utils.json_to_sheet(this.empleados); // Convertir JSON a hoja de Excel
+      const wb = XLSX.utils.book_new(); // Crear libro de Excel
+      XLSX.utils.book_append_sheet(wb, ws, 'Empleados'); // Añadir hoja al libro
+      // Generar archivo Excel y guardarlo
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'lista_empleados.xlsx');
+    },
+
+    // Método para imprimir
+    imprimir() {
+      window.print(); // Imprime la página actual
+    },
+
     editProveedor(id) {
       // Lógica para editar proveedor
       this.$router.push({ name: "ProvedorEdit", params: { id } });

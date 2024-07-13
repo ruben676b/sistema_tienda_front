@@ -6,13 +6,10 @@ import Dashboard from "@/views/Dashboard.vue";
 import store from "@/store";
 
 import ProductList from "@/components/ProductList.vue";
-import ProvedorList from "@/components/ProvedorList.vue";
-import ProvedorAdd from "@/components/ProvedorAdd.vue";
 import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Asegúrate de que la extensión es .vue
 
 import ProvedorList from "@/components/ProvedorList.vue";
 import ProvedorAdd from "@/components/ProvedorAdd.vue";
-import ProvedorEdit from "@/components/ProveedorEdit.vue"; // Corregido el nombre del archivo
 import AddCategoria from "@/components/AddCategoria.vue";
 import ModifyCategoria from "@/components/ModifyCategoria.vue";
 import ListCategoria from "@/components/ListCategoria.vue";
@@ -21,6 +18,14 @@ import AddProduct from "@/components/Productadd.vue";
 import ProductCompare from "@/components/ProductCompare.vue";
 import ProductEdit from "@/components/ProductEdit.vue";
 import DetailProduct from "@/components/DetailProduct.vue";
+import ListUsers from "@/components/ListUsers.vue";
+import ListEmpleados from "@/components/ListEmpleados.vue";
+import AddEmpleados from "@/components/AddEmpleados.vue";
+import ListClients from "@/components/ListClients.vue";
+import ListClientesJuridicos from "@/components/ListClintesJuridicos.vue";
+import ListClintsNatural from "@/components/ListClintsNatural.vue";
+import AddUsers from "@/components/AddUsers.vue";
+
 const routes = [
   {
     path: "/login",
@@ -63,10 +68,7 @@ const routes = [
         name: "ProvedorEdit",
         component: ProvedorEdit,
       },
-        path: 'provedorEdit/:id',
-        name: 'ProvedorEdit',
-        component: ProvedorEdit
-      },
+     
       {
         path: 'categoria',
         name: 'AddCategoria',
@@ -106,6 +108,42 @@ const routes = [
         path: "DetailProduct/:id",
         name: "DetailProduct",
         component: DetailProduct,
+      },
+      {
+        path: "ListUsers",
+        name: "ListUsers",
+        component: ListUsers,
+      },
+      {
+        path: "ListEmpleados",
+        name: "ListEmpleados",
+        component: ListEmpleados,
+
+      },
+      {
+        path: "AddEmpleados",
+        name: "AddEmpleados",
+        component: AddEmpleados,
+      },
+      {
+        path: "ListClients",
+        name: "ListClients",
+        component: ListClients,
+      },
+      {
+        path: "ListClientesJuridicos",
+        name: "ListClientesJuridicos",
+        component: ListClientesJuridicos,
+      },
+      {
+        path: "ListClintsNatural",
+        name: "ListClintsNatural",
+        component: ListClintsNatural,
+      },
+      {
+        path: "AddUsers",
+        name: "AddUsers",
+        component: AddUsers,
       },
       // {
       //   path: 'categories',
