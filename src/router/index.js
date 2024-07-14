@@ -9,6 +9,14 @@ import store from '@/store';
 import MarcaList from '@/components/MarcaList.vue';
 import AddMarcas from '@/components/AddMarcas.vue';
 import GestionStock from '@/components/GestionStock.vue';
+import ProductList from '@/components/ProductList.vue';
+import ProductAdd from '@/components/ProductAdd.vue';
+import VentaAdd from '@/components/VentaAdd.vue';
+import FormasPago from '@/components/FormasPago.vue';
+import AddFormasPago from '@/components/AddFormasPago.vue';
+import cajaList from '@/components/cajaList.vue';
+import AddCaja from '@/components/AddCaja.vue';
+import VentaList from '@/components/VentaList.vue';
 
 const routes = [
   {
@@ -47,20 +55,49 @@ const routes = [
       
        {
          path: 'gestionstock',
-        name: 'GestionStock',
+         name: 'GestionStock',
          component: GestionStock
        },
-      // {
-      //   path: 'categories',
-      //   name: 'CategoryList',
-      //   component: CategoryList
-      // },
-      // {
-      //   path: 'add-category',
-      //   name: 'AddCategory',
-      //   component: AddCategory
-      // },
-      
+      {
+        path: 'productlist',
+        name: 'ProductList',
+        component: ProductList
+      },
+      {
+        path: 'productadd',
+        name: 'ProductAdd',
+        component: ProductAdd
+      },
+      {
+        path: 'ventaadd',
+        name: 'VentaAdd',
+        component: VentaAdd
+      },
+      {
+        path: 'formaspago',
+        name: 'FormasPago',
+        component: FormasPago
+      },
+      {
+        path: 'addformaspago',
+        name: 'AddFormasPago',
+        component: AddFormasPago
+      },
+      {
+        path: 'cajalist',
+        name: 'cajaList',
+        component: cajaList
+      },
+      {
+        path: 'addcaja',
+        name: 'AddCaja',
+        component: AddCaja
+      },
+      {
+        path: 'ventalist',
+        name: 'VentaList',
+        component: VentaList
+      },
     ]
   },
   {

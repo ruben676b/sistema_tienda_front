@@ -94,9 +94,15 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.product ? 'block' : 'none' }">
+                  <li><router-link to="/dashboard/productlist">Lista de Productos</router-link></li>
+                  <li><router-link to="/dashboard/productadd">Agregar Productos</router-link></li>
                   <li><router-link to="/dashboard/marca">Lista de Marcas</router-link></li>
                   <li><router-link to="/dashboard/addmarca">Agregar Marca</router-link></li>
                   <li><router-link to="/dashboard/gestionstock">Gestion Stock</router-link></li>
+                  <li><router-link to="/dashboard/ventaadd">Nueva Venta</router-link></li>
+                  <li><router-link to="/dashboard/formaspago">Formas Pago</router-link></li>
+                  <li><router-link to="/dashboard/cajalist">Datos de Cajas</router-link></li>
+                  <li><router-link to="/dashboard/ventalist">Lista de Ventas</router-link></li>
                 </ul>
               </li>
               <!-- CLIENTE -->
