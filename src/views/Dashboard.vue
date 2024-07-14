@@ -27,7 +27,11 @@
         </a>
         <ul class="nav user-menu">
           <li class="nav-item dropdown has-arrow main-drop">
-            <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="dropdown-toggle nav-link userset"
+              data-bs-toggle="dropdown"
+            >
               <span class="user-img">
                 <img src="../../public/img/perfil.jpg" alt="perfil" />
                 <span class="status online"></span>
@@ -41,20 +45,23 @@
                     <span class="status online"></span>
                   </span>
                   <div class="profilesets">
-                    <h6>John Doe</h6>
-                    <h5>Admin</h5>
+                    <h6>{{ userName }}</h6>
+                    <h5>{{ userNameType }}</h5>
                   </div>
                 </div>
                 <hr class="m-0" />
-                <a class="dropdown-item" href="profile.html">
-                  <i class="me-2" data-feather="user"></i> My Profile
-                </a>
-                <a class="dropdown-item" href="generalsettings.html">
-                  <i class="me-2" data-feather="settings"></i> Settings
-                </a>
+
                 <hr class="m-0" />
-                <a class="dropdown-item logout pb-0" href="signin.html">
-                  <img src="../../public/img/icons/log-out.svg" class="me-2" alt="logout" />
+                <a
+                  class="dropdown-item logout pb-0"
+                  href="#"
+                  @click.prevent="handleLogout"
+                >
+                  <img
+                    src="../../public/img/icons/log-out.svg"
+                    class="me-2"
+                    alt="logout"
+                  />
                   Logout
                 </a>
               </div>
@@ -62,8 +69,12 @@
           </li>
         </ul>
         <div class="dropdown mobile-user-menu">
-          <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            href="javascript:void(0);"
+            class="nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <i class="fa fa-ellipsis-v"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
@@ -81,98 +92,145 @@
             <ul>
               <li class="active">
                 <router-link to="/dashboard/estadisticas">
-                  <img src="../../public/img/icons/dashboard.svg" alt="dashboard" />
+                  <img
+                    src="../../public/img/icons/dashboard.svg"
+                    alt="dashboard"
+                  />
                   <span>Estadisticas</span>
                 </router-link>
               </li>
               <!-- PRODUCTOS -->
               <li class="submenu">
-                <a :class="submenus.product ? 'subdrop' : ''" @click="toggleSubmenu('product')">
+                <a
+                  :class="submenus.product ? 'subdrop' : ''"
+                  @click="toggleSubmenu('product')"
+                >
                   <img src="../../public/img/icons/product.svg" alt="product" />
                   <span>Productos</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.product ? 'block' : 'none' }">
                   <li>
-                    <router-link to="/dashboard/products">Lista de Productos</router-link>
+                    <router-link to="/dashboard/products"
+                      >Lista de Productos</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addProduct">Añadir Producto</router-link>
+                    <router-link to="/dashboard/addProduct"
+                      >Añadir Producto</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/categories">Category List</router-link>
+                    <router-link to="/dashboard/categories"
+                      >Category List</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/add-category">Add Category</router-link>
+                    <router-link to="/dashboard/add-category"
+                      >Add Category</router-link
+                    >
                   </li>
                 </ul>
               </li>
               <!-- CLIENTE -->
               <li class="submenu">
-                <a :class="submenus.client ? 'subdrop' : ''" @click="toggleSubmenu('client')">
+                <a
+                  :class="submenus.client ? 'subdrop' : ''"
+                  @click="toggleSubmenu('client')"
+                >
                   <img src="../../public/img/icons/users1.svg" alt="client" />
                   <span>Cliente</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.client ? 'block' : 'none' }">
                   <li>
-                    <router-link to="/dashboard/customerlist">Customer List</router-link>
+                    <router-link to="/dashboard/customerlist"
+                      >Customer List</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addcustomer">Add Customer</router-link>
+                    <router-link to="/dashboard/addcustomer"
+                      >Add Customer</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/supplierlist">Supplier List</router-link>
+                    <router-link to="/dashboard/supplierlist"
+                      >Supplier List</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addsupplier">Add Supplier</router-link>
+                    <router-link to="/dashboard/addsupplier"
+                      >Add Supplier</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/userlist">User List</router-link>
+                    <router-link to="/dashboard/userlist"
+                      >User List</router-link
+                    >
                   </li>
                   <li>
                     <router-link to="/dashboard/adduser">Add User</router-link>
                   </li>
                   <li>
-                    <router-link to="/dashboard/storelist">Store List</router-link>
+                    <router-link to="/dashboard/storelist"
+                      >Store List</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addstore">Add Store</router-link>
+                    <router-link to="/dashboard/addstore"
+                      >Add Store</router-link
+                    >
                   </li>
                 </ul>
               </li>
 
               <!-- PROVEDOR -->
               <li class="submenu">
-                <a :class="submenus.provedor ? 'subdrop' : ''" @click="toggleSubmenu('provedor')">
+                <a
+                  :class="submenus.provedor ? 'subdrop' : ''"
+                  @click="toggleSubmenu('provedor')"
+                >
                   <img src="../../public/img/icons/users1.svg" alt="client" />
                   <span>Provedor</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <ul :style="{ display: submenus.provedor ? 'block' : 'none' }">
                   <li>
-                    <router-link to="/dashboard/provedorList">Lista de proveedores</router-link>
+                    <router-link to="/dashboard/provedorList"
+                      >Lista de proveedores</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/provedorAdd">Añadir Proveedor</router-link>
+                    <router-link to="/dashboard/provedorAdd"
+                      >Añadir Proveedor</router-link
+                    >
                   </li>
                 </ul>
               </li>
 
               <!-- Venta Submenu -->
               <li class="submenu">
-                <a :class="submenus.venta ? 'subdrop' : ''" @click="toggleSubmenu('venta')"><img src="../../public/img/icons/sales1.svg" alt="img"><span>
-                    Ventas</span> <span class="menu-arrow"></span></a>
+                <a
+                  :class="submenus.venta ? 'subdrop' : ''"
+                  @click="toggleSubmenu('venta')"
+                  ><img
+                    src="../../public/img/icons/sales1.svg"
+                    alt="img" /><span> Ventas</span>
+                  <span class="menu-arrow"></span
+                ></a>
                 <ul :style="{ display: submenus.venta ? 'block' : 'none' }">
                   <li>
-                    <router-link to="/dashboard/ventaList">Listado de ventas</router-link>
+                    <router-link to="/dashboard/ventaList"
+                      >Listado de ventas</router-link
+                    >
                   </li>
                   <li>
-                    <router-link to="/dashboard/ventaAdd">Añadir Ventas</router-link>
+                    <router-link to="/dashboard/ventaAdd"
+                      >Añadir Ventas</router-link
+                    >
                   </li>
                 </ul>
               </li>
-
             </ul>
           </div>
         </div>
@@ -189,6 +247,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from 'vuex';
 export default {
   name: "Dashboard",
   data() {
@@ -202,7 +262,31 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["getUserName"]),
+    ...mapGetters(["getUserType"]),
+    userName() {
+      return this.getUserName;
+    },
+    userNameType() {
+      let tipo=''
+      if (this.getUserType=='admin') {
+        tipo='Administrador'
+      }
+      else{
+        tipo='Vendedor'
+      }
+      return tipo;
+    },
+  },
   methods: {
+    ...mapActions(['logout']),
+    
+    handleLogout() {
+      this.logout();
+      // Redirige al usuario a la página de inicio de sesión
+      this.$router.push('/signin');
+    },
     toggleSubmenu(submenu) {
       this.submenus[submenu] = !this.submenus[submenu];
     },

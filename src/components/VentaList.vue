@@ -99,7 +99,7 @@
                 <th>Serie_Número</th>
                 <th>Total</th>
                 <th>Forma de Pago</th>
-                <th>ID Usuario</th>
+                <th>Vendedor</th>
                 <th>Detalles</th>
               </tr>
             </thead>
@@ -111,7 +111,7 @@
                 <td>{{ venta.Serie + venta.Numero }}</td>
                 <td>{{ venta.Total }}</td>
                 <td>{{ venta.FormaPago }}</td>
-                <td>{{ venta.IdUsuario }}</td>
+                <td>{{ userName }}</td>
                 <td class="text-center">
                   <a class="action-set" href="javascript:void(0);" @click="verDetalles(venta.IdVenta)">
                     <img src="../../public/img/icons/eye.svg" alt="Ver detalles" title="Ver detalles">
@@ -167,7 +167,7 @@
 
 <script>
 import axios from 'axios';
-
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -181,6 +181,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getUserName']),
+    userName() {
+      return this.getUserName;
+    },
     filteredVentas() {
       return this.ventas.filter(venta => {
         const matchesCliente = this.getNombreCliente(venta).toLowerCase().includes(this.searchCliente.toLowerCase());

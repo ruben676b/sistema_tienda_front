@@ -21,7 +21,7 @@
       </ul>
     </div>
     <div class="form-group">
-      <label>Nombre Empresa</label>
+      <label>Razon Social</label>
       <input type="text" v-model="cliente.NombreEmpresa" class="form-control" :disabled="clienteSeleccionado && !modoEdicion">
     </div>
     <div class="form-group">
