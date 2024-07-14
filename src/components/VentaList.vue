@@ -111,7 +111,7 @@
                 <td>{{ venta.Serie + venta.Numero }}</td>
                 <td>{{ venta.Total }}</td>
                 <td>{{ venta.FormaPago }}</td>
-                <td>{{ userName }}</td>
+                <td>{{ venta.Usuario }}</td>
                 <td class="text-center">
                   <a class="action-set" href="javascript:void(0);" @click="verDetalles(venta.IdVenta)">
                     <img src="../../public/img/icons/eye.svg" alt="Ver detalles" title="Ver detalles">
