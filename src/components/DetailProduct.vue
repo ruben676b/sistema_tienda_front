@@ -27,8 +27,12 @@
                   <h6>{{ producto.Descripcion }}</h6>
                 </li>
                 <li>
-                  <h4>Precio Unitario</h4>
-                  <h6>s/. {{ producto.PrecioUnitario }}</h6>
+                  <h4>Precio de Compra</h4>
+                  <h6>s/. {{ producto.PrecioCompra }}</h6>
+                </li>
+                <li>
+                  <h4>Precio de Venta</h4>
+                  <h6>s/. {{ producto.PrecioVenta }}</h6>
                 </li>
                 <li>
                   <h4>Fecha de Vencimiento</h4>

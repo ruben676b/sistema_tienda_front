@@ -26,6 +26,18 @@ import ClienteAddNatural from "@/components/ClienteAddNatural.vue";
 import AñadirMarca from "@/components/MarcaList.vue";
 import Graficos from "@/components/Grafics.vue";
 import NotFound from "@/components/Notfound.vue";
+
+import AddFormasPago from "@/components/AddFormasPago.vue";
+import AddCategoria from "@/components/AddCategoria.vue";
+import ModifyCategoria from "@/components/ModifyCategoria.vue";
+import ListCategoria from "@/components/ListCategoria.vue";
+import ListUsers from "@/components/ListUsers.vue";
+import ListEmpleados from "@/components/ListEmpleados.vue";
+import AddEmpleados from "@/components/AddEmpleados.vue";
+import ListClients from "@/components/ListClients.vue";
+import ListClientesNatural from "@/components/ListClintsNatural.vue";
+import ListClientesJuridicos from "@/components/ListClintesJuridicos.vue";
+import AddUsers from "@/components/AddUsers.vue";
 const routes = [
   {
     path: "/login",
@@ -132,6 +144,62 @@ const routes = [
         name: "graficos",
         component: Graficos,
         meta: { requiresAuth: true, requiredRole: "admin" },
+      },
+      {
+        path: "addFormasPago",
+        name: "addFormasPago",
+        component: AddFormasPago,
+        meta: { requiresAuth: true, requiredRole: "admin" },
+      },
+      {
+        path: "categoria",
+        name: "AddCategoria",
+        component: AddCategoria,
+      },
+      {
+        path: "modifyCate",
+        name: "ModifyCategoria",
+        component: ModifyCategoria,
+      },
+      {
+        path: "listCate",
+        name: "ListCategoria",
+        component: ListCategoria,
+      },
+      {
+        path: "ListUsers",
+        name: "ListUsers",
+        component: ListUsers,
+      },
+      {
+        path: "ListEmpleados",
+        name: "ListEmpleados",
+        component: ListEmpleados,
+      },
+      {
+        path: "AddEmpleados",
+        name: "AddEmpleados",
+        component: AddEmpleados,
+      },
+      {
+        path: "ListClients",
+        name: "ListClients",
+        component: ListClients,
+      },
+      {
+        path: "ListClientesJuridicos",
+        name: "ListClientesJuridicos",
+        component: ListClientesJuridicos,
+      },
+      {
+        path: "ListClintsNatural",
+        name: "ListClintsNatural",
+        component: ListClientesNatural,
+      },
+      {
+        path: "AddUsers",
+        name: "AddUsers",
+        component: AddUsers,
       },
       // {
       //   path: "ProductoEdit/:id",

@@ -20,11 +20,21 @@
 
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>Precio Unitario</label>
+                    <label>Precio de Compra</label>
                     <input
                       type="number"
-                      id="PrecioUnitario"
-                      v-model="precioUnitario"
+                      id="PrecioCompra"
+                      v-model="precioCompra"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Precio de Venta</label>
+                    <input
+                      type="number"
+                      id="PrecioVenta"
+                      v-model="precioVenta"
                     />
                   </div>
                 </div>
@@ -163,7 +173,8 @@ export default {
     return {
       id: null,
       nombre: "",
-      precioUnitario: 0,
+      precioCompra: 0,
+      precioVenta: 0,
       precioTotal: 0,
       fechaVencimiento: "",
       stock: 0,
@@ -201,7 +212,8 @@ export default {
         console.log(response.data);
         const producto = response.data.producto;
         this.nombre = producto.Nombre;
-        this.precioUnitario = parseFloat(producto.PrecioUnitario);
+        this.precioVenta = parseFloat(producto.PrecioVenta);
+        this.precioCompra = parseFloat(producto.PrecioCompra);
         this.precioTotal = parseFloat(producto.PrecioTotal);
         this.fechaVencimiento = producto.FechaVencimiento.split("T")[0];
         this.stock = producto.Stock;
@@ -256,7 +268,8 @@ export default {
       const formData = new FormData();
       formData.append("Nombre", this.nombre);
       formData.append("Descripcion", this.descripcion);
-      formData.append("PrecioUnitario", this.precioUnitario);
+      formData.append("PrecioVenta", this.precioVenta);
+      formData.append("PrecioCompra", this.precioCompra);
       formData.append("PrecioTotal", this.precioTotal);
       formData.append("FechaVencimiento", this.fechaVencimiento);
       formData.append("Stock", this.stock);

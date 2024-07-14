@@ -166,7 +166,7 @@
                     </a>
                     <a href="javascript:void(0);">{{ producto.Nombre }}</a>
                   </td>
-                  <td>{{ producto.PrecioUnitario }}</td>
+                  <td>{{ producto.PrecioCompra }}</td>
                   <td>{{ producto.PrecioTotal }}</td>
                   <td>{{ getProveedorNombre(producto.IdProveedor) }}</td>
                 </tr>
