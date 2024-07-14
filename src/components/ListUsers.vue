@@ -46,7 +46,10 @@
                   <a class="me-3" @click="abrirModalEditar(usuario)">
                     <img src="../../public/img/icons/edit.svg" alt="img" />
                   </a>
-                  <a class="me-3 confirm-text" @click="borrarUsuario(usuario.id)">
+                  <a
+                    class="me-3 confirm-text"
+                    @click="borrarUsuario(usuario.id)"
+                  >
                     <img src="../../public/img/icons/delete.svg" alt="img" />
                   </a>
                 </td>
@@ -58,35 +61,71 @@
     </div>
 
     <!-- Modal de edición de usuario -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editModalLabel">Editar Usuario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form @submit.prevent="editarUsuario">
               <div class="form-group">
                 <label for="editNombre">Nombre</label>
-                <input type="text" class="form-control" id="editNombre" v-model="usuarioEditado.nombre" required>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editNombre"
+                  v-model="usuarioEditado.nombre"
+                  required
+                />
               </div>
               <div class="form-group">
                 <label for="editApellido">Apellido</label>
-                <input type="text" class="form-control" id="editApellido" v-model="usuarioEditado.apellido" required>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editApellido"
+                  v-model="usuarioEditado.apellido"
+                  required
+                />
               </div>
               <div class="form-group">
                 <label for="editEmail">Email</label>
-                <input type="email" class="form-control" id="editEmail" v-model="usuarioEditado.email" required>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="editEmail"
+                  v-model="usuarioEditado.email"
+                  required
+                />
               </div>
               <div class="form-group">
                 <label for="editRol">Rol</label>
-                <select class="form-control" id="editRol" v-model="usuarioEditado.rol">
+                <select
+                  class="form-control"
+                  id="editRol"
+                  v-model="usuarioEditado.rol"
+                >
                   <option value="admin">Administrador</option>
                   <option value="user">Usuario</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+              </button>
             </form>
           </div>
         </div>
@@ -96,18 +135,19 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
       usuarios: [], // Array para almacenar los usuarios
-      usuarioEditado: { // Objeto para editar usuario
-        nombre: '',
-        apellido: '',
-        email: '',
-        rol: 'user'
-      }
+      usuarioEditado: {
+        // Objeto para editar usuario
+        nombre: "",
+        apellido: "",
+        email: "",
+        rol: "user",
+      },
     };
   },
   mounted() {
@@ -118,45 +158,52 @@ export default {
     // Método para obtener usuarios
     async fetchUsuarios() {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/usuarios');
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/usuarios"
+        );
         this.usuarios = response.data.usuarios;
       } catch (error) {
-        console.error('Error fetching usuarios:', error);
+        console.error("Error fetching usuarios:", error);
       }
     },
     // Método para borrar usuario
     async borrarUsuario(idUsuario) {
       try {
-        const response = await axios.delete(`http://localhost:3000/api/v1/usuarios/${idUsuario}`);
+        const response = await axios.delete(
+          `http://localhost:3000/api/v1/usuarios/${idUsuario}`
+        );
         if (response.data.success) {
-          this.usuarios = this.usuarios.filter(user => user.id !== idUsuario);
+          this.usuarios = this.usuarios.filter((user) => user.id !== idUsuario);
         } else {
-          alert('Error al borrar el usuario');
+          alert("Error al borrar el usuario");
         }
       } catch (error) {
-        console.error('Error deleting usuario:', error);
+        console.error("Error deleting usuario:", error);
       }
     },
     // Método para abrir el modal de edición y cargar datos del usuario seleccionado
     abrirModalEditar(usuario) {
       this.usuarioEditado = { ...usuario }; // Copiar usuario seleccionado al objeto de edición
-      $('#editModal').modal('show'); // Mostrar modal de edición
+      $("#editModal").modal("show"); // Mostrar modal de edición
     },
     // Método para editar usuario
     async editarUsuario() {
       try {
-        const response = await axios.patch(`http://localhost:3000/api/v1/usuarios/${this.usuarioEditado.id}`, this.usuarioEditado);
+        const response = await axios.patch(
+          `http://localhost:3000/api/v1/usuarios/${this.usuarioEditado.id}`,
+          this.usuarioEditado
+        );
         if (response.data.success) {
           this.fetchUsuarios(); // Actualizar lista de usuarios o refrescar la página
-          $('#editModal').modal('hide'); // Ocultar modal después de editar
+          $("#editModal").modal("hide"); // Ocultar modal después de editar
         } else {
-          alert('Error al editar el usuario');
+          alert("Error al editar el usuario");
         }
       } catch (error) {
-        console.error('Error editing usuario:', error);
+        console.error("Error editing usuario:", error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
