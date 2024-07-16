@@ -6,7 +6,7 @@
         <h6>Gestiona tus Marcas</h6>
       </div>
       <div class="page-btn">
-        <router-link :to="{ name: '' }" class="btn btn-added">
+        <router-link :to="{ name: 'AddMarcas' }" class="btn btn-added">
           <img src="../../public/img/icons/plus.svg" alt="img" />
           Agregar Marca
         </router-link>
@@ -75,14 +75,12 @@
           <table class="table datanew dataTable no-footer">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nombre de la Marca</th>
+               <th>Nombre de la Marca</th>
                 <th>Acción</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="marca in filteredMarcas" :key="marca.id">
-                <td>{{ marca.id }}</td>
                 <td>{{ marca.nombre }}</td>
                 <td>
                   <a class="me-3" @click="editMarca(marca.id)">
@@ -98,15 +96,43 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal para editar marca -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Editar Marca</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editMarcaNombre" class="form-label">Nombre de la Marca</label>
+              <input type="text" class="form-control" id="editMarcaNombre" v-model="editedMarca.nombre">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" @click="confirmUpdateMarca()">Guardar Cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       marcas: [],
       searchQuery: "",
+      editedMarca: {
+        id: null,
+        nombre: ''
+      },
     };
   },
   computed: {
@@ -118,25 +144,54 @@ export default {
   },
   methods: {
     fetchMarcas() {
-      fetch("http://localhost:3000/api/v1/marcas")
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            this.marcas = data.Marcas;
+      axios.get("http://localhost:3000/api/v1/marcas")
+        .then((response) => {
+          if (response.data.success) {
+            this.marcas = response.data.Marcas;
           }
         })
-        .catch((error) => console.error("Error fetching marcas:", error));
+        .catch((error) => {
+          console.error("Error fetching marcas:", error);
+        });
     },
     filterMarcas() {
-      // Este método es llamado cuando el searchQuery cambia
+      // Método para filtrar marcas, se ejecuta cuando cambia searchQuery
     },
     editMarca(id) {
-      // Lógica para editar una marca
-      console.log("Edit marca con ID:", id);
+      // Busca la marca con el ID dado y muestra el modal de edición
+      this.editedMarca = { ...this.marcas.find(marca => marca.id === id) };
+      $('#editModal').modal('show');
     },
-    deleteMarca(id) {
-      // Lógica para eliminar una marca
-      console.log("Delete marca con ID:", id);
+    async confirmUpdateMarca() {
+      try {
+        const response = await axios.patch(`http://localhost:3000/api/v1/marcas/${this.editedMarca.id}`, {
+          Nombre: this.editedMarca.nombre
+        });
+        if (response.data.success) {
+          // Actualización exitosa, actualiza localmente la marca
+          const index = this.marcas.findIndex(marca => marca.id === this.editedMarca.id);
+          if (index !== -1) {
+            this.marcas[index].nombre = this.editedMarca.nombre;
+          }
+          $('#editModal').modal('hide');
+          Swal.fire("¡Actualizado!", "La marca ha sido actualizada.", "success");
+        } else {
+          Swal.fire("Error", "No se pudo actualizar la marca. Intente nuevamente.", "error");
+        }
+      } catch (error) {
+        console.error("Error al actualizar la marca:", error);
+        Swal.fire("Error", "Error al actualizar la marca. Intente nuevamente.", "error");
+      }
+    },
+    async deleteMarca(id) {
+      try {
+        await axios.delete(`http://localhost:3000/api/v1/marcas/${id}`);
+        this.marcas = this.marcas.filter((marca) => marca.id !== id);
+        Swal.fire("¡Borrado!", "La marca ha sido borrada.", "success");
+      } catch (error) {
+        console.error("Error al borrar la marca:", error);
+        Swal.fire("Error", "Error al borrar la marca. Intente nuevamente.", "error");
+      }
     },
   },
   mounted() {
@@ -144,6 +199,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 /* Agrega tus estilos aquí */
