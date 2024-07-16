@@ -1,158 +1,159 @@
 <template>
-  <div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="order-list">
-            <div class="orderid">
-              <h4>Elegir Productos:</h4>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="order-list">
+          <div class="orderid">
+            <h4>Elegir Productos:</h4>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-10">
-          <BuscarProducto
-            :busquedaProducto="busquedaProducto"
-            @update:busquedaProducto="busquedaProducto = $event"
-          />
-        </div>
-
-        <ListadoProductos
-          :productosFiltrados="productosFiltrados"
-          :isProductoSeleccionado="isProductoSeleccionado"
-          :agregarProducto="agregarProducto"
-          :getProveedorImage="getProveedorImage"
+      <div class="col-md-10">
+        <BuscarProducto
+          :busquedaProducto="busquedaProducto"
+          @update:busquedaProducto="busquedaProducto = $event"
         />
       </div>
 
-      <br /><br />
+      <ListadoProductos
+        :productosFiltrados="productosFiltrados"
+        :isProductoSeleccionado="isProductoSeleccionado"
+        :agregarProducto="agregarProducto"
+        :getProveedorImage="getProveedorImage"
+      />
+    </div>
 
-      <div class="row">
-        <div class="col-md-9">
-          <div class="card-body pt-0">
-            <TotalArticulos
-              :productosSeleccionados="productosSeleccionados"
-              @limpiar-productos="limpiarProductos"
+    <br /><br />
+
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card-body pt-0">
+          <TotalArticulos
+            :productosSeleccionados="productosSeleccionados"
+            @limpiar-productos="limpiarProductos"
+          />
+          <div class="product-table">
+            <ProductoSeleccionado
+              v-for="producto in productosSeleccionados"
+              :key="producto.idProducto"
+              :producto="producto"
+              :getProveedorImage="getProveedorImage"
+              @editar-producto="editarProducto"
+              @decrementar-cantidad="decrementarCantidad"
+              @incrementar-cantidad="incrementarCantidad"
+              @eliminar-producto="eliminarProducto"
             />
-            <div class="product-table">
-              <ProductoSeleccionado
-                v-for="producto in productosSeleccionados"
-                :key="producto.idProducto"
-                :producto="producto"
-                :getProveedorImage="getProveedorImage"
-                @editar-producto="editarProducto"
-                @decrementar-cantidad="decrementarCantidad"
-                @incrementar-cantidad="incrementarCantidad"
-                @eliminar-producto="eliminarProducto"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card-body pt-0 pb-2">
-            <h4>Informacion de venta</h4>
-            <div class="setvalue">
-              <ul>
-                <li>
-                  <h5>Subtotal</h5>
-                  <h6>{{ formatearPrecio(subtotal) }}</h6>
-                </li>
-                <li>
-                  <h5>Impuesto</h5>
-                  <h6>{{ formatearPrecio(impuesto) }}</h6>
-                </li>
-                <li class="total-value">
-                  <h5>Total</h5>
-                  <h6>{{ formatearPrecio(total) }}</h6>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <div class="order-list">
-              <div class="orderid">
-                <h4 for="tipoComprobante">Tipo de Comprobante</h4>
-              </div>
-            </div>
-            <select
-              v-model="tipoComprobante"
-              class="form-control"
-              id="tipoComprobante"
-            >
-              <option value="">Seleccione un tipo de comprobante</option>
-              <option value="factura">Factura</option>
-              <option value="boleta">Boleta</option>
-              <option value="ticket">Ticket</option>
-            </select>
-          </div>
-          <div v-if="tipoComprobante === 'factura'">
-            <ComprobanteFactura :datos="datosComprobante" />
-          </div>
-          <div v-if="tipoComprobante === 'boleta'">
-            <ComprobanteBoleta :datos="datosComprobante" />
-          </div>
-          <div v-if="tipoComprobante === 'ticket'">
-            <ComprobanteTicket :datos="datosComprobante" />
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div v-if="tipoComprobante !== 'ticket'">
-            <div v-if="tipoCliente === 'juridico'">
-              <ClienteJuridico
-                @cliente-seleccionado="actualizarIdCliente"
-                v-if="tipoCliente === 'juridico'"
-              />
-            </div>
-            <div v-if="tipoCliente === 'natural'">
-              <ClienteNatural
-                @cliente-seleccionado="actualizarIdCliente"
-                v-if="tipoCliente === 'natural'"
-              />
-            </div>
+      <div class="col-md-3">
+        <div class="card-body pt-0 pb-2">
+          <h4>Informacion de venta</h4>
+          <div class="setvalue">
+            <ul>
+              <li>
+                <h5>Subtotal</h5>
+                <h6>{{ formatearPrecio(subtotal) }}</h6>
+              </li>
+              <li>
+                <h5>Impuesto</h5>
+                <h6>{{ formatearPrecio(impuesto) }}</h6>
+              </li>
+              <li class="total-value">
+                <h5>Total</h5>
+                <h6>{{ formatearPrecio(total) }}</h6>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <br />
-      <div class="row" style="padding-top: 20px">
-        <div class="col-md-2">
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
           <div class="order-list">
             <div class="orderid">
-              <h4 for="formaPago">Forma de pago:</h4>
+              <h4 for="tipoComprobante">Tipo de Comprobante</h4>
             </div>
           </div>
+          <select
+            v-model="tipoComprobante"
+            class="form-control"
+            id="tipoComprobante"
+          >
+            <option value="">Seleccione un tipo de comprobante</option>
+            <option value="factura">Factura</option>
+            <option value="boleta">Boleta</option>
+            <option value="ticket">Ticket</option>
+          </select>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <select v-model="idFormaPago" class="form-control" id="formaPago">
-              <option value="">Seleccione una forma de pago</option>
-              <option
-                v-for="formaPago in formasPago"
-                :key="formaPago.IdFormaPago"
-                :value="formaPago.IdFormaPago"
-              >
-                {{ formaPago.Descripcion }}
-              </option>
-            </select>
+        <div v-if="tipoComprobante === 'factura'">
+          <ComprobanteFactura :datos="datosComprobante" />
+        </div>
+        <div v-if="tipoComprobante === 'boleta'">
+          <ComprobanteBoleta :datos="datosComprobante" />
+        </div>
+        <div v-if="tipoComprobante === 'ticket'">
+          <ComprobanteTicket :datos="datosComprobante" />
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div v-if="tipoComprobante !== 'ticket'">
+          <div v-if="tipoCliente === 'juridico'">
+            <ClienteJuridico
+              @cliente-seleccionado="actualizarIdCliente"
+              v-if="tipoCliente === 'juridico'"
+            />
+          </div>
+          <div v-if="tipoCliente === 'natural'">
+            <ClienteNatural
+              @cliente-seleccionado="actualizarIdCliente"
+              v-if="tipoCliente === 'natural'"
+            />
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="col-md-8">
-            <div @click="registrarVenta" class="btn-totallabel">
-              <h5>Caja</h5>
-              <h6>{{ formatearPrecio(total) }}$</h6>
-            </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row" style="padding-top: 20px">
+      <div class="col-md-2">
+        <div class="order-list">
+          <div class="orderid">
+            <h4 for="formaPago">Forma de pago:</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <select v-model="idFormaPago" class="form-control" id="formaPago">
+            <option value="">Seleccione una forma de pago</option>
+            <option
+              v-for="formaPago in formasPago"
+              :key="formaPago.IdFormaPago"
+              :value="formaPago.IdFormaPago"
+            >
+              {{ formaPago.Descripcion }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="col-md-8">
+          <div @click="registrarVenta" class="btn-totallabel">
+            <h5>Caja</h5>
+            <h6>{{ formatearPrecio(total) }}$</h6>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import BuscarProducto from "./BuscarProducto.vue";
@@ -420,7 +421,20 @@ export default {
         Swal.fire("Error", "Por favor seleccione una forma de pago", "error");
         return;
       }
+      console.log(datosVenta);
+      if (!this.idFormaPago) {
+        Swal.fire("Error", "Por favor seleccione una forma de pago", "error");
+        return;
+      }
 
+      if (!this.idCliente && this.tipoComprobante !== "ticket") {
+        Swal.fire(
+          "Error",
+          "Por favor seleccione un cliente o cambie a tipo de comprobante ticket",
+          "error"
+        );
+        return;
+      }
       if (!this.idCliente && this.tipoComprobante !== "ticket") {
         Swal.fire(
           "Error",
@@ -455,9 +469,11 @@ export default {
     async obtenerFormasPago() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/formas-pago"
+          "http://localhost:3000/api/v1/formas_pago"
         );
-        this.formasPago = response.data.formasPago || [];
+
+        this.formasPago = response.data.FormasPago || [];
+        console.log('Formas de pago',response)
       } catch (error) {
         console.error("Error al obtener formas de pago:", error);
       }
@@ -568,13 +584,17 @@ export default {
 .tabs {
   display: flex;
   overflow-x: auto;
+  display: flex;
+  overflow-x: auto;
 }
 
 .tabs li {
   cursor: pointer;
+  cursor: pointer;
 }
 
 .tabs li.active .product-details {
+  border: 2px solid #007bff;
   border: 2px solid #007bff;
 }
 </style>

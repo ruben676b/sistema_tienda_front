@@ -8,6 +8,7 @@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
       <!-- Header -->
+      <!-- ... (mantener el código del header sin cambios) ... -->
       <div class="header">
         <div class="header-left active">
           <router-link to="/dashboard/estadisticas" class="logo">
@@ -80,27 +81,37 @@
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="profile.html">My Profile</a>
             <a class="dropdown-item" href="generalsettings.html">Settings</a>
-            <a class="dropdown-item">Logout</a>
+            <router-link to="/login">
+              <a class="dropdown-item logout pb-0">
+                <img
+                  src="../../public/img/icons/log-out.svg"
+                  class="me-2"
+                  alt="logout"
+                />
+                Salir
+              </a>
+            </router-link>
           </div>
         </div>
       </div>
-
       <!-- Sidebar -->
-      <div class="sidebar" id="sidebar">
+      <div v-if="isAdmin" class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
           <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-              <li class="active">
+              <!-- Estadísticas (solo para admin) -->
+              <li v-if="isAdmin" class="active">
                 <router-link to="/dashboard/estadisticas">
                   <img
                     src="../../public/img/icons/dashboard.svg"
                     alt="dashboard"
                   />
-                  <span>Estadisticas</span>
+                  <span>Estadísticas</span>
                 </router-link>
               </li>
-              <!-- PRODUCTOS -->
-              <li class="submenu">
+
+              <!-- PRODUCTOS (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
                 <a
                   :class="submenus.product ? 'subdrop' : ''"
                   @click="toggleSubmenu('product')"
@@ -121,19 +132,41 @@
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/categories"
-                      >Category List</router-link
+                    <router-link to="/dashboard/productCompare"
+                      >Comparar Precios</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/add-category"
-                      >Add Category</router-link
+                    <router-link to="/dashboard/listCate"
+                      >Lista de Categorias</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/categoria"
+                      >Añadir Categoria</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/modifyCate"
+                      >Modificar Categoria</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/añadirMarca"
+                      >Lista marcas</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/addFormasPago"
+                      >Añadir forma de pago</router-link
                     >
                   </li>
                 </ul>
               </li>
+
+              <!-- CLIENTE (solo para admin) -->
               <!-- CLIENTE -->
-              <li class="submenu">
+              <li v-if="isAdmin" class="submenu">
                 <a
                   :class="submenus.client ? 'subdrop' : ''"
                   @click="toggleSubmenu('client')"
@@ -144,48 +177,58 @@
                 </a>
                 <ul :style="{ display: submenus.client ? 'block' : 'none' }">
                   <li>
-                    <router-link to="/dashboard/customerlist"
-                      >Customer List</router-link
+                    <router-link to="/dashboard/ListClients"
+                      >Lista de Clientes</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addcustomer"
-                      >Add Customer</router-link
+                    <router-link to="/dashboard/ListClientesJuridicos"
+                      >clientes juridicos</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/supplierlist"
-                      >Supplier List</router-link
+                    <router-link to="/dashboard/ListClintsNatural"
+                      >Clientes Naturales</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/addsupplier"
-                      >Add Supplier</router-link
+                    <router-link to="/dashboard/ListUsers"
+                      >Lista de Usuarios</router-link
                     >
                   </li>
                   <li>
-                    <router-link to="/dashboard/userlist"
-                      >User List</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/dashboard/adduser">Add User</router-link>
-                  </li>
-                  <li>
-                    <router-link to="/dashboard/storelist"
-                      >Store List</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/dashboard/addstore"
-                      >Add Store</router-link
+                    <router-link to="/dashboard/AddUsers"
+                      >Añadir Usuarios</router-link
                     >
                   </li>
                 </ul>
               </li>
-
-              <!-- PROVEDOR -->
+              <!-- personas para empleados -->
               <li class="submenu">
+                <a
+                  :class="submenus.venta ? 'subdrop' : ''"
+                  @click="toggleSubmenu('personas')"
+                  ><img
+                    src="../../public/img/icons/users1.svg"
+                    alt="img" /><span> Personas</span>
+                  <span class="menu-arrow"></span
+                ></a>
+                <ul :style="{ display: submenus.personas ? 'block' : 'none' }">
+                  <li>
+                    <router-link to="/dashboard/ListEmpleados"
+                      >Listado de Empleados</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/dashboard/AddEmpleados"
+                      >Agregar Empleados</router-link
+                    >
+                  </li>
+                </ul>
+              </li>
+              <!-- PROVEEDOR (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
+                <!-- ... (mantener el código del submenu de proveedor) ... -->
                 <a
                   :class="submenus.provedor ? 'subdrop' : ''"
                   @click="toggleSubmenu('provedor')"
@@ -208,25 +251,45 @@
                 </ul>
               </li>
 
-              <!-- Venta Submenu -->
-              <li class="submenu">
+              <!-- Venta Submenu (para admin y cajero) -->
+              <li v-if="isAdmin" class="submenu">
+                <div style="display: none"></div>
                 <a
                   :class="submenus.venta ? 'subdrop' : ''"
                   @click="toggleSubmenu('venta')"
-                  ><img
-                    src="../../public/img/icons/sales1.svg"
-                    alt="img" /><span> Ventas</span>
-                  <span class="menu-arrow"></span
-                ></a>
+                >
+                  <img src="../../public/img/icons/sales1.svg" alt="img" />
+                  <span>Ventas</span>
+                  <span class="menu-arrow"></span>
+                </a>
                 <ul :style="{ display: submenus.venta ? 'block' : 'none' }">
-                  <li>
+                  <li v-if="isAdmin">
                     <router-link to="/dashboard/ventaList"
                       >Listado de ventas</router-link
                     >
                   </li>
-                  <li>
+                  <li style="display: none">
                     <router-link to="/dashboard/ventaAdd"
                       >Añadir Ventas</router-link
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <!-- GRÁFICOS (solo para admin) -->
+              <li v-if="isAdmin" class="submenu">
+                <a
+                  :class="submenus.graficos ? 'subdrop' : ''"
+                  @click="toggleSubmenu('graficos')"
+                >
+                  <img src="../../public/img/icons/time.svg" alt="img" />
+                  <span>Gráficos</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <ul :style="{ display: submenus.graficos ? 'block' : 'none' }">
+                  <li>
+                    <router-link to="/dashboard/graficos"
+                      >Ver gráficos</router-link
                     >
                   </li>
                 </ul>
@@ -258,7 +321,7 @@ export default {
         client: false,
         venta: false,
         provedor: false,
-        venta: false,
+        graficos: false,
       },
     };
   },
@@ -278,6 +341,17 @@ export default {
       }
       return tipo;
     },
+    userRole() {
+      return this.$store.state.user
+        ? this.$store.state.user.TipoUsuario.toLowerCase()
+        : null;
+    },
+    isAdmin() {
+      return this.userRole === "admin";
+    },
+    isCajero() {
+      return this.userRole === "cajero";
+    },
   },
   methods: {
     ...mapActions(['logout']),
@@ -294,6 +368,9 @@ export default {
 };
 </script>
 
+<style scoped>
+/* ... (mantener los estilos sin cambios) ... */
+</style>
 <style scoped>
 /* Estilo para el sidebar y submenú */
 .sidebar-inner {

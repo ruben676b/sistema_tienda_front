@@ -39,27 +39,25 @@
 
 <script>
 export default {
-   props: ['producto', 'getProveedorImage'],
-   methods: {
-      editarProducto(producto) {
-         this.$emit('editar-producto', producto);
-      },
-      decrementarCantidad(producto) {
-         this.$emit('decrementar-cantidad', producto);
-      },
-      incrementarCantidad(producto) {
-         this.$emit('incrementar-cantidad', producto);
-      },
-      eliminarProducto(producto) {
-         this.$emit('eliminar-producto', producto);
-      },
-      formatearPrecio(precio) {
-         return precio.toFixed(2);
-      }
-   }
+  props: ["producto", "getProveedorImage"],
+  methods: {
+    editarProducto(producto) {
+      this.$emit("editar-producto", producto);
+    },
+    decrementarCantidad(producto) {
+      this.$emit("decrementar-cantidad", producto);
+    },
+    incrementarCantidad(producto) {
+      this.$emit("incrementar-cantidad", producto);
+    },
+    eliminarProducto(producto) {
+      this.$emit("eliminar-producto", producto);
+    },
+    formatearPrecio(precio) {
+      return precio.toFixed(2);
+    },
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

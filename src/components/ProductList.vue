@@ -94,7 +94,8 @@
                   </th>
                   <th>Nombre del Producto</th>
                   <th>Descripcion</th>
-                  <th>Precio Unitario</th>
+                  <th>Precio de Compra</th>
+                  <th>Precio de Venta</th>
                   <th>Precio Total</th>
                   <th>Fecha de Vencimiento</th>
                   <th>Stock</th>
@@ -121,7 +122,8 @@
                     <a href="javascript:void(0);">{{ product.Nombre }}</a>
                   </td>
                   <td>{{ product.Descripcion }}</td>
-                  <td>{{ product.PrecioUnitario }}</td>
+                  <td>{{ product.PrecioCompra }}</td>
+                  <td>{{ product.PrecioVenta }}</td>
                   <td>{{ product.PrecioTotal }}</td>
                   <td>
                     {{ formatFechaVencimiento(product.FechaVencimiento) }}
@@ -130,6 +132,9 @@
                   <td>{{ product.StockMinimo }}</td>
                   <td>{{ product.CodigoBarra }}</td>
                   <td>
+                    <a class="me-3" @click="detailProducto(product.IdProducto)">
+                      <img src="../../public/img/icons/eye.svg" alt="img" />
+                    </a>
                     <a class="me-3" @click="editProducto(product.IdProducto)">
                       <img src="../../public/img/icons/edit.svg" alt="img" />
                     </a>
@@ -178,7 +183,7 @@
               </ul>
             </div>
             <div class="dataTables_info" role="status" aria-live="polite">
-              1 - {{ itemsPerPage }} of {{ totalProducts }} items
+              1 - {{ itemsPerPage }} de {{ totalProducts }} items
             </div>
           </div>
         </div>
@@ -221,7 +226,6 @@ export default {
           `http://localhost:3000/api/v1/productos?page=${page}&limit=${this.itemsPerPage}`
         );
         this.products = response.data.productos;
-
         this.totalProducts = response.data.totalProductos;
         this.currentPage = page;
       } catch (error) {
@@ -229,8 +233,10 @@ export default {
       }
     },
     editProducto(id) {
-      // Lógica para editar producto
-      this.$router.push({ name: "ProductoEdit", params: { id } });
+      this.$router.push({ name: "ProductEdit", params: { id } });
+    },
+    detailProducto(id) {
+      this.$router.push({ name: "DetailProduct", params: { id } });
     },
     async deleteProducto(id) {
       try {
@@ -245,7 +251,6 @@ export default {
         });
         if (result.isConfirmed) {
           await axios.delete(`http://localhost:3000/api/v1/productos/${id}`);
-
           Swal.fire("¡Borrado!", "El producto ha sido borrado.", "success");
           this.fetchProducts(this.currentPage);
         }
@@ -260,7 +265,7 @@ export default {
     },
     getProveedorImage(imagePath) {
       return imagePath
-        ? `http://localhost:3000/api/v1/uploads/productos/${imagePath}`
+        ? `http://localhost:3000/api/v1/uploads/Productos/${imagePath}`
         : "../../public/img/product/noimage.png";
     },
     formatFechaVencimiento(fecha) {
@@ -274,5 +279,75 @@ export default {
 </script>
 
 <style scoped>
-/* Your CSS here */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title h4 {
+  margin: 0;
+}
+
+.page-title h6 {
+  margin: 0;
+}
+
+.page-btn a {
+  display: flex;
+  align-items: center;
+}
+
+.table-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-set {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+}
+
+.search-input .dataTables_filter {
+  margin-left: 10px;
+}
+
+.wordset ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+
+.wordset ul li {
+  margin-right: 10px;
+}
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+.dataTables_length label {
+  display: flex;
+  align-items: center;
+}
+
+.dataTables_paginate ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.dataTables_paginate ul li {
+  margin-right: 5px;
+}
+
+.dataTables_info {
+  margin-top: 10px;
+}
 </style>
