@@ -22,9 +22,7 @@
             <div class="search-path">
               <a class="btn btn-filter" id="filter_search">
                 <img src="../../public/img/icons/filter.svg" alt="img" />
-                <span
-                  ><img src="../../public/img/icons/closes.svg" alt="img"
-                /></span>
+                <span><img src="../../public/img/icons/closes.svg" alt="img" /></span>
               </a>
             </div>
             <div class="search-input">
@@ -52,20 +50,12 @@
                 </a>
               </li>
               <li>
-                <a
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="excel"
-                >
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
                   <img src="../../public/img/icons/excel.svg" alt="img" />
                 </a>
               </li>
               <li>
-                <a
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="print"
-                >
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
                   <img src="../../public/img/icons/printer.svg" alt="img" />
                 </a>
               </li>
@@ -83,10 +73,11 @@
                     <span class="checkmarks"></span>
                   </label>
                 </th>
-                <th>Nombre del proveedor</th>
+                <th>Nombre de Empresa</th>
                 <th>Teléfono</th>
                 <th>Correo electrónico</th>
                 <th>Dirección</th>
+                <th>Cuenta de Pago</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -108,13 +99,12 @@
                       alt="proveedor"
                     />
                   </a>
-                  <a href="javascript:void(0);">{{
-                    proveedor.NombreEmpresa
-                  }}</a>
+                  <a href="javascript:void(0);">{{ proveedor.NombreEmpresa }}</a>
                 </td>
                 <td>{{ proveedor.Telefono }}</td>
                 <td>{{ proveedor.Email }}</td>
                 <td>{{ proveedor.Direccion }}</td>
+                <td>{{ proveedor.CuentaPago }}</td>
                 <td>
                   <a class="me-3" @click="editProveedor(proveedor.IdProveedor)">
                     <img src="../../public/img/icons/edit.svg" alt="img" />
@@ -208,7 +198,7 @@ export default {
     },
     getProveedorImage(imagePath) {
       return imagePath
-        ? `http://localhost:3000/api/v1/uploads/provedores/${imagePath}`
+        ? `http://localhost:3000/api/v1/${imagePath}`
         : "../../public/img/product/noimage.png";
     },
   },
