@@ -131,13 +131,11 @@
         <li v-if="isAdmin" class="submenu">
           <a :class="submenus.client ? 'subdrop' : ''" @click="toggleSubmenu('client')">
             <img src="../../public/img/icons/users1.svg" alt="client" />
-            <span>Cliente</span>
+            <span>Usuarios</span>
             <span class="menu-arrow"></span>
           </a>
           <ul :style="{ display: submenus.client ? 'block' : 'none' }">
-            <li><router-link to="/dashboard/ListClients">Lista de Clientes</router-link></li>
-            <li><router-link to="/dashboard/ListClientesJuridicos">Clientes Jurídicos</router-link></li>
-            <li><router-link to="/dashboard/ListClintsNatural">Clientes Naturales</router-link></li>
+          
             <li><router-link to="/dashboard/ListUsers">Lista de Usuarios</router-link></li>
             <li><router-link to="/dashboard/AddUsers">Añadir Usuarios</router-link></li>
           </ul>

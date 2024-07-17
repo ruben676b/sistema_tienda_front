@@ -24,6 +24,7 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
+                <th>Usuario</th>
                 <th>Rol</th>
                 <th>Acción</th>
               </tr>
@@ -36,12 +37,13 @@
                     <span class="checkmarks"></span>
                   </label>
                 </td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.apellido }}</td>
+                <td>{{ usuario.NombreEmpleado }}</td>
+                <td>{{ usuario.Apellido }}</td>
                 <td>
-                  <a :href="`mailto:${usuario.email}`">{{ usuario.email }}</a>
+                  <a :href="`mailto:${usuario.Email}`">{{ usuario.Email }}</a>
                 </td>
-                <td>{{ usuario.rol }}</td>
+                <td>{{ usuario.NombreUsuario }}</td>
+                <td>{{ usuario.Cargo }}</td>
                 <td>
                   <a class="me-3" @click="abrirModalEditar(usuario)">
                     <img src="../../public/img/icons/edit.svg" alt="img" />
@@ -162,6 +164,7 @@ export default {
           "http://localhost:3000/api/v1/usuarios"
         );
         this.usuarios = response.data.usuarios;
+        console.log(this.usuarios)
       } catch (error) {
         console.error("Error fetching usuarios:", error);
       }

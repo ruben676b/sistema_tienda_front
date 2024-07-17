@@ -109,9 +109,13 @@
                   <!-- <th>Perfil</th> -->
                   <th>Nombre</th>
                   <th>Apellido</th>
-                  <th>ID Empleado</th>
                   <th>Teléfono</th>
                   <th>Email</th>
+                  <th>Direccion</th>
+                  <th>FechaNacimiento</th>
+                  <th>Cargo</th>
+                  <th>Sueldo</th>
+                  <th>FechaContratacion</th>
                   <th>Estatus</th>
                   <th>Acción</th>
                 </tr>
@@ -131,11 +135,15 @@
                   </td> -->
                   <td>{{ empleado.Nombre }}</td>
                   <td>{{ empleado.Apellido }}</td>
-                  <td>{{ empleado.IdEmpleado }}</td>
                   <td>{{ empleado.Telefono }}</td>
                   <td>
                     <a :href="`mailto:${empleado.Email}`">{{ empleado.Email }}</a>
                   </td>
+                  <td>{{ empleado.Direccion }}</td>
+                  <td>{{ formatDate(empleado.FechaNacimiento) }}</td>
+                  <td>{{ empleado.Cargo }}</td>
+                  <td>{{ empleado.Sueldo }}</td>
+                  <td>{{ formatDate(empleado.FechaContratacion) }}</td>
                   <td>
                     <div class="status-toggle d-flex justify-content-between align-items-center">
                       <input type="checkbox" :id="`empleado${index}`" class="check" />
@@ -243,6 +251,11 @@ export default {
     this.fetchEmpleados();
   },
   methods: {
+    formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return date.toLocaleDateString('es-ES', options);
+  },
 
     // Método para exportar a PDF
     exportarPDF() {
