@@ -35,15 +35,7 @@
                   <span class="fas toggle-password fa-eye-slash"></span>
                 </div>
               </div>
-              <div class="form-login">
-                <div class="alreadyuser">
-                  <h4>
-                    <a @click="goToRegister" class="hover-a"
-                      >¿No tienes una cuenta? Regístrate aquí</a
-                    >
-                  </h4>
-                </div>
-              </div>
+             
               <div class="form-login">
                 <button @click="login" class="btn btn-login">
                   Iniciar sesión
